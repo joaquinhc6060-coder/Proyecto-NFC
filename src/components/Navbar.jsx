@@ -12,7 +12,7 @@ export default function Navbar() {
         <a 
           href="#inicio" 
           className="flex items-center gap-2.5 font-extrabold text-[1.3rem] tracking-[-0.02em] text-white hover:opacity-95 transition-opacity" 
-          aria-label="NexoPet, inicio"
+          aria-label="FindMe, inicio"
           onClick={closeMenu}
         >
           <span className="w-[30px] h-[30px] rounded-full bg-ink border-2 border-teal-brand flex items-center justify-center text-teal-brand" aria-hidden="true">
@@ -20,7 +20,7 @@ export default function Navbar() {
               <path d="M5 9a9 9 0 0 1 0 6M9 6.5a13 13 0 0 1 0 11M13 4a17 17 0 0 1 0 16" />
             </svg>
           </span>
-          <span>Nexo<b className="text-orange-brand">Pet</b></span>
+          <span>Find<b className="text-orange-brand">Me</b></span>
         </a>
 
         {/* Mobile menu toggle */}
@@ -42,7 +42,10 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center gap-7">
+        <nav className="hidden md:flex items-center gap-6">
+          <a href="#ecosistema" className="text-sm font-semibold text-muted-dim hover:text-teal-brand transition-colors">
+            Ecosistema
+          </a>
           <a href="#como-funciona" className="text-sm font-semibold text-muted-dim hover:text-teal-brand transition-colors">
             Cómo funciona
           </a>
@@ -56,6 +59,15 @@ export default function Navbar() {
             Preguntas frecuentes
           </a>
           <a 
+            href="#mi-nfc" 
+            className="inline-flex items-center gap-1.5 text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 px-4 py-2 rounded-full hover:border-teal-brand/60 transition-all shadow-sm"
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#16d1b0" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M5 9a9 9 0 0 1 0 6M9 6.5a13 13 0 0 1 0 11M13 4a17 17 0 0 1 0 16" />
+            </svg>
+            <span>Mi NFC</span>
+          </a>
+          <a 
             href="#contacto" 
             className="inline-flex items-center justify-center text-sm font-bold bg-orange-brand text-white px-5 py-2.5 rounded-full hover:bg-orange-hover hover:-translate-y-0.5 transition-all shadow-sm"
           >
@@ -67,6 +79,13 @@ export default function Navbar() {
       {/* Mobile Dropdown */}
       {isOpen && (
         <nav id="mobile-menu" className="md:hidden bg-ink border-t border-white/10 px-6 py-5 flex flex-col gap-4">
+          <a 
+            href="#ecosistema" 
+            onClick={closeMenu}
+            className="text-base font-semibold text-muted-dim hover:text-teal-brand py-1 transition-colors"
+          >
+            Ecosistema
+          </a>
           <a 
             href="#como-funciona" 
             onClick={closeMenu}
@@ -94,6 +113,16 @@ export default function Navbar() {
             className="text-base font-semibold text-muted-dim hover:text-teal-brand py-1 transition-colors"
           >
             Preguntas frecuentes
+          </a>
+          <a 
+            href="#mi-nfc" 
+            onClick={closeMenu}
+            className="inline-flex items-center gap-2 text-base font-bold text-teal-brand py-1 transition-colors"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round">
+              <path d="M5 9a9 9 0 0 1 0 6M9 6.5a13 13 0 0 1 0 11M13 4a17 17 0 0 1 0 16" />
+            </svg>
+            <span>Mi NFC</span>
           </a>
           <a 
             href="#contacto" 

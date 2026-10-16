@@ -1,9 +1,11 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import ProductShowcase from './components/ProductShowcase';
 import HowItWorks from './components/HowItWorks';
 import Benefits from './components/Benefits';
 import DemoScanner from './components/DemoScanner';
+import MiNfc from './components/MiNfc';
 import Privacy from './components/Privacy';
 import FAQ from './components/FAQ';
 import ContactForm from './components/ContactForm';
@@ -11,7 +13,7 @@ import Footer from './components/Footer';
 
 export default function App() {
   return (
-    <div className="min-h-screen flex flex-col bg-cream text-ink antialiased selection:bg-orange-brand selection:text-white">
+    <div className="min-h-screen flex flex-col bg-[#0c0d12] text-white font-sans antialiased selection:bg-orange-brand selection:text-white">
       {/* Skip to main content for accessibility */}
       <a 
         href="#main-content" 
@@ -26,9 +28,11 @@ export default function App() {
       {/* Main Page Content */}
       <main id="main-content" className="flex-1">
         <Hero />
+        <ProductShowcase />
         <HowItWorks />
         <Benefits />
         <DemoScanner />
+        <MiNfc />
         <Privacy />
         <FAQ />
         <ContactForm />

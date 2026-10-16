@@ -27,7 +27,7 @@ export default function Hero() {
           </h1>
 
           <p className="text-muted-light text-lg sm:text-xl mt-6 mb-8 max-w-[34em] leading-relaxed">
-            NexoPet es una placa para el collar. Quien encuentre a tu mascota acerca su teléfono y ve su perfil al instante con la información que tú decidas compartir y formas seguras de avisarte.
+            FindMe es una placa para el collar. Quien encuentre a tu mascota acerca su teléfono y ve su perfil al instante con la información que tú decidas compartir y formas seguras de avisarte.
           </p>
 
           <div className="flex flex-wrap gap-3.5">
@@ -73,7 +73,7 @@ export default function Hero() {
             <div className="flex items-center justify-between mb-2 px-1">
               <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white/90 bg-white/10 px-3 py-1 rounded-full border border-white/10">
                 <span className="w-1.5 h-1.5 rounded-full bg-teal-brand animate-ping" />
-                Prototipo NexoPet en uso real
+                Prototipo FindMe en uso real
               </span>
               <span className="text-xs text-muted-dim font-medium">
                 Edición Collar Clásico
@@ -89,7 +89,7 @@ export default function Hero() {
               {/* The Real Dog Image provided by User */}
               <img 
                 src="/images/perro-hero.png" 
-                alt="Perro con placa inteligente NFC NexoPet en su collar" 
+                alt="Perro con placa inteligente NFC FindMe en su collar" 
                 className="w-full h-full object-contain object-bottom scale-[1.03] transition-transform duration-700 group-hover:scale-[1.05] drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)]"
               />
 
@@ -110,7 +110,7 @@ export default function Hero() {
                 onClick={() => setTagHovered(!tagHovered)}
                 role="button"
                 tabIndex={0}
-                aria-label="Placa NFC inteligente de NexoPet en el collar"
+                aria-label="Placa NFC inteligente de FindMe en el collar"
               >
                 {/* Metallic Split Ring Connector to Collar */}
                 <div className="relative mx-auto w-3.5 h-3.5 -mb-1 rounded-full border-[2.2px] border-[#d4d8e0] shadow-[0_2px_4px_rgba(0,0,0,0.6)] z-10"
@@ -157,7 +157,7 @@ export default function Hero() {
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-                  <span className="text-[11px] font-black uppercase tracking-wide text-white">Placa NexoPet</span>
+                  <span className="text-[11px] font-black uppercase tracking-wide text-white">Placa FindMe</span>
                 </div>
                 <p className="text-[10px] text-muted-dim leading-tight">
                   Lectura instantánea sin contacto por cualquier celular.

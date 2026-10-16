@@ -8,9 +8,9 @@
     scroll-padding-top: 76px;
   }
   body {
-    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    background-color: #fbf6ee;
-    color: #12141a;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #12141a;
+    color: #ffffff;
     -webkit-font-smoothing: antialiased;
   }
   :focus-visible {
