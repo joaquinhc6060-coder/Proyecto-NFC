@@ -1,187 +1,190 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
-  const [tagHovered, setTagHovered] = useState(false);
+  const heroRef = useRef(null);
+  const textContentRef = useRef(null);
+  const phoneWrapperRef = useRef(null);
+  const phoneImgRef = useRef(null);
+  const glowRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Entrance animation on page load
+      const entranceTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+      entranceTl
+        .from(textContentRef.current.children, {
+          y: 50,
+          opacity: 0,
+          stagger: 0.15,
+          duration: 1.1,
+        })
+        .from(phoneWrapperRef.current, {
+          y: 70,
+          opacity: 0,
+          scale: 0.92,
+          rotationY: -15,
+          duration: 1.3,
+        }, '-=0.8')
+        .from(glowRef.current, {
+          scale: 0.6,
+          opacity: 0,
+          duration: 1.5,
+        }, '-=1.2');
+
+      // Scroll-driven cinematic reaction
+      const scrollTl = gsap.timeline({
+        scrollTrigger: {
+          trigger: heroRef.current,
+          start: 'top top',
+          end: 'bottom top',
+          scrub: 1.2,
+        }
+      });
+
+      // Text floats up and fades
+      scrollTl.to(textContentRef.current, {
+        y: -100,
+        opacity: 0.2,
+        ease: 'none',
+      }, 0);
+
+      // Photorealistic iPhone reacts to scroll: cinematic Y rotation and zoom forward
+      scrollTl.to(phoneWrapperRef.current, {
+        y: -50,
+        rotationY: 14,
+        rotationX: -6,
+        scale: 1.18,
+        ease: 'none',
+      }, 0);
+
+      scrollTl.to(glowRef.current, {
+        scale: 1.4,
+        opacity: 0.4,
+        ease: 'none',
+      }, 0);
+
+    }, heroRef);
+
+    // Interactive 3D tilt on mouse movement
+    const handleMouseMove = (e) => {
+      if (!phoneWrapperRef.current) return;
+      const { innerWidth, innerHeight } = window;
+      const xNorm = (e.clientX / innerWidth - 0.5) * 2; // -1 to 1
+      const yNorm = (e.clientY / innerHeight - 0.5) * 2;
+
+      gsap.to(phoneWrapperRef.current, {
+        rotationY: xNorm * 10,
+        rotationX: -yNorm * 8,
+        duration: 0.8,
+        ease: 'power2.out',
+      });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+
+    return () => {
+      ctx.revert();
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
 
   return (
     <section 
+      ref={heroRef}
       id="inicio"
-      className="relative overflow-hidden bg-ink text-white"
-      style={{
-        backgroundImage: `
-          radial-gradient(900px 500px at 80% 20%, rgba(255, 90, 46, 0.22), transparent 60%),
-          radial-gradient(700px 500px at 10% 90%, rgba(22, 209, 176, 0.15), transparent 60%)
-        `
-      }}
+      className="relative overflow-hidden bg-[#07080a] text-white min-h-[92vh] flex items-center pt-24 pb-16 lg:py-32"
     >
-      <div className="max-w-[1120px] w-[calc(100%-40px)] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 items-center py-16 md:py-24">
-        {/* Left Column: Text & CTAs */}
-        <div className="z-10">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-bold tracking-[0.1em] uppercase text-xs mb-5">
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-pulse" />
-            Placa NFC inteligente para mascotas
+      {/* Ambient background lighting */}
+      <div 
+        ref={glowRef}
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] sm:w-[950px] h-[550px] bg-gradient-to-tr from-orange-brand/20 via-teal-brand/15 to-transparent rounded-full blur-[150px] pointer-events-none will-change-transform" 
+      />
+
+      <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center relative z-10">
+        
+        {/* Left Column: High-Impact Typography (Minimalist) */}
+        <div ref={textContentRef} className="space-y-6">
+          
+          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.16em]">
+            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
+            FINDME · TECNOLOGÍA NFC 2026
           </div>
 
-          <h1 className="text-[2.6rem] sm:text-[3.5rem] lg:text-[4.3rem] font-black leading-[1.03] tracking-[-0.035em]">
-            Que volver a casa sea <em className="not-italic text-orange-brand">cuestión de un toque.</em>
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.02] tracking-[-0.04em] uppercase">
+            Un toque. <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand">
+              Conexión Vital.
+            </span>
           </h1>
 
-          <p className="text-muted-light text-lg sm:text-xl mt-6 mb-8 max-w-[34em] leading-relaxed">
-            FindMe es una placa para el collar. Quien encuentre a tu mascota acerca su teléfono y ve su perfil al instante con la información que tú decidas compartir y formas seguras de avisarte.
+          <p className="text-muted-light text-lg sm:text-2xl font-light max-w-xl leading-relaxed">
+            La placa inteligente con telemetría pasiva instantánea. Cero baterías. Cero suscripciones mensuales.
           </p>
 
-          <div className="flex flex-wrap gap-3.5">
+          <div className="flex flex-wrap items-center gap-4 pt-2">
             <a 
               href="#contacto" 
-              className="inline-flex items-center justify-center font-bold px-7 py-3.5 rounded-full bg-orange-brand text-white hover:bg-orange-hover hover:-translate-y-0.5 transition-all shadow-lg shadow-orange-brand/25"
+              className="inline-flex items-center justify-center font-extrabold px-8 py-4 rounded-full bg-orange-brand text-white hover:bg-orange-hover hover:scale-105 transition-all shadow-xl shadow-orange-brand/25 text-sm tracking-wide"
             >
-              Quiero conocer la placa
+              Adquirir Placa FindMe
             </a>
+
             <a 
               href="#demo" 
-              className="inline-flex items-center justify-center font-bold px-7 py-3.5 rounded-full border-2 border-white/60 text-white hover:bg-white/10 hover:border-white hover:-translate-y-0.5 transition-all"
+              className="inline-flex items-center justify-center font-bold px-8 py-4 rounded-full border border-white/20 text-white hover:bg-white/10 hover:border-white transition-all text-sm tracking-wide backdrop-blur-sm"
             >
-              Ver la demostración
+              Probar Simulador
             </a>
           </div>
 
-          <div className="flex items-center gap-6 mt-8 pt-6 border-t border-white/10 text-xs sm:text-sm text-muted-light">
-            <div className="flex items-center gap-2">
-              <span className="text-teal-brand font-bold text-base">✓</span>
-              <span>Sin baterías</span>
+          {/* Micro Telemetry Specs */}
+          <div className="grid grid-cols-3 gap-4 pt-8 border-t border-white/10 text-xs text-muted-dim font-mono">
+            <div>
+              <span className="text-white font-bold block text-sm">13.56 MHz</span>
+              <span>Inducción Pasiva</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-teal-brand font-bold text-base">✓</span>
-              <span>100% Resistente al agua</span>
+            <div>
+              <span className="text-white font-bold block text-sm">0 Baterías</span>
+              <span>Siempre Activa</span>
             </div>
-            <div className="flex items-center gap-2">
-              <span className="text-teal-brand font-bold text-base">✓</span>
-              <span>Sin apps para quien lo encuentra</span>
+            <div>
+              <span className="text-white font-bold block text-sm">Universal</span>
+              <span>iOS & Android</span>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Right Column: 100% Real Photorealistic iPhone 16 Pro Titanium Mockup */}
+        <div className="relative flex items-center justify-center perspective-cinema">
+          <div 
+            ref={phoneWrapperRef}
+            className="relative w-[320px] sm:w-[380px] lg:w-[420px] aspect-[9/16] will-change-transform preserve-3d cursor-pointer"
+          >
+            {/* Ambient shadow underneath floating phone */}
+            <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-3/4 h-12 bg-black/80 blur-2xl rounded-full pointer-events-none" />
+
+            {/* 100% Photorealistic Studio iPhone Mockup */}
+            <img 
+              ref={phoneImgRef}
+              src="/images/iphone-16-pro-angle.jpg" 
+              alt="iPhone 16 Pro Titanium con Ficha de Rescate FindMe" 
+              className="w-full h-full object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-[44px]"
+            />
+
+            {/* Subtle floating badge indicator */}
+            <div className="absolute -bottom-4 right-2 sm:right-6 bg-black/80 border border-teal-brand/40 backdrop-blur-xl px-4 py-2 rounded-2xl shadow-xl flex items-center gap-2.5 text-xs">
+              <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
+              <span className="font-mono text-teal-brand font-semibold">NFC Contactless</span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Real Dog with Smart NFC Collar Prototype */}
-        <div className="relative max-w-[460px] lg:max-w-[500px] w-full mx-auto order-first lg:order-last">
-          {/* Ambient luminous glow behind dog */}
-          <div className="absolute -inset-4 rounded-full bg-gradient-to-tr from-orange-brand/25 via-teal-brand/20 to-orange-light/20 blur-3xl opacity-80 pointer-events-none" />
-
-          {/* Interactive Hero Card Container */}
-          <div className="relative rounded-[36px] bg-gradient-to-b from-white/10 via-white/[0.04] to-black/40 p-4 sm:p-6 border border-white/15 shadow-2xl backdrop-blur-sm">
-            
-            {/* Top Product Tag Pill */}
-            <div className="flex items-center justify-between mb-2 px-1">
-              <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white/90 bg-white/10 px-3 py-1 rounded-full border border-white/10">
-                <span className="w-1.5 h-1.5 rounded-full bg-teal-brand animate-ping" />
-                Prototipo FindMe en uso real
-              </span>
-              <span className="text-xs text-muted-dim font-medium">
-                Edición Collar Clásico
-              </span>
-            </div>
-
-            {/* Main Dog Photo Frame */}
-            <div className="relative aspect-square w-full rounded-[28px] overflow-hidden bg-gradient-to-b from-[#212530] to-[#12141a] flex items-center justify-center group">
-              
-              {/* Studio soft spotlight behind dog's head */}
-              <div className="absolute top-[18%] left-[50%] -translate-x-1/2 w-[60%] aspect-square rounded-full bg-radial from-orange-brand/20 to-transparent blur-xl pointer-events-none" />
-
-              {/* The Real Dog Image provided by User */}
-              <img 
-                src="/images/perro-hero.png" 
-                alt="Perro con placa inteligente NFC FindMe en su collar" 
-                className="w-full h-full object-contain object-bottom scale-[1.03] transition-transform duration-700 group-hover:scale-[1.05] drop-shadow-[0_20px_35px_rgba(0,0,0,0.6)]"
-              />
-
-              {/* NFC Signal Waves Emitting from the Collar Tag */}
-              <div 
-                className="absolute top-[36.5%] left-[45.4%] -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-                aria-hidden="true"
-              >
-                <span className="absolute -inset-4 rounded-full border-2 border-teal-brand/40 animate-ping" style={{ animationDuration: '2.4s' }} />
-                <span className="absolute -inset-8 rounded-full border border-teal-brand/20 animate-ping" style={{ animationDuration: '3.2s' }} />
-              </div>
-
-              {/* Realistic 3D Smart NFC Tag Prototype Hanging on Collar */}
-              <div 
-                className="absolute top-[36.5%] left-[45.4%] -translate-x-1/2 -translate-y-1/2 z-20 cursor-pointer transition-transform duration-300 hover:scale-125"
-                onMouseEnter={() => setTagHovered(true)}
-                onMouseLeave={() => setTagHovered(false)}
-                onClick={() => setTagHovered(!tagHovered)}
-                role="button"
-                tabIndex={0}
-                aria-label="Placa NFC inteligente de FindMe en el collar"
-              >
-                {/* Metallic Split Ring Connector to Collar */}
-                <div className="relative mx-auto w-3.5 h-3.5 -mb-1 rounded-full border-[2.2px] border-[#d4d8e0] shadow-[0_2px_4px_rgba(0,0,0,0.6)] z-10"
-                  style={{
-                    background: 'linear-gradient(135deg, #e2e8f0 0%, #475569 50%, #f8fafc 100%)'
-                  }}
-                />
-
-                {/* Tag Disc Body */}
-                <div 
-                  className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full flex items-center justify-center p-[2.5px] shadow-[0_8px_20px_rgba(0,0,0,0.85),0_2px_6px_rgba(0,0,0,0.6)] border border-white/60"
-                  style={{
-                    background: 'radial-gradient(circle at 35% 25%, #4b5262 0%, #1a1c23 60%, #0d0e12 100%)'
-                  }}
-                >
-                  {/* Subtle Orange Accent Ring */}
-                  <div className="w-full h-full rounded-full border-[1.5px] border-orange-brand/90 p-[1.5px] flex items-center justify-center shadow-inner">
-                    {/* Inner Dark Matte Face Plate */}
-                    <div className="w-full h-full rounded-full bg-[#12141a] flex items-center justify-center shadow-inner">
-                      {/* Laser-Etched Glowing Teal NFC Waves */}
-                      <svg 
-                        className="w-5 h-5 text-teal-brand filter drop-shadow-[0_0_4px_rgba(22,209,176,0.9)]" 
-                        viewBox="0 0 24 24" 
-                        fill="none" 
-                        stroke="currentColor" 
-                        strokeWidth="2.5" 
-                        strokeLinecap="round"
-                      >
-                        <path d="M5 9a9 9 0 0 1 0 6" />
-                        <path d="M9 6.5a13 13 0 0 1 0 11" />
-                        <path d="M13 4a17 17 0 0 1 0 16" />
-                      </svg>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Soft shadow cast by tag onto dog's fur */}
-                <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-8 h-2 rounded-full bg-black/50 blur-[2px] pointer-events-none -z-10" />
-              </div>
-
-              {/* Floating Callout Pointer to the Tag */}
-              <div 
-                className="absolute top-[28%] right-[6%] z-30 max-w-[190px] bg-ink/90 backdrop-blur-md border border-white/20 p-2.5 rounded-2xl shadow-xl transition-all duration-300 hover:border-teal-brand/60"
-              >
-                <div className="flex items-center gap-1.5 mb-1">
-                  <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-                  <span className="text-[11px] font-black uppercase tracking-wide text-white">Placa FindMe</span>
-                </div>
-                <p className="text-[10px] text-muted-dim leading-tight">
-                  Lectura instantánea sin contacto por cualquier celular.
-                </p>
-                <div className="mt-1.5 text-[9px] font-bold text-orange-brand flex items-center gap-1">
-                  <span>Acercar para escanear →</span>
-                </div>
-              </div>
-
-              {/* Bottom Subtle Overlay for Grounding */}
-              <div className="absolute bottom-0 inset-x-0 h-14 bg-gradient-to-t from-[#12141a] via-[#12141a]/60 to-transparent pointer-events-none" />
-            </div>
-
-            {/* Bottom Caption */}
-            <div className="mt-3.5 flex items-center justify-between text-xs text-muted-dim px-2">
-              <span className="font-semibold text-white/90">
-                Ajuste liviano y ergonómico
-              </span>
-              <span className="text-teal-brand font-bold">
-                14g · Aleación reforzada
-              </span>
-            </div>
-          </div>
-        </div>
       </div>
     </section>
   );

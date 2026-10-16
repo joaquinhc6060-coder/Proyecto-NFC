@@ -4,19 +4,51 @@
 
 @layer base {
   html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 76px;
+    scroll-behavior: auto;
   }
+  
+  /* Lenis Smooth Scroll Configuration */
+  html.lenis, html.lenis body {
+    height: auto;
+  }
+  .lenis.lenis-smooth {
+    scroll-behavior: auto !important;
+  }
+  .lenis.lenis-smooth [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+  .lenis.lenis-stopped {
+    overflow: hidden;
+  }
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
   body {
     font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    background-color: #12141a;
+    background-color: #07080a;
     color: #ffffff;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
+
   :focus-visible {
-    outline: 3px solid #16d1b0;
+    outline: 2px solid #16d1b0;
     outline-offset: 3px;
     border-radius: 6px;
   }
+}
+
+/* Cinematic Utilities */
+.perspective-cinema {
+  perspective: 1600px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }
 
