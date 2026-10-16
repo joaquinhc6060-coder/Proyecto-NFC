@@ -8,17 +8,17 @@ export default function Navbar() {
   const closeMenu = () => setIsOpen(false);
 
   const navItems = [
-    { name: 'Mascotas', path: '/mascotas', icon: '🐾', color: 'hover:text-orange-brand' },
-    { name: 'Kids', path: '/kids', icon: '👶', color: 'hover:text-teal-brand' },
-    { name: 'Restaurantes', path: '/restaurantes', icon: '🍽️', color: 'hover:text-amber-400' },
-    { name: 'Contacto', path: '/contacto', icon: '✉️', color: 'hover:text-teal-brand' },
+    { name: 'Mascotas', path: '/mascotas', color: 'hover:text-orange-brand' },
+    { name: 'Kids', path: '/kids', color: 'hover:text-teal-brand' },
+    { name: 'Restaurantes', path: '/restaurantes', color: 'hover:text-amber-400' },
+    { name: 'Contacto', path: '/contacto', color: 'hover:text-teal-brand' },
   ];
 
   return (
     <header className="sticky top-0 z-50 bg-[#07080a]/90 backdrop-blur-xl text-white border-b border-white/10 transition-colors">
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto flex items-center justify-between h-[72px]">
         
-        {/* Brand Logo with exact FindeMe pin */}
+        {/* Brand Logo */}
         <Link 
           to="/" 
           className="flex items-center gap-2.5 font-extrabold text-[1.35rem] tracking-[-0.03em] text-white hover:opacity-90 transition-opacity" 
@@ -29,9 +29,6 @@ export default function Navbar() {
             <span className="text-sm">📍</span>
           </span>
           <span className="font-black">Finde<b className="text-orange-brand">Me</b></span>
-          <span className="hidden sm:inline-block text-[9px] font-mono uppercase tracking-widest text-teal-brand bg-teal-brand/10 border border-teal-brand/30 px-2 py-0.5 rounded-full ml-1">
-            NFC
-          </span>
         </Link>
 
         {/* Mobile menu toggle button */}
@@ -53,11 +50,11 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-wider">
+        <nav className="hidden lg:flex items-center gap-8 text-xs font-bold uppercase tracking-wider">
           <NavLink 
             to="/" 
             className={({ isActive }) => 
-              `transition-colors flex items-center gap-1.5 ${isActive ? 'text-white font-extrabold border-b-2 border-teal-brand pb-1' : 'text-muted-light hover:text-white'}`
+              `transition-colors ${isActive ? 'text-white font-extrabold border-b-2 border-teal-brand pb-1' : 'text-muted-light hover:text-white'}`
             }
           >
             Inicio
@@ -68,23 +65,23 @@ export default function Navbar() {
               key={item.path}
               to={item.path}
               className={({ isActive }) =>
-                `transition-colors flex items-center gap-1.5 ${
+                `transition-colors ${
                   isActive 
                     ? 'text-white font-extrabold border-b-2 border-orange-brand pb-1' 
                     : `text-muted-light ${item.color}`
                 }`
               }
             >
-              <span>{item.icon}</span> {item.name}
+              {item.name}
             </NavLink>
           ))}
 
-          {/* Login / Mi NFC button: Styled in solid orange, exactly like Contacto used to be */}
+          {/* Button: MI NFC */}
           <NavLink 
             to="/login" 
-            className="inline-flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider bg-orange-brand text-white px-5 py-2.5 rounded-full hover:bg-orange-hover hover:scale-105 transition-all shadow-md shadow-orange-brand/25"
+            className="inline-flex items-center justify-center text-xs font-black uppercase tracking-wider bg-orange-brand text-white px-6 py-2.5 rounded-full hover:bg-orange-hover hover:scale-105 transition-all shadow-md shadow-orange-brand/25"
           >
-            <span>Mi NFC · Login</span>
+            MI NFC
           </NavLink>
         </nav>
 
@@ -96,9 +93,9 @@ export default function Navbar() {
           <Link 
             to="/" 
             onClick={closeMenu}
-            className={`py-1 flex items-center gap-2 ${location.pathname === '/' ? 'text-teal-brand font-bold' : 'text-white hover:text-teal-brand'}`}
+            className={`py-1 ${location.pathname === '/' ? 'text-teal-brand font-bold' : 'text-white hover:text-teal-brand'}`}
           >
-            <span>🏠</span> Inicio
+            Inicio
           </Link>
 
           {navItems.map((item) => (
@@ -106,9 +103,9 @@ export default function Navbar() {
               key={item.path}
               to={item.path} 
               onClick={closeMenu}
-              className={`py-1 flex items-center gap-2 ${location.pathname === item.path ? 'text-orange-brand font-bold' : 'text-white hover:text-orange-brand'}`}
+              className={`py-1 ${location.pathname === item.path ? 'text-orange-brand font-bold' : 'text-white hover:text-orange-brand'}`}
             >
-              <span>{item.icon}</span> {item.name}
+              {item.name}
             </Link>
           ))}
 
@@ -118,7 +115,7 @@ export default function Navbar() {
               onClick={closeMenu}
               className="w-full text-center py-3 rounded-full bg-orange-brand text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-brand/25"
             >
-              Mi NFC · Login
+              MI NFC
             </Link>
           </div>
         </nav>

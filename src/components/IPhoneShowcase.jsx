@@ -128,10 +128,6 @@ export default function IPhoneShowcase() {
         <div className="space-y-8 order-1 lg:order-2">
           
           <div className="space-y-3">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.16em]">
-              <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-              EXPERIENCIA CINEMÁTICA
-            </span>
 
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
               Diseñado para el <br />

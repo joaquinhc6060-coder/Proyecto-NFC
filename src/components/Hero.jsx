@@ -110,10 +110,6 @@ export default function Hero() {
         {/* Left Column: High-Impact Typography (Minimalist) */}
         <div ref={textContentRef} className="space-y-6">
           
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.16em]">
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            FINDME · TECNOLOGÍA NFC 2026
-          </div>
 
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.02] tracking-[-0.04em] uppercase">
             Un toque. <br />

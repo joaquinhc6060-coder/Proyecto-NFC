@@ -56,10 +56,6 @@ export default function DidacticVideoSection() {
         
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.16em] mb-4">
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            DEMOSTRACIÓN EN VIVO
-          </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
             Mira cómo funciona <br />
@@ -96,11 +92,7 @@ export default function DidacticVideoSection() {
             </button>
           </RealIPhoneDevice>
 
-          {/* Glowing bottom badge */}
-          <div className="mt-8 bg-black/90 border border-teal-brand/40 backdrop-blur-xl px-5 py-2 rounded-full text-xs font-mono text-teal-brand shadow-2xl flex items-center gap-2 whitespace-nowrap">
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            <span>Reproducción automática · iPhone 16 Pro Titanium</span>
-          </div>
+
 
         </div>
 

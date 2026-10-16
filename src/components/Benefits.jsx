@@ -68,9 +68,6 @@ export default function Benefits() {
         
         {/* Minimalist Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-20">
-          <span className="inline-block px-4 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.16em] mb-4">
-            INGENIERÍA DE HARDWARE
-          </span>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
             Rendimiento Absoluto. <br />

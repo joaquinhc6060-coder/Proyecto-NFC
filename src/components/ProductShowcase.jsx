@@ -235,10 +235,6 @@ export default function ProductShowcase() {
         
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-bold tracking-[0.12em] uppercase text-xs mb-4">
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            Órbita 3D Interactiva · Ecosistema FindMe
-          </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.08] text-white">
             Un ecosistema inteligente. <br className="hidden sm:inline" />

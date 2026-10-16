@@ -29,10 +29,6 @@ export default function RestaurantSection() {
         
         {/* Section Header */}
         <div className="max-w-3xl mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-brand/10 border border-orange-brand/30 text-orange-brand font-mono text-xs uppercase tracking-[0.16em] mb-4">
-            <span className="w-2 h-2 rounded-full bg-orange-brand animate-ping" />
-            LÍNEA 3 · FINDEME GASTRO & VIP LOYALTY
-          </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
             Experiencia en mesa y fidelización. <br />

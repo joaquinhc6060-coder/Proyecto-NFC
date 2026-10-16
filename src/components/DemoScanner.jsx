@@ -65,10 +65,6 @@ export default function DemoScanner() {
         
         {/* Section Header */}
         <div className="max-w-2xl mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-orange-brand/15 border border-orange-brand/30 text-orange-brand font-bold text-xs uppercase tracking-wider mb-3">
-            <span className="w-2 h-2 rounded-full bg-orange-brand animate-ping" />
-            Simulador Interactivo
-          </div>
           <h2 className="text-3xl sm:text-4xl lg:text-[2.75rem] font-black leading-[1.1] tracking-[-0.03em] text-white">
             Pruébalo tú mismo
           </h2>
