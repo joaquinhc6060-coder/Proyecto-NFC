@@ -11,6 +11,7 @@ import MascotasPage from './pages/MascotasPage';
 import KidsPage from './pages/KidsPage';
 import RestaurantesPage from './pages/RestaurantesPage';
 import LoginPage from './pages/LoginPage';
+import ContactoPage from './pages/ContactoPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -52,7 +53,10 @@ export default function App() {
             <Route path="/restaurantes" element={<RestaurantesPage />} />
             <Route path="/restaurant" element={<RestaurantesPage />} />
 
-            {/* 5. Login / Portal del Dueño (Mi NFC) */}
+            {/* 5. Contacto (Ruta dedicada estándar) */}
+            <Route path="/contacto" element={<ContactoPage />} />
+
+            {/* 6. Login / Portal del Dueño (Mi NFC - Botón Naranja Principal) */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/minfc" element={<LoginPage />} />
 

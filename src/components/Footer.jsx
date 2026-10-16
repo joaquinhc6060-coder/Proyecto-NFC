@@ -26,7 +26,8 @@ export default function Footer() {
           <Link to="/mascotas" className="hover:text-orange-brand transition-colors">🐾 Mascotas</Link>
           <Link to="/kids" className="hover:text-teal-brand transition-colors">👶 Kids</Link>
           <Link to="/restaurantes" className="hover:text-amber-400 transition-colors">🍽️ Restaurantes</Link>
-          <Link to="/login" className="hover:text-teal-brand transition-colors font-mono">Mi NFC · Login</Link>
+          <Link to="/contacto" className="hover:text-white transition-colors">✉️ Contacto</Link>
+          <Link to="/login" className="hover:text-orange-brand transition-colors font-mono">Mi NFC · Login</Link>
         </div>
 
         <div className="text-xs text-muted-dim">

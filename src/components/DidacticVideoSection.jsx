@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
+import RealIPhoneDevice from './RealIPhoneDevice';
 
 export default function DidacticVideoSection() {
   const videoRef = useRef(null);
@@ -23,7 +24,7 @@ export default function DidacticVideoSection() {
         });
       },
       {
-        threshold: 0.35, // When 35% of the video is visible
+        threshold: 0.25, // When 25% of the video is visible
       }
     );
 
@@ -68,50 +69,37 @@ export default function DidacticVideoSection() {
           </h2>
         </div>
 
-        {/* Solo el Celular con el Video reproduciéndose automáticamente */}
-        <div className="relative flex items-center justify-center">
+        {/* Solo el Celular REAL con el Video reproduciéndose automáticamente */}
+        <div className="relative flex flex-col items-center justify-center">
           
-          {/* External phone frame */}
-          <div className="w-[300px] sm:w-[350px] aspect-[9/16] rounded-[52px] bg-gradient-to-b from-[#2e313c] via-[#1a1c23] to-[#0c0d12] p-3 shadow-[0_30px_90px_rgba(0,0,0,0.95)] ring-1 ring-white/20 relative">
-            
-            {/* Screen bezel */}
-            <div className="w-full h-full rounded-[42px] overflow-hidden bg-black relative flex flex-col items-center justify-center">
-              
-              {/* Dynamic Island */}
-              <div className="absolute top-3 left-1/2 -translate-x-1/2 w-24 h-5 rounded-full bg-black z-30 flex items-center justify-between px-3 border border-white/10 pointer-events-none">
-                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-              </div>
+          <RealIPhoneDevice>
+            {/* The Video: Autoplays on viewport entry, muted, loop, playsInline */}
+            <video
+              ref={videoRef}
+              src="/videos/nfc-didactico.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              className="w-full h-full object-cover"
+            />
 
-              {/* The Video: Autoplays on viewport entry, muted, loop, playsInline */}
-              <video
-                ref={videoRef}
-                src="/videos/nfc-didactico.mp4"
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="w-full h-full object-cover"
-              />
-
-              {/* Minimal floating audio toggle button */}
-              <button
-                type="button"
-                onClick={toggleMute}
-                className="absolute bottom-4 right-4 z-30 px-3 py-1.5 rounded-full bg-black/70 backdrop-blur-md border border-white/20 text-white text-xs font-mono flex items-center gap-1.5 hover:bg-black/90 transition-all shadow-lg"
-                title={isMuted ? 'Activar sonido' : 'Silenciar sonido'}
-              >
-                <span>{isMuted ? '🔇' : '🔊'}</span>
-                <span className="text-[10px] uppercase">{isMuted ? 'Muted' : 'Audio ON'}</span>
-              </button>
-
-            </div>
-          </div>
+            {/* Minimal floating audio toggle button */}
+            <button
+              type="button"
+              onClick={toggleMute}
+              className="absolute bottom-5 right-4 z-40 px-3 py-1.5 rounded-full bg-black/80 backdrop-blur-md border border-white/20 text-white text-xs font-mono flex items-center gap-1.5 hover:bg-black transition-all shadow-xl"
+              title={isMuted ? 'Activar sonido' : 'Silenciar sonido'}
+            >
+              <span>{isMuted ? '🔇' : '🔊'}</span>
+              <span className="text-[10px] uppercase font-bold">{isMuted ? 'Muted' : 'Audio ON'}</span>
+            </button>
+          </RealIPhoneDevice>
 
           {/* Glowing bottom badge */}
-          <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-black/90 border border-teal-brand/40 backdrop-blur-xl px-5 py-2 rounded-full text-xs font-mono text-teal-brand shadow-2xl flex items-center gap-2 whitespace-nowrap">
+          <div className="mt-8 bg-black/90 border border-teal-brand/40 backdrop-blur-xl px-5 py-2 rounded-full text-xs font-mono text-teal-brand shadow-2xl flex items-center gap-2 whitespace-nowrap">
             <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            <span>Reproducción automática en vivo</span>
+            <span>Reproducción automática · iPhone 16 Pro Titanium</span>
           </div>
 
         </div>

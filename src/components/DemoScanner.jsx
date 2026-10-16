@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import RealIPhoneDevice from './RealIPhoneDevice';
 
 export default function DemoScanner() {
   // viewMode: 'idle' | 'profile' | 'call' | 'whatsapp'
@@ -155,17 +156,8 @@ export default function DemoScanner() {
             </div>
           </div>
 
-          {/* Phone Frame (Realistic iPhone Style) */}
-          <div className="mx-auto w-[310px] sm:w-[325px] h-[610px] rounded-[50px] bg-gradient-to-b from-[#2e313c] via-[#1a1c23] to-[#0c0d12] p-3.5 shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9)] ring-1 ring-white/20 relative">
-            
-            {/* Inner Screen */}
-            <div className="w-full h-full rounded-[40px] bg-[#12141a] relative overflow-hidden text-white flex flex-col border border-white/10 shadow-inner">
-              
-              {/* Dynamic Island / Notch */}
-              <div className="absolute top-2.5 left-1/2 -translate-x-1/2 w-24 h-5 rounded-full bg-black z-40 flex items-center justify-between px-3">
-                <span className="w-1.5 h-1.5 rounded-full bg-white/20" />
-                <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-              </div>
+          {/* 100% Real Photorealistic iPhone 16 Pro Titanium Mockup */}
+          <RealIPhoneDevice className="w-[300px] sm:w-[335px]">
 
               {/* -----------------------------------------------------------------
                   STATE 0: IDLE (Waiting to scan)
@@ -489,8 +481,7 @@ export default function DemoScanner() {
                 </div>
               )}
 
-            </div>
-          </div>
+          </RealIPhoneDevice>
 
         </div>
       </div>

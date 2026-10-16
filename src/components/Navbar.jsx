@@ -11,6 +11,7 @@ export default function Navbar() {
     { name: 'Mascotas', path: '/mascotas', icon: '🐾', color: 'hover:text-orange-brand' },
     { name: 'Kids', path: '/kids', icon: '👶', color: 'hover:text-teal-brand' },
     { name: 'Restaurantes', path: '/restaurantes', icon: '🍽️', color: 'hover:text-amber-400' },
+    { name: 'Contacto', path: '/contacto', icon: '✉️', color: 'hover:text-teal-brand' },
   ];
 
   return (
@@ -78,28 +79,13 @@ export default function Navbar() {
             </NavLink>
           ))}
 
-          {/* Login / Mi NFC button */}
+          {/* Login / Mi NFC button: Styled in solid orange, exactly like Contacto used to be */}
           <NavLink 
             to="/login" 
-            className={({ isActive }) =>
-              `inline-flex items-center gap-1.5 text-xs font-mono px-3.5 py-1.5 rounded-full transition-all border ${
-                isActive
-                  ? 'bg-teal-brand text-black font-black border-teal-brand'
-                  : 'text-teal-brand bg-teal-brand/10 hover:bg-teal-brand/20 border-teal-brand/30'
-              }`
-            }
+            className="inline-flex items-center justify-center gap-2 text-xs font-black uppercase tracking-wider bg-orange-brand text-white px-5 py-2.5 rounded-full hover:bg-orange-hover hover:scale-105 transition-all shadow-md shadow-orange-brand/25"
           >
-            <span className="w-1.5 h-1.5 rounded-full bg-teal-brand animate-ping" />
             <span>Mi NFC · Login</span>
           </NavLink>
-
-          {/* Contacto link */}
-          <a 
-            href="/#contacto" 
-            className="inline-flex items-center justify-center text-xs font-extrabold bg-orange-brand text-white px-5 py-2.5 rounded-full hover:bg-orange-hover hover:scale-105 transition-all shadow-md shadow-orange-brand/20"
-          >
-            Contacto
-          </a>
         </nav>
 
       </div>
@@ -126,21 +112,14 @@ export default function Navbar() {
             </Link>
           ))}
 
-          <div className="pt-2 border-t border-white/10 flex flex-col gap-3">
+          <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
             <Link 
               to="/login" 
               onClick={closeMenu}
-              className="w-full text-center py-2.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs font-bold"
+              className="w-full text-center py-3 rounded-full bg-orange-brand text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-brand/25"
             >
-              Mi NFC · Iniciar Sesión
+              Mi NFC · Login
             </Link>
-            <a 
-              href="/#contacto" 
-              onClick={closeMenu}
-              className="w-full text-center py-3 rounded-full bg-orange-brand text-white font-bold text-xs"
-            >
-              Contacto
-            </a>
           </div>
         </nav>
       )}
