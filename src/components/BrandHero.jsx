@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -14,7 +15,7 @@ export default function BrandHero() {
       id: 'animales',
       icon: '🐾',
       name: 'FindeMe Animales',
-      target: '#animales',
+      target: '/mascotas',
       tagline: 'Placas inteligentes para cualquier mascota. Perros, gatos y animales de compañía.',
       badge: 'Telemetría Pasiva',
       accent: 'border-orange-brand/40 text-orange-brand bg-orange-brand/10',
@@ -23,7 +24,7 @@ export default function BrandHero() {
       id: 'ninos',
       icon: '👶',
       name: 'FindeMe Kids',
-      target: '#ninos',
+      target: '/kids',
       tagline: 'Pulseras de silicona sumergibles. Contacto inmediato con padres en parques y playas.',
       badge: 'Seguridad Infantil',
       accent: 'border-teal-brand/40 text-teal-brand bg-teal-brand/10',
@@ -32,7 +33,7 @@ export default function BrandHero() {
       id: 'restaurantes',
       icon: '🍽️',
       name: 'FindeMe Gastro & VIP',
-      target: '#restaurantes',
+      target: '/restaurantes',
       tagline: 'Peanas de mesa para carta/Wi-Fi y tarjetas metálicas VIP de fidelización de clientes.',
       badge: 'Mesa & Clientes VIP',
       accent: 'border-amber-400/40 text-amber-300 bg-amber-400/10',
@@ -64,7 +65,7 @@ export default function BrandHero() {
     <section 
       ref={heroRef}
       id="inicio"
-      className="relative overflow-hidden bg-[#07080a] text-white min-h-[95vh] flex flex-col justify-center pt-28 pb-20 border-b border-white/5"
+      className="relative overflow-hidden bg-[#07080a] text-white min-h-[90vh] flex flex-col justify-center pt-24 pb-16 border-b border-white/5"
     >
       {/* Dynamic ambient background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[850px] h-[550px] bg-gradient-to-r from-teal-brand/15 via-orange-brand/15 to-transparent blur-[160px] pointer-events-none rounded-full" />
@@ -94,13 +95,13 @@ export default function BrandHero() {
               href="#video-didactico"
               className="inline-flex items-center gap-2 font-bold px-7 py-3.5 rounded-full bg-orange-brand hover:bg-orange-hover text-white text-xs uppercase tracking-wider transition-all shadow-lg shadow-orange-brand/25 hover:scale-105"
             >
-              <span>▶</span> Ver Video Didáctico
+              <span>▶</span> Ver Video en Acción
             </a>
             <a 
               href="#productos"
               className="inline-flex items-center gap-2 font-bold px-7 py-3.5 rounded-full bg-white/5 hover:bg-white/10 border border-white/20 text-white text-xs uppercase tracking-wider transition-all backdrop-blur-md"
             >
-              Explorar Líneas de Producto ↓
+              Explorar Líneas ↓
             </a>
           </div>
         </div>
@@ -112,9 +113,9 @@ export default function BrandHero() {
           className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mt-16 text-left"
         >
           {productLines.map((prod) => (
-            <a
+            <Link
               key={prod.id}
-              href={prod.target}
+              to={prod.target}
               className="p-8 rounded-[32px] bg-gradient-to-b from-white/[0.05] to-black/60 border border-white/10 hover:border-teal-brand/50 transition-all duration-300 hover:scale-[1.02] backdrop-blur-xl group flex flex-col justify-between"
             >
               <div>
@@ -135,10 +136,10 @@ export default function BrandHero() {
               </div>
 
               <div className="mt-6 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-muted-dim group-hover:text-white transition-colors">
-                <span>Ver detalles y simulador</span>
+                <span>Explorar página dedicada</span>
                 <span className="text-teal-brand group-hover:translate-x-1 transition-transform">→</span>
               </div>
-            </a>
+            </Link>
           ))}
         </div>
 

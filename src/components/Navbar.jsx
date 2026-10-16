@@ -1,17 +1,25 @@
 import React, { useState } from 'react';
+import { Link, NavLink, useLocation } from 'react-router-dom';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const location = useLocation();
 
   const closeMenu = () => setIsOpen(false);
 
+  const navItems = [
+    { name: 'Mascotas', path: '/mascotas', icon: '🐾', color: 'hover:text-orange-brand' },
+    { name: 'Kids', path: '/kids', icon: '👶', color: 'hover:text-teal-brand' },
+    { name: 'Restaurantes', path: '/restaurantes', icon: '🍽️', color: 'hover:text-amber-400' },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 bg-[#07080a]/85 backdrop-blur-xl text-white border-b border-white/10 transition-colors">
+    <header className="sticky top-0 z-50 bg-[#07080a]/90 backdrop-blur-xl text-white border-b border-white/10 transition-colors">
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto flex items-center justify-between h-[72px]">
         
-        {/* Brand Logo with exact FindeMe pin from the video */}
-        <a 
-          href="#inicio" 
+        {/* Brand Logo with exact FindeMe pin */}
+        <Link 
+          to="/" 
           className="flex items-center gap-2.5 font-extrabold text-[1.35rem] tracking-[-0.03em] text-white hover:opacity-90 transition-opacity" 
           aria-label="FindeMe, página principal"
           onClick={closeMenu}
@@ -23,7 +31,7 @@ export default function Navbar() {
           <span className="hidden sm:inline-block text-[9px] font-mono uppercase tracking-widest text-teal-brand bg-teal-brand/10 border border-teal-brand/30 px-2 py-0.5 rounded-full ml-1">
             NFC
           </span>
-        </a>
+        </Link>
 
         {/* Mobile menu toggle button */}
         <button 
@@ -44,31 +52,50 @@ export default function Navbar() {
         </button>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-6 text-xs font-bold uppercase tracking-wider">
-          <a href="#animales" className="text-muted-light hover:text-orange-brand transition-colors flex items-center gap-1.5">
-            <span>🐾</span> Animales
-          </a>
-          <a href="#ninos" className="text-muted-light hover:text-teal-brand transition-colors flex items-center gap-1.5">
-            <span>👶</span> Kids
-          </a>
-          <a href="#restaurantes" className="text-muted-light hover:text-amber-400 transition-colors flex items-center gap-1.5">
-            <span>🍽️</span> Gastro & VIP
-          </a>
-          <a href="#video-didactico" className="text-muted-light hover:text-white transition-colors flex items-center gap-1.5">
-            <span>📹</span> Video
-          </a>
-          <a href="#demo" className="text-muted-light hover:text-white transition-colors">
-            Simulador
-          </a>
-          <a 
-            href="#minfc" 
-            className="inline-flex items-center gap-1.5 text-xs font-mono text-teal-brand bg-teal-brand/10 hover:bg-teal-brand/20 border border-teal-brand/30 px-3.5 py-1.5 rounded-full transition-all"
+        <nav className="hidden lg:flex items-center gap-7 text-xs font-bold uppercase tracking-wider">
+          <NavLink 
+            to="/" 
+            className={({ isActive }) => 
+              `transition-colors flex items-center gap-1.5 ${isActive ? 'text-white font-extrabold border-b-2 border-teal-brand pb-1' : 'text-muted-light hover:text-white'}`
+            }
+          >
+            Inicio
+          </NavLink>
+
+          {navItems.map((item) => (
+            <NavLink
+              key={item.path}
+              to={item.path}
+              className={({ isActive }) =>
+                `transition-colors flex items-center gap-1.5 ${
+                  isActive 
+                    ? 'text-white font-extrabold border-b-2 border-orange-brand pb-1' 
+                    : `text-muted-light ${item.color}`
+                }`
+              }
+            >
+              <span>{item.icon}</span> {item.name}
+            </NavLink>
+          ))}
+
+          {/* Login / Mi NFC button */}
+          <NavLink 
+            to="/login" 
+            className={({ isActive }) =>
+              `inline-flex items-center gap-1.5 text-xs font-mono px-3.5 py-1.5 rounded-full transition-all border ${
+                isActive
+                  ? 'bg-teal-brand text-black font-black border-teal-brand'
+                  : 'text-teal-brand bg-teal-brand/10 hover:bg-teal-brand/20 border-teal-brand/30'
+              }`
+            }
           >
             <span className="w-1.5 h-1.5 rounded-full bg-teal-brand animate-ping" />
-            <span>Mi NFC</span>
-          </a>
+            <span>Mi NFC · Login</span>
+          </NavLink>
+
+          {/* Contacto link */}
           <a 
-            href="#contacto" 
+            href="/#contacto" 
             className="inline-flex items-center justify-center text-xs font-extrabold bg-orange-brand text-white px-5 py-2.5 rounded-full hover:bg-orange-hover hover:scale-105 transition-all shadow-md shadow-orange-brand/20"
           >
             Contacto
@@ -80,56 +107,41 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       {isOpen && (
         <nav id="mobile-menu" className="lg:hidden bg-[#0c0d12] border-t border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-semibold">
-          <a 
-            href="#animales" 
+          <Link 
+            to="/" 
             onClick={closeMenu}
-            className="text-white hover:text-orange-brand py-1 flex items-center gap-2"
+            className={`py-1 flex items-center gap-2 ${location.pathname === '/' ? 'text-teal-brand font-bold' : 'text-white hover:text-teal-brand'}`}
           >
-            <span>🐾</span> FindeMe Animales
-          </a>
-          <a 
-            href="#ninos" 
-            onClick={closeMenu}
-            className="text-white hover:text-teal-brand py-1 flex items-center gap-2"
-          >
-            <span>👶</span> FindeMe Kids
-          </a>
-          <a 
-            href="#restaurantes" 
-            onClick={closeMenu}
-            className="text-white hover:text-amber-400 py-1 flex items-center gap-2"
-          >
-            <span>🍽️</span> FindeMe Gastro & VIP
-          </a>
-          <a 
-            href="#video-didactico" 
-            onClick={closeMenu}
-            className="text-muted-light hover:text-white py-1 flex items-center gap-2"
-          >
-            <span>📹</span> Video Didáctico
-          </a>
-          <a 
-            href="#demo" 
-            onClick={closeMenu}
-            className="text-muted-light hover:text-white py-1"
-          >
-            Simulador en Vivo
-          </a>
-          <a 
-            href="#minfc" 
-            onClick={closeMenu}
-            className="text-teal-brand font-mono py-1 flex items-center gap-2"
-          >
-            <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-            Panel Mi NFC
-          </a>
-          <a 
-            href="#contacto" 
-            onClick={closeMenu}
-            className="mt-2 text-center font-bold bg-orange-brand text-white py-3 rounded-full hover:bg-orange-hover"
-          >
-            Cotizar / Contacto
-          </a>
+            <span>🏠</span> Inicio
+          </Link>
+
+          {navItems.map((item) => (
+            <Link 
+              key={item.path}
+              to={item.path} 
+              onClick={closeMenu}
+              className={`py-1 flex items-center gap-2 ${location.pathname === item.path ? 'text-orange-brand font-bold' : 'text-white hover:text-orange-brand'}`}
+            >
+              <span>{item.icon}</span> {item.name}
+            </Link>
+          ))}
+
+          <div className="pt-2 border-t border-white/10 flex flex-col gap-3">
+            <Link 
+              to="/login" 
+              onClick={closeMenu}
+              className="w-full text-center py-2.5 rounded-full bg-teal-brand/10 border border-teal-brand/30 text-teal-brand font-mono text-xs font-bold"
+            >
+              Mi NFC · Iniciar Sesión
+            </Link>
+            <a 
+              href="/#contacto" 
+              onClick={closeMenu}
+              className="w-full text-center py-3 rounded-full bg-orange-brand text-white font-bold text-xs"
+            >
+              Contacto
+            </a>
+          </div>
         </nav>
       )}
     </header>

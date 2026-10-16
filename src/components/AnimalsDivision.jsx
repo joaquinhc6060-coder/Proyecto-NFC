@@ -1,5 +1,4 @@
 import React, { useRef } from 'react';
-import R3FSmartTag from './R3FSmartTag';
 
 export default function AnimalsDivision() {
   const divisionRef = useRef(null);
@@ -85,19 +84,6 @@ export default function AnimalsDivision() {
                   <span>⚙️</span> Abrir Panel del Dueño
                 </a>
               </div>
-            </div>
-
-            {/* Interactive 3D NFC Tag Canvas (Three.js / React Three Fiber) */}
-            <div className="rounded-[32px] bg-gradient-to-b from-white/[0.04] to-black/80 border border-white/10 p-4 relative overflow-hidden">
-              <div className="flex items-center justify-between px-3 pt-1">
-                <span className="text-xs font-mono text-teal-brand uppercase tracking-wider">
-                  Inspección 3D del Hardware
-                </span>
-                <span className="text-[10px] font-mono text-muted-dim">
-                  Three.js + R3F
-                </span>
-              </div>
-              <R3FSmartTag />
             </div>
           </div>
 

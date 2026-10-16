@@ -1,82 +1,69 @@
 import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useSmoothScroll from './hooks/useSmoothScroll';
+import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
-import BrandHero from './components/BrandHero';
-import DidacticVideoSection from './components/DidacticVideoSection';
-import ScrollExpansion from './components/ScrollExpansion';
-import AnimalsDivision from './components/AnimalsDivision';
-import IPhoneShowcase from './components/IPhoneShowcase';
-import DemoScanner from './components/DemoScanner';
-import KidsSection from './components/KidsSection';
-import RestaurantSection from './components/RestaurantSection';
-import HowItWorks from './components/HowItWorks';
-import Benefits from './components/Benefits';
-import MiNfc from './components/MiNfc';
-import FAQ from './components/FAQ';
-import ContactForm from './components/ContactForm';
 import Footer from './components/Footer';
+
+// Pages
+import HomePage from './pages/HomePage';
+import MascotasPage from './pages/MascotasPage';
+import KidsPage from './pages/KidsPage';
+import RestaurantesPage from './pages/RestaurantesPage';
+import LoginPage from './pages/LoginPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
   useSmoothScroll();
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#07080a] text-white font-sans antialiased selection:bg-orange-brand selection:text-white">
-      {/* Accessibility jump link */}
-      <a 
-        href="#main-content" 
-        className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-brand"
-      >
-        Saltar al contenido principal
-      </a>
+    <BrowserRouter>
+      {/* Scroll to top automatically on route changes */}
+      <ScrollToTop />
 
-      {/* Floating Cinematic Glass Navbar */}
-      <Navbar />
+      <div className="min-h-screen flex flex-col bg-[#07080a] text-white font-sans antialiased selection:bg-orange-brand selection:text-white">
+        {/* Accessibility jump link */}
+        <a 
+          href="#main-content" 
+          className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:bg-white focus:text-ink focus:px-4 focus:py-2 focus:rounded-lg focus:shadow-lg focus:outline-none focus:ring-2 focus:ring-teal-brand"
+        >
+          Saltar al contenido principal
+        </a>
 
-      {/* Main Brand Portal Experience */}
-      <main id="main-content" className="flex-1">
-        {/* 1. Main Brand Portal Hero: 3 Product Worlds */}
-        <BrandHero />
+        {/* Floating Glass Navbar with Routing Links */}
+        <Navbar />
 
-        {/* 2. Interactive Didactic Video Console (Using the User's Video) */}
-        <DidacticVideoSection />
+        {/* Dynamic Route Pages */}
+        <main id="main-content" className="flex-1">
+          <Routes>
+            {/* 1. Página Principal (Master Brand Portal & Autonomous Autoplay Video) */}
+            <Route path="/" element={<HomePage />} />
+            <Route path="/pagina_principal" element={<HomePage />} />
 
-        {/* 3. GSAP Scroll Expansion (60% to 100% Viewport) */}
-        <ScrollExpansion />
+            {/* 2. FindeMe Mascotas / Animales (Universal, Luna reference, no 3D inspection) */}
+            <Route path="/mascotas" element={<MascotasPage />} />
+            <Route path="/animales" element={<MascotasPage />} />
 
-        {/* 4. Product Line 1: FindeMe Animales (Any pet, dogs as main reference) */}
-        <AnimalsDivision />
+            {/* 3. FindeMe Kids (Waterproof silicone wristbands & Martina simulation) */}
+            <Route path="/kids" element={<KidsPage />} />
+            <Route path="/ninos" element={<KidsPage />} />
 
-        {/* 5. 3D iPhone 16 Pro Cinematic Showcase */}
-        <IPhoneShowcase />
+            {/* 4. FindeMe Restaurantes & VIP Loyalty (Table stands & VIP Loyalty Cards) */}
+            <Route path="/restaurantes" element={<RestaurantesPage />} />
+            <Route path="/restaurant" element={<RestaurantesPage />} />
 
-        {/* 6. Live Interactive Scanner Simulator (Llamada Falsa & WhatsApp) */}
-        <DemoScanner />
+            {/* 5. Login / Portal del Dueño (Mi NFC) */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/minfc" element={<LoginPage />} />
 
-        {/* 7. Product Line 2: FindeMe Kids (Waterproof smart wristbands) */}
-        <KidsSection />
+            {/* Fallback */}
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
 
-        {/* 8. Product Line 3: FindeMe Gastro & VIP Loyalty (Table stands & VIP Cards) */}
-        <RestaurantSection />
-
-        {/* 9. Hardware & Protocol Architecture */}
-        <HowItWorks />
-
-        {/* 10. Minimalist Hardware Bento Grid */}
-        <Benefits />
-
-        {/* 11. Cloud Owner Portal (Mi NFC con Supabase) */}
-        <MiNfc />
-
-        {/* 12. Preguntas Frecuentes */}
-        <FAQ />
-
-        {/* 13. Contacto & Preventa Multilínea */}
-        <ContactForm />
-      </main>
-
-      {/* Brand Footer */}
-      <Footer />
-    </div>
+        {/* Global Footer */}
+        <Footer />
+      </div>
+    </BrowserRouter>
   );
 }
