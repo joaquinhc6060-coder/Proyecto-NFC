@@ -66,25 +66,28 @@ export default function BrandHero() {
       {/* 1. Full-Bleed Cinematic Background Video (Estilo Fi Tracking) */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <video
-          src="/videos/nfc-didactico.mp4"
+          src="/videos/findeme-hero.mp4"
           autoPlay
           muted
           loop
           playsInline
-          className="w-full h-full object-cover object-center opacity-35 scale-105"
+          className="w-full h-full object-cover object-center opacity-100 scale-100"
         />
-        {/* Dark Cinematic Gradient Overlay for Maximum Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#07080a]/95 via-[#07080a]/75 to-[#07080a] z-10" />
+        {/* Subtle top gradient to ensure navbar readability */}
+        <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/75 via-black/25 to-transparent pointer-events-none" />
+        
+        {/* Subtle bottom gradient to blend smoothly into the section below */}
+        <div className="absolute bottom-0 inset-x-0 h-80 bg-gradient-to-t from-[#07080a] via-[#07080a]/75 to-transparent pointer-events-none" />
       </div>
 
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-20 flex flex-col items-center text-center">
         
-        {/* Main Brand Headline with NO paragraph and NO extra buttons */}
-        <div ref={textRef} className="max-w-4xl space-y-4 mb-4">
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.02] tracking-[-0.04em] uppercase">
-            Una marca. Tres mundos. <br />
+        {/* Main Brand Headline */}
+        <div ref={textRef} className="max-w-5xl space-y-4 mb-4">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
+            Que volver a casa sea <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-brand via-white to-orange-brand">
-              Conectados por un toque.
+              cuestión de un toque.
             </span>
           </h1>
         </div>
@@ -99,14 +102,11 @@ export default function BrandHero() {
             <Link
               key={prod.id}
               to={prod.target}
-              className="p-8 rounded-[32px] bg-gradient-to-b from-white/[0.06] to-black/85 border border-white/10 hover:border-teal-brand/50 transition-all duration-300 hover:scale-[1.02] backdrop-blur-2xl group flex flex-col justify-between shadow-2xl"
+              className="p-8 rounded-[32px] bg-gradient-to-b from-black/60 to-black/90 border border-white/10 hover:border-teal-brand/50 transition-all duration-300 hover:scale-[1.02] backdrop-blur-2xl group flex flex-col justify-between shadow-2xl"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">
                   <span className="text-3xl group-hover:scale-110 transition-transform">{prod.icon}</span>
-                  <span className={`text-[10px] font-mono uppercase tracking-wider px-3 py-1 rounded-full border ${prod.accent}`}>
-                    {prod.badge}
-                  </span>
                 </div>
 
                 <h3 className="text-xl font-bold text-white mb-2 group-hover:text-teal-brand transition-colors">
