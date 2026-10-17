@@ -12,6 +12,7 @@ import KidsPage from './pages/KidsPage';
 import RestaurantesPage from './pages/RestaurantesPage';
 import LoginPage from './pages/LoginPage';
 import ContactoPage from './pages/ContactoPage';
+import ScanPage from './pages/ScanPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -59,6 +60,10 @@ export default function App() {
             {/* 6. Login / Portal del Dueño (Mi NFC - Botón Naranja Principal) */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/minfc" element={<LoginPage />} />
+
+            {/* 7. Escaneo Público en Vivo de Dispositivos NFC (En la calle / restaurante) */}
+            <Route path="/scan/:code" element={<ScanPage />} />
+            <Route path="/p/:code" element={<ScanPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />

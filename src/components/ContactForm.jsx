@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
 export default function ContactForm() {
   const [email, setEmail] = useState('');
@@ -6,7 +7,7 @@ export default function ContactForm() {
   const [msg, setMsg] = useState({ text: '', isError: false });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const trimmed = email.trim();
     const isValid = /^\S+@\S+\.\S+$/.test(trimmed);
@@ -17,14 +18,29 @@ export default function ContactForm() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    try {
+      if (isSupabaseConfigured() && supabase) {
+        const { error } = await supabase.from('contactos').insert([
+          {
+            email: trimmed,
+            producto_interes: selectedProduct,
+            origen: 'web_contacto'
+          }
+        ]);
+        if (error && error.code !== '42P01') {
+          console.warn('Aviso de inserción en Supabase:', error.message);
+        }
+      }
+    } catch (err) {
+      console.warn('Nota de envío:', err);
+    } finally {
       setIsSubmitting(false);
       setMsg({ 
         text: '¡Gracias por tu interés! Hemos registrado tu solicitud para la línea seleccionada.', 
         isError: false 
       });
       setEmail('');
-    }, 450);
+    }
   };
 
   return (
