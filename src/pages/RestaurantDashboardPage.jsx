@@ -5,17 +5,26 @@ import {
   MOCK_KPIS, 
   MOCK_CUSTOMERS, 
   MOCK_BOLETAS, 
-  generateWaiterPin, 
-  simulateSendWalletPush 
+  generateWaiterPin 
 } from '../services/restaurantService';
+import { subscribeToRestaurantUpdates } from '../services/databaseService';
+import { sendSegmentedPushNotification } from '../services/walletPassService';
+import { sendFallbackNotification } from '../services/fallbackNotificationService';
 
 export default function RestaurantDashboardPage() {
   const [activeTab, setActiveTab] = useState('kpis'); // 'kpis' | 'crm' | 'boletas' | 'push'
+
+  // Datos reactivos en tiempo real (Base de datos / WebSockets)
+  const [kpis, setKpis] = useState(MOCK_KPIS);
+  const [customers, setCustomers] = useState(MOCK_CUSTOMERS);
+  const [boletas, setBoletas] = useState(MOCK_BOLETAS);
+  const [realtimeNotification, setRealtimeNotification] = useState(null);
 
   // CRM & Filtros IA
   const [selectedTagFilter, setSelectedTagFilter] = useState('Todos');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCustomerModal, setSelectedCustomerModal] = useState(null);
+  const [fallbackToast, setFallbackToast] = useState('');
 
   // Validador y PIN de Mesero
   const [waiterPinData, setWaiterPinData] = useState(generateWaiterPin());
@@ -33,6 +42,53 @@ export default function RestaurantDashboardPage() {
   const [geofenceActive, setGeofenceActive] = useState(true);
   const [geofenceRadius, setGeofenceRadius] = useState(100);
   const [geofenceMsg, setGeofenceMsg] = useState(RESTAURANT_DATA.geofenceMessage);
+
+  // Suscripción en Tiempo Real (Cross-Tab BroadcastChannel + WebSockets)
+  useEffect(() => {
+    const unsubscribe = subscribeToRestaurantUpdates('bistro-costanera', (event) => {
+      if (event.type === 'RECEIPT_SCANNED' && event.receipt) {
+        // 1. Agregar boleta a la lista
+        setBoletas((prev) => [event.receipt, ...prev]);
+
+        // 2. Actualizar KPIs en vivo
+        setKpis((prev) => ({
+          ...prev,
+          visitasHoy: prev.visitasHoy + 1,
+          visitasMes: prev.visitasMes + 1,
+          sellosTotalesMes: prev.sellosTotalesMes + 1,
+          ticketPromedio: Math.round((prev.ticketPromedio + (event.receipt.total || 45000)) / 2)
+        }));
+
+        // 3. Actualizar cliente correspondiente
+        setCustomers((prev) =>
+          prev.map((c) => {
+            if (c.id === event.customerId || c.nombre === event.receipt.clienteNombre) {
+              const updatedTags = Array.from(new Set([...(event.newTags || []), ...c.tagsIA]));
+              return {
+                ...c,
+                sellos: Math.min(5, c.sellos + 1),
+                puntos: c.puntos + 50,
+                gastoTotal: c.gastoTotal + (event.receipt.total || 0),
+                boletasSubidas: c.boletasSubidas + 1,
+                tagsIA: updatedTags,
+                ultimaVisita: 'Ahora (Boleta validada por IA)'
+              };
+            }
+            return c;
+          })
+        );
+
+        // 4. Mostrar banner flotante en tiempo real
+        setRealtimeNotification({
+          titulo: '⚡ Nueva Boleta Escaneada por IA',
+          detalle: `${event.receipt.clienteNombre} (${event.receipt.mesa || 'Mesa'}) sumó un sello por $${(event.receipt.total || 0).toLocaleString('es-CL')} CLP.`
+        });
+        setTimeout(() => setRealtimeNotification(null), 8000);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   // Contador regresivo del PIN dinámico de mesero (cada 60s cambia)
   useEffect(() => {
@@ -54,13 +110,13 @@ export default function RestaurantDashboardPage() {
   };
 
   // Filtrado de clientes en el CRM
-  const filteredCustomers = MOCK_CUSTOMERS.filter((cust) => {
+  const filteredCustomers = customers.filter((cust) => {
     const matchesTag = selectedTagFilter === 'Todos' || cust.tagsIA.includes(selectedTagFilter);
     const matchesSearch = cust.nombre.toLowerCase().includes(searchQuery.toLowerCase()) || cust.telefono.includes(searchQuery);
     return matchesTag && matchesSearch;
   });
 
-  // Envío masivo de Push
+  // Envío masivo de Push usando walletPassService
   const handleSendPush = async (e) => {
     e.preventDefault();
     setIsSendingPush(true);
@@ -76,10 +132,24 @@ export default function RestaurantDashboardPage() {
     };
 
     const count = segmentCountMap[pushSegment] || 300;
-    const result = await simulateSendWalletPush({ recipientCount: count });
+    const result = await sendSegmentedPushNotification([pushSegment], pushTitle, pushBody, count);
     
     setIsSendingPush(false);
     setPushFeedback(result);
+  };
+
+  // Disparar notificación por canal de respaldo (WhatsApp / Email)
+  const handleSendFallback = async (customer, channel) => {
+    setFallbackToast(`Enviando notificación por ${channel}...`);
+    const resp = await sendFallbackNotification({
+      customer,
+      channel,
+      messageTitle: '¡Tu Tarjeta VIP te espera!',
+      messageBody: `Tienes ${customer.sellos}/5 sellos en Bistró Costanera. Sube tu boleta o muéstrala en mesa.`,
+      passUrl: 'https://findeme.cl/restaurante/mi-tarjeta'
+    });
+    setFallbackToast(`✓ Notificación enviada exitosamente por ${resp.channel} a ${resp.recipient}`);
+    setTimeout(() => setFallbackToast(''), 5000);
   };
 
   return (
@@ -191,8 +261,36 @@ export default function RestaurantDashboardPage() {
       {/* ========================================================================= */}
       {/* 2. ÁREA DE CONTENIDO PRINCIPAL DEL DASHBOARD */}
       {/* ========================================================================= */}
-      <main className="flex-1 p-6 sm:p-10 max-w-7xl mx-auto w-full overflow-y-auto">
+      <main className="flex-1 p-6 sm:p-10 max-w-7xl mx-auto w-full overflow-y-auto space-y-6">
         
+        {/* BANNER FLOTANTE DE NOTIFICACIÓN EN TIEMPO REAL (Cross-Tab / WebSockets) */}
+        {realtimeNotification && (
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-orange-brand/20 via-teal-brand/20 to-emerald-500/20 border border-orange-brand/50 text-white flex items-center justify-between shadow-[0_0_30px_rgba(255,90,38,0.3)] animate-fadeIn">
+            <div className="flex items-center gap-3">
+              <span className="w-3 h-3 rounded-full bg-orange-brand animate-ping" />
+              <div>
+                <h4 className="text-xs font-bold font-mono text-orange-brand uppercase tracking-wider">{realtimeNotification.titulo}</h4>
+                <p className="text-xs text-white/90 font-mono mt-0.5">{realtimeNotification.detalle}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => setRealtimeNotification(null)}
+              className="text-xs text-muted-dim hover:text-white px-2 py-1 font-mono"
+            >
+              Cerrar ✕
+            </button>
+          </div>
+        )}
+
+        {/* FEEDBACK TOAST DE CANAL DE RESPALDO (WHATSAPP / EMAIL) */}
+        {fallbackToast && (
+          <div className="p-3.5 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 text-xs font-mono animate-fadeIn flex items-center gap-2">
+            <span>📲</span>
+            <span>{fallbackToast}</span>
+          </div>
+        )}
+
         {/* ===================================================================== */}
         {/* TAB 1: PANEL DE KPIS EN TIEMPO REAL */}
         {/* ===================================================================== */}
@@ -216,10 +314,10 @@ export default function RestaurantDashboardPage() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-mono text-muted-dim uppercase">Tarjetas VIP Activas</span>
                   <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    {MOCK_KPIS.tarjetasCrecimientoMes}
+                    {kpis.tarjetasCrecimientoMes}
                   </span>
                 </div>
-                <h3 className="text-3xl font-black text-white">{MOCK_KPIS.tarjetasActivas.toLocaleString('es-CL')}</h3>
+                <h3 className="text-3xl font-black text-white">{kpis.tarjetasActivas.toLocaleString('es-CL')}</h3>
                 <span className="text-[11px] text-muted-light mt-2 block">
                   En Apple Wallet (62%) & Google Wallet (38%)
                 </span>
@@ -230,12 +328,12 @@ export default function RestaurantDashboardPage() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-mono text-muted-dim uppercase">Visitas Validadas</span>
                   <span className="text-xs font-mono text-orange-brand bg-orange-brand/10 px-2 py-0.5 rounded-full">
-                    {MOCK_KPIS.visitasHoy} hoy
+                    {kpis.visitasHoy} hoy
                   </span>
                 </div>
-                <h3 className="text-3xl font-black text-white">{MOCK_KPIS.visitasMes.toLocaleString('es-CL')}</h3>
+                <h3 className="text-3xl font-black text-white">{kpis.visitasMes.toLocaleString('es-CL')}</h3>
                 <span className="text-[11px] text-muted-light mt-2 block">
-                  {MOCK_KPIS.sellosTotalesMes} sellos sumados este mes
+                  {kpis.sellosTotalesMes} sellos sumados este mes
                 </span>
               </div>
 
@@ -244,10 +342,10 @@ export default function RestaurantDashboardPage() {
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-[11px] font-mono text-muted-dim uppercase">Ticket Promedio (OCR)</span>
                   <span className="text-xs font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full">
-                    {MOCK_KPIS.ticketCrecimiento}
+                    {kpis.ticketCrecimiento}
                   </span>
                 </div>
-                <h3 className="text-3xl font-black text-white">${MOCK_KPIS.ticketPromedio.toLocaleString('es-CL')}</h3>
+                <h3 className="text-3xl font-black text-white">${kpis.ticketPromedio.toLocaleString('es-CL')}</h3>
                 <span className="text-[11px] text-muted-light mt-2 block">
                   Extraído con IA de boletas físicas y electrónicas
                 </span>
@@ -261,9 +359,9 @@ export default function RestaurantDashboardPage() {
                     Frecuentes
                   </span>
                 </div>
-                <h3 className="text-3xl font-black text-white">{MOCK_KPIS.tasaRetorno}%</h3>
+                <h3 className="text-3xl font-black text-white">{kpis.tasaRetorno}%</h3>
                 <span className="text-[11px] text-muted-light mt-2 block">
-                  {MOCK_KPIS.tasaRetornoDetalle}
+                  {kpis.tasaRetornoDetalle}
                 </span>
               </div>
 
@@ -555,11 +653,11 @@ export default function RestaurantDashboardPage() {
                   <span>🧾</span>
                   <span>Últimas Boletas Escaneadas por Clientes (Cloud Storage + IA)</span>
                 </h3>
-                <span className="text-xs font-mono text-muted-dim">{MOCK_BOLETAS.length} registradas hoy</span>
+                <span className="text-xs font-mono text-muted-dim">{boletas.length} registradas hoy</span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                {MOCK_BOLETAS.map((b) => (
+                {boletas.map((b) => (
                   <div
                     key={b.id}
                     onClick={() => setInspectingBoleta(b)}
@@ -874,6 +972,29 @@ export default function RestaurantDashboardPage() {
                       <span className="text-[10px] text-muted-light block truncate mt-0.5">{h.items.join(', ')}</span>
                     </div>
                   ))}
+                </div>
+              </div>
+
+              {/* Acciones de Respaldo (WhatsApp & Email para clientes sin Wallet) */}
+              <div className="pt-3 border-t border-white/10 space-y-2">
+                <span className="text-[10px] font-mono text-muted-dim uppercase block">Canales de Respaldo Directos:</span>
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => handleSendFallback(selectedCustomerModal, 'whatsapp')}
+                    className="py-2 px-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-400 text-xs font-mono transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <span>💬</span>
+                    <span>WhatsApp</span>
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => handleSendFallback(selectedCustomerModal, 'email')}
+                    className="py-2 px-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white text-xs font-mono transition-colors flex items-center justify-center gap-1.5"
+                  >
+                    <span>✉️</span>
+                    <span>Email Resend</span>
+                  </button>
                 </div>
               </div>
             </div>
