@@ -15,6 +15,8 @@ import ContactoPage from './pages/ContactoPage';
 import ScanPage from './pages/ScanPage';
 import RestaurantDashboardPage from './pages/RestaurantDashboardPage';
 import ClientWalletCardPage from './pages/ClientWalletCardPage';
+import PanelMascotaPage from './pages/PanelMascotaPage';
+import PanelKidsPage from './pages/PanelKidsPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -59,18 +61,23 @@ export default function App() {
             {/* 5. Contacto (Ruta dedicada estándar) */}
             <Route path="/contacto" element={<ContactoPage />} />
 
-            {/* 6. Login / Portal del Dueño (Mi NFC - Botón Naranja Principal) */}
+            {/* 6. Login / Portal del Dueño (FindeMe ID - RBAC) */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/minfc" element={<LoginPage />} />
 
-            {/* 7. Escaneo Público en Vivo de Dispositivos NFC (En la calle / restaurante) */}
+            {/* 7. Paneles de Usuario RBAC Dedicados */}
+            <Route path="/panel-mascota" element={<PanelMascotaPage />} />
+            <Route path="/panel-kids" element={<PanelKidsPage />} />
+            <Route path="/admin" element={<RestaurantDashboardPage />} />
+
+            {/* 8. Escaneo Público en Vivo de Dispositivos NFC (En la calle / restaurante) */}
             <Route path="/scan/:code" element={<ScanPage />} />
             <Route path="/p/:code" element={<ScanPage />} />
 
-            {/* 8. SaaS Restaurantes: Dashboard del Dueño */}
+            {/* 9. SaaS Restaurantes: Dashboard del Dueño */}
             <Route path="/dashboard-restaurante" element={<RestaurantDashboardPage />} />
 
-            {/* 9. SaaS Restaurantes: Vista Móvil del Comensal (Pase Wallet & Boletas IA) */}
+            {/* 10. SaaS Restaurantes: Vista Móvil del Comensal (Pase Wallet & Boletas IA) */}
             <Route path="/restaurante/:id/mi-tarjeta" element={<ClientWalletCardPage />} />
             <Route path="/restaurante/mi-tarjeta" element={<ClientWalletCardPage />} />
 

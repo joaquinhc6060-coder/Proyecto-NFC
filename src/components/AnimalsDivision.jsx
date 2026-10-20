@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import { Link } from 'react-router-dom';
 
 export default function AnimalsDivision() {
   const divisionRef = useRef(null);
@@ -73,12 +74,12 @@ export default function AnimalsDivision() {
                 >
                   <span>📱</span> Probar el Simulador de Escaneo
                 </a>
-                <a 
-                  href="#minfc"
+                <Link 
+                  to="/login"
                   className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/15 text-white text-xs font-bold transition-all border border-white/10"
                 >
                   <span>⚙️</span> Abrir Panel del Dueño
-                </a>
+                </Link>
               </div>
             </div>
           </div>

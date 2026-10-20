@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
 
-export default function MiNfc() {
+export default function MiNfc({ initialLoggedIn = false }) {
   // Authentication & session state
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(initialLoggedIn);
   const [authView, setAuthView] = useState('login'); // 'login' | 'register'
   const [isLoading, setIsLoading] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);

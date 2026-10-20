@@ -59,8 +59,9 @@ export default function Navbar() {
         <div className="flex items-center gap-4">
           <Link 
             to="/login"
-            aria-label="Mi Cuenta / Iniciar Sesión"
-            title="Mi NFC · Iniciar Sesión"
+            onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}
+            aria-label="FindeMe ID / Iniciar Sesión"
+            title="FindeMe ID · Iniciar Sesión"
             className="w-10 h-10 rounded-full bg-orange-brand hover:bg-orange-hover text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-orange-brand/30 ring-2 ring-orange-brand/30"
           >
             {/* User avatar silhouette matching user image */}
@@ -107,13 +108,16 @@ export default function Navbar() {
           <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
             <Link 
               to="/login" 
-              onClick={closeMenu}
+              onClick={() => {
+                closeMenu();
+                window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+              }}
               className="w-full flex items-center justify-center gap-2 py-3 rounded-full bg-orange-brand text-white font-black text-xs uppercase tracking-wider shadow-lg shadow-orange-brand/25"
             >
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
               </svg>
-              <span>Mi Cuenta · Login</span>
+              <span>FindeMe ID · Login</span>
             </Link>
           </div>
         </nav>
