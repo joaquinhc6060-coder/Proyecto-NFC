@@ -13,6 +13,8 @@ import RestaurantesPage from './pages/RestaurantesPage';
 import LoginPage from './pages/LoginPage';
 import ContactoPage from './pages/ContactoPage';
 import ScanPage from './pages/ScanPage';
+import RestaurantDashboardPage from './pages/RestaurantDashboardPage';
+import ClientWalletCardPage from './pages/ClientWalletCardPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -64,6 +66,13 @@ export default function App() {
             {/* 7. Escaneo Público en Vivo de Dispositivos NFC (En la calle / restaurante) */}
             <Route path="/scan/:code" element={<ScanPage />} />
             <Route path="/p/:code" element={<ScanPage />} />
+
+            {/* 8. SaaS Restaurantes: Dashboard del Dueño */}
+            <Route path="/dashboard-restaurante" element={<RestaurantDashboardPage />} />
+
+            {/* 9. SaaS Restaurantes: Vista Móvil del Comensal (Pase Wallet & Boletas IA) */}
+            <Route path="/restaurante/:id/mi-tarjeta" element={<ClientWalletCardPage />} />
+            <Route path="/restaurante/mi-tarjeta" element={<ClientWalletCardPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
