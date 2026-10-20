@@ -25,13 +25,10 @@ export default function Navbar() {
           {/* Brand Logo */}
           <Link 
             to="/" 
-            className="flex items-center gap-2.5 font-extrabold text-[1.35rem] tracking-[-0.03em] text-white hover:opacity-90 transition-opacity" 
+            className="flex items-center font-extrabold text-[1.35rem] tracking-[-0.03em] text-white hover:opacity-90 transition-opacity" 
             aria-label="FindeMe, página principal"
             onClick={closeMenu}
           >
-            <span className="w-8 h-8 rounded-full bg-black border border-white/20 flex items-center justify-center text-teal-brand shadow-inner" aria-hidden="true">
-              <span className="text-sm">📍</span>
-            </span>
             <span className="font-black">Finde<b className="text-orange-brand">Me</b></span>
           </Link>
 

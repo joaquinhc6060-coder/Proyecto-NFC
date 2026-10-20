@@ -63,17 +63,6 @@ export default function HowItWorks() {
 
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-10">
         
-        {/* Section Header: Minimalist & Breathable */}
-        <div className="max-w-2xl mb-20">
-
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
-            Tres pasos. <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand">
-              Cero Fricción.
-            </span>
-          </h2>
-        </div>
-
         {/* 3 Large Minimalist Architectural Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {steps.map((step, idx) => (

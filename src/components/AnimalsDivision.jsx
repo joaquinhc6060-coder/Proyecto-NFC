@@ -30,10 +30,6 @@ export default function AnimalsDivision() {
               Perros, gatos y compañeros de vida.
             </span>
           </h2>
-
-          <p className="text-muted-light text-base sm:text-xl font-light mt-4 max-w-2xl leading-relaxed">
-            Aunque nuestra referencia principal y caso de éxito es la perrita Luna (Golden Retriever), las placas FindeMe están calibradas para colocarse en el collar de cualquier mascota o animal de compañía.
-          </p>
         </div>
 
         {/* 2-Column Showcase */}

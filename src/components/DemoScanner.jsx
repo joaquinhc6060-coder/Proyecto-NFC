@@ -77,11 +77,6 @@ export default function DemoScanner() {
           
           {/* Controls & Interactive Test Modes */}
           <div className="space-y-6">
-            <div className="bg-white/5 border border-white/10 p-5 sm:p-6 rounded-2xl text-sm sm:text-base text-muted-dim leading-relaxed backdrop-blur-sm">
-              <strong className="text-white block mb-1">Simulación interactiva en tiempo real:</strong>
-              Puedes pulsar los botones del teléfono o usar los accesos directos de abajo para alternar entre el escaneo, la llamada en vivo y el chat de WhatsApp.
-            </div>
-
             {/* Quick-switch buttons */}
             <div className="flex flex-wrap gap-3">
               <button
@@ -137,18 +132,6 @@ export default function DemoScanner() {
                   {statusMsg}
                 </p>
               )}
-            </div>
-
-            {/* Feature Bullets */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="font-bold text-white text-xs block mb-0.5">📞 Llamada Inmediata</span>
-                <span className="text-xs text-muted-light">Conecta al rescatista con tu número en un solo toque, sin intermediarios.</span>
-              </div>
-              <div className="p-3.5 rounded-xl bg-white/[0.03] border border-white/5">
-                <span className="font-bold text-teal-brand text-xs block mb-0.5">💬 WhatsApp con Ubicación</span>
-                <span className="text-xs text-muted-light">Genera un mensaje predefinido con coordenadas para que sepas dónde está tu mascota.</span>
-              </div>
             </div>
           </div>
 
