@@ -11,7 +11,28 @@
 --   7. Campaña Push histórica en public.campanas_push
 --   8. PIN Dinámico de mesero en public.waiter_pins
 -- Idempotente: Seguro para ejecutar múltiples veces sin duplicar registros.
--- =========================================================================
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- -------------------------------------------------------------------------
+-- 0. ASEGURAR COLUMNAS EN TABLA BASE DE HARDWARE NFC (placas_nfc)
+-- -------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS public.placas_nfc (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  codigo_publico VARCHAR(50) UNIQUE NOT NULL,
+  codigo_pin VARCHAR(20),
+  tipo_chip VARCHAR(80) DEFAULT 'NTAG213 High-Frequency (13.56 MHz)',
+  categoria VARCHAR(30) DEFAULT 'mascota',
+  nombre_asignado VARCHAR(100),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  estado VARCHAR(20) DEFAULT 'disponible',
+  fecha_activacion TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE public.placas_nfc 
+  ADD COLUMN IF NOT EXISTS categoria VARCHAR(30) DEFAULT 'mascota',
+  ADD COLUMN IF NOT EXISTS nombre_asignado VARCHAR(100);
 
 DO $$
 DECLARE
@@ -162,118 +183,208 @@ BEGIN
   -- -------------------------------------------------------------------------
   
   -- Cliente 1: Rodrigo Valenzuela
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Rodrigo Valenzuela',
-    '+56 9 8451 9201',
-    'rodrigo.valenzuela@gmail.com',
-    'Oro VIP',
-    450,
-    4,
-    342000,
-    8,
-    'Apple Wallet',
-    ARRAY['Consume Coctelería', 'Amante de Pizzas', 'Cliente VIP Viernes', 'Ticket Alto'],
-    NOW() - INTERVAL '45 minutes'
-  )
-  RETURNING id INTO v_cust_1;
+  SELECT id INTO v_cust_1 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 'rodrigo.valenzuela@gmail.com' LIMIT 1;
+  IF v_cust_1 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Rodrigo Valenzuela',
+      '+56 9 8451 9201',
+      'rodrigo.valenzuela@gmail.com',
+      'Oro VIP',
+      450,
+      4,
+      342000,
+      8,
+      'Apple Wallet',
+      ARRAY['Consume Coctelería', 'Amante de Pizzas', 'Cliente VIP Viernes', 'Ticket Alto'],
+      NOW() - INTERVAL '45 minutes'
+    ) RETURNING id INTO v_cust_1;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Rodrigo Valenzuela',
+      telefono = '+56 9 8451 9201',
+      nivel_socio = 'Oro VIP',
+      puntos = 450,
+      sellos = 4,
+      gasto_total_acumulado = 342000,
+      boletas_validadas_count = 8,
+      wallet_platform = 'Apple Wallet',
+      tags_ia = ARRAY['Consume Coctelería', 'Amante de Pizzas', 'Cliente VIP Viernes', 'Ticket Alto'],
+      ultima_visita = NOW() - INTERVAL '45 minutes'
+    WHERE id = v_cust_1;
+  END IF;
 
   -- Cliente 2: Carolina Henríquez
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Carolina Henríquez',
-    '+56 9 7122 3490',
-    'carolina.h@outlook.com',
-    'Black VIP',
-    820,
-    5,
-    580000,
-    14,
-    'Apple Wallet',
-    ARRAY['Consume Coctelería', 'Ticket Alto', 'Cena Pareja / Romántica'],
-    NOW() - INTERVAL '1 day'
-  )
-  RETURNING id INTO v_cust_2;
+  SELECT id INTO v_cust_2 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 'carolina.h@outlook.com' LIMIT 1;
+  IF v_cust_2 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Carolina Henríquez',
+      '+56 9 7122 3490',
+      'carolina.h@outlook.com',
+      'Black VIP',
+      820,
+      5,
+      580000,
+      14,
+      'Apple Wallet',
+      ARRAY['Consume Coctelería', 'Ticket Alto', 'Cena Pareja / Romántica'],
+      NOW() - INTERVAL '1 day'
+    ) RETURNING id INTO v_cust_2;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Carolina Henríquez',
+      telefono = '+56 9 7122 3490',
+      nivel_socio = 'Black VIP',
+      puntos = 820,
+      sellos = 5,
+      gasto_total_acumulado = 580000,
+      boletas_validadas_count = 14,
+      wallet_platform = 'Apple Wallet',
+      tags_ia = ARRAY['Consume Coctelería', 'Ticket Alto', 'Cena Pareja / Romántica'],
+      ultima_visita = NOW() - INTERVAL '1 day'
+    WHERE id = v_cust_2;
+  END IF;
 
   -- Cliente 3: Matías Silva & Familia
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Matías Silva & Familia',
-    '+56 9 6554 1109',
-    'matias.silva.cl@gmail.com',
-    'Plata',
-    210,
-    2,
-    198000,
-    4,
-    'Google Wallet',
-    ARRAY['Perfil Familiar / Sin Alcohol', 'Menú Infantil', 'Cliente Domingo Almuerzo'],
-    NOW() - INTERVAL '3 days'
-  )
-  RETURNING id INTO v_cust_3;
+  SELECT id INTO v_cust_3 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 'matias.silva.cl@gmail.com' LIMIT 1;
+  IF v_cust_3 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Matías Silva & Familia',
+      '+56 9 6554 1109',
+      'matias.silva.cl@gmail.com',
+      'Plata',
+      210,
+      2,
+      198000,
+      4,
+      'Google Wallet',
+      ARRAY['Perfil Familiar / Sin Alcohol', 'Menú Infantil', 'Cliente Domingo Almuerzo'],
+      NOW() - INTERVAL '3 days'
+    ) RETURNING id INTO v_cust_3;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Matías Silva & Familia',
+      telefono = '+56 9 6554 1109',
+      nivel_socio = 'Plata',
+      puntos = 210,
+      sellos = 2,
+      gasto_total_acumulado = 198000,
+      boletas_validadas_count = 4,
+      wallet_platform = 'Google Wallet',
+      tags_ia = ARRAY['Perfil Familiar / Sin Alcohol', 'Menú Infantil', 'Cliente Domingo Almuerzo'],
+      ultima_visita = NOW() - INTERVAL '3 days'
+    WHERE id = v_cust_3;
+  END IF;
 
   -- Cliente 4: Ignacio Morales
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Ignacio Morales',
-    '+56 9 9234 5678',
-    'ignacio.morales@empresa.cl',
-    'Oro VIP',
-    390,
-    3,
-    275000,
-    6,
-    'Google Wallet',
-    ARRAY['Consume Coctelería', 'After Office', 'Amante de Hamburguesas'],
-    NOW() - INTERVAL '5 days'
-  )
-  RETURNING id INTO v_cust_4;
+  SELECT id INTO v_cust_4 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 'ignacio.morales@empresa.cl' LIMIT 1;
+  IF v_cust_4 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Ignacio Morales',
+      '+56 9 9234 5678',
+      'ignacio.morales@empresa.cl',
+      'Oro VIP',
+      390,
+      3,
+      275000,
+      6,
+      'Google Wallet',
+      ARRAY['Consume Coctelería', 'After Office', 'Amante de Hamburguesas'],
+      NOW() - INTERVAL '5 days'
+    ) RETURNING id INTO v_cust_4;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Ignacio Morales',
+      telefono = '+56 9 9234 5678',
+      nivel_socio = 'Oro VIP',
+      puntos = 390,
+      sellos = 3,
+      gasto_total_acumulado = 275000,
+      boletas_validadas_count = 6,
+      wallet_platform = 'Google Wallet',
+      tags_ia = ARRAY['Consume Coctelería', 'After Office', 'Amante de Hamburguesas'],
+      ultima_visita = NOW() - INTERVAL '5 days'
+    WHERE id = v_cust_4;
+  END IF;
 
   -- Cliente 5: Francisca Vial
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Francisca Vial',
-    '+56 9 8871 0023',
-    'fran.vial@uandes.cl',
-    'Plata',
-    150,
-    1,
-    96000,
-    2,
-    'Apple Wallet',
-    ARRAY['Amante de Pizzas', 'Vegetariano / Plant Based'],
-    NOW() - INTERVAL '8 days'
-  )
-  RETURNING id INTO v_cust_5;
+  SELECT id INTO v_cust_5 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 'fran.vial@uandes.cl' LIMIT 1;
+  IF v_cust_5 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Francisca Vial',
+      '+56 9 8871 0023',
+      'fran.vial@uandes.cl',
+      'Plata',
+      150,
+      1,
+      96000,
+      2,
+      'Apple Wallet',
+      ARRAY['Amante de Pizzas', 'Vegetariano / Plant Based'],
+      NOW() - INTERVAL '8 days'
+    ) RETURNING id INTO v_cust_5;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Francisca Vial',
+      telefono = '+56 9 8871 0023',
+      nivel_socio = 'Plata',
+      puntos = 150,
+      sellos = 1,
+      gasto_total_acumulado = 96000,
+      boletas_validadas_count = 2,
+      wallet_platform = 'Apple Wallet',
+      tags_ia = ARRAY['Amante de Pizzas', 'Vegetariano / Plant Based'],
+      ultima_visita = NOW() - INTERVAL '8 days'
+    WHERE id = v_cust_5;
+  END IF;
 
   -- Cliente 6: Sebastián Lagos
-  INSERT INTO public.comensales (
-    restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
-  ) VALUES (
-    v_restaurant_id,
-    'Sebastián Lagos',
-    '+56 9 7789 4432',
-    's.lagos@inversiones.cl',
-    'Black VIP',
-    940,
-    5,
-    720000,
-    18,
-    'Apple Wallet',
-    ARRAY['Ticket Alto', 'Consume Coctelería', 'Almuerzo Ejecutivo'],
-    NOW() - INTERVAL '2 days'
-  )
-  RETURNING id INTO v_cust_6;
+  SELECT id INTO v_cust_6 FROM public.comensales WHERE restaurant_id = v_restaurant_id AND email = 's.lagos@inversiones.cl' LIMIT 1;
+  IF v_cust_6 IS NULL THEN
+    INSERT INTO public.comensales (
+      restaurant_id, nombre, telefono, email, nivel_socio, puntos, sellos, gasto_total_acumulado, boletas_validadas_count, wallet_platform, tags_ia, ultima_visita
+    ) VALUES (
+      v_restaurant_id,
+      'Sebastián Lagos',
+      '+56 9 7789 4432',
+      's.lagos@inversiones.cl',
+      'Black VIP',
+      940,
+      5,
+      720000,
+      18,
+      'Apple Wallet',
+      ARRAY['Ticket Alto', 'Consume Coctelería', 'Almuerzo Ejecutivo'],
+      NOW() - INTERVAL '2 days'
+    ) RETURNING id INTO v_cust_6;
+  ELSE
+    UPDATE public.comensales SET
+      nombre = 'Sebastián Lagos',
+      telefono = '+56 9 7789 4432',
+      nivel_socio = 'Black VIP',
+      puntos = 940,
+      sellos = 5,
+      gasto_total_acumulado = 720000,
+      boletas_validadas_count = 18,
+      wallet_platform = 'Apple Wallet',
+      tags_ia = ARRAY['Ticket Alto', 'Consume Coctelería', 'Almuerzo Ejecutivo'],
+      ultima_visita = NOW() - INTERVAL '2 days'
+    WHERE id = v_cust_6;
+  END IF;
 
   -- -------------------------------------------------------------------------
   -- 5. INSERTAR PASES DIGITALES EN WALLETS (APPLE / GOOGLE)
@@ -389,22 +500,25 @@ BEGIN
   -- -------------------------------------------------------------------------
   -- 7. INSERTAR CAMPAÑA PUSH HISTÓRICA A PANTALLA DE BLOQUEO
   -- -------------------------------------------------------------------------
-  INSERT INTO public.campanas_push (
-    restaurant_id, titulo, cuerpo_mensaje, segmento_tags, destinatarios_estimados, entregados_apple, entregados_google, enviado_por
-  ) VALUES (
-    v_restaurant_id,
-    '🍸 2x1 en Cócteles de Autor este Jueves',
-    'Muestra tu tarjeta VIP en la barra después de las 20:00 hrs y disfruta de la nueva carta de autor.',
-    ARRAY['Consume Coctelería'],
-    340,
-    211,
-    129,
-    v_owner_id
-  );
+  IF NOT EXISTS (SELECT 1 FROM public.campanas_push WHERE restaurant_id = v_restaurant_id AND titulo LIKE '%2x1 en Cócteles%') THEN
+    INSERT INTO public.campanas_push (
+      restaurant_id, titulo, cuerpo_mensaje, segmento_tags, destinatarios_estimados, entregados_apple, entregados_google, enviado_por
+    ) VALUES (
+      v_restaurant_id,
+      '🍸 2x1 en Cócteles de Autor este Jueves',
+      'Muestra tu tarjeta VIP en la barra después de las 20:00 hrs y disfruta de la nueva carta de autor.',
+      ARRAY['Consume Coctelería'],
+      340,
+      211,
+      129,
+      v_owner_id
+    );
+  END IF;
 
   -- -------------------------------------------------------------------------
   -- 8. INSERTAR PIN DINÁMICO DE MESERO VIGENTE
   -- -------------------------------------------------------------------------
+  DELETE FROM public.waiter_pins WHERE restaurant_id = v_restaurant_id;
   INSERT INTO public.waiter_pins (
     restaurant_id, pin_code, expires_at
   ) VALUES (

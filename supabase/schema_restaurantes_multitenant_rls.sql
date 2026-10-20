@@ -12,6 +12,24 @@
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
+-- Compatibilidad Hardware NFC: Asegurar columnas categoria y nombre_asignado
+CREATE TABLE IF NOT EXISTS public.placas_nfc (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  codigo_publico VARCHAR(50) UNIQUE NOT NULL,
+  codigo_pin VARCHAR(20),
+  tipo_chip VARCHAR(80) DEFAULT 'NTAG213 High-Frequency (13.56 MHz)',
+  categoria VARCHAR(30) DEFAULT 'mascota',
+  nombre_asignado VARCHAR(100),
+  user_id UUID REFERENCES auth.users(id) ON DELETE SET NULL,
+  estado VARCHAR(20) DEFAULT 'disponible',
+  fecha_activacion TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+ALTER TABLE public.placas_nfc 
+  ADD COLUMN IF NOT EXISTS categoria VARCHAR(30) DEFAULT 'mascota',
+  ADD COLUMN IF NOT EXISTS nombre_asignado VARCHAR(100);
+
 -- =========================================================================
 -- 1. TABLA: RESTAURANTES (TENANTS / LOCALES GASTRONÓMICOS)
 -- =========================================================================
