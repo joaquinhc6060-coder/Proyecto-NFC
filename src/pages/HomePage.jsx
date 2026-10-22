@@ -2,7 +2,6 @@ import React from 'react';
 import BrandHero from '../components/BrandHero';
 import DidacticVideoSection from '../components/DidacticVideoSection';
 import HowItWorks from '../components/HowItWorks';
-import ContactForm from '../components/ContactForm';
 
 export default function HomePage() {
   return (
@@ -15,9 +14,6 @@ export default function HomePage() {
 
       {/* 3. Universal How it Works (3 Steps) */}
       <HowItWorks />
-
-      {/* 4. Contact / B2B & Personal Inquiry */}
-      <ContactForm />
     </div>
   );
 }

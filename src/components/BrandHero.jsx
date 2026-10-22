@@ -42,16 +42,16 @@ export default function BrandHero() {
       const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
 
       tl.from(textRef.current?.children || [], {
-        y: 40,
+        y: 25,
         opacity: 0,
-        stagger: 0.15,
-        duration: 1.1,
+        stagger: 0.08,
+        duration: 0.55,
       }).from(pillarsRef.current?.children || [], {
-        y: 40,
+        y: 25,
         opacity: 0,
-        stagger: 0.15,
-        duration: 0.9,
-      }, '-=0.4');
+        stagger: 0.08,
+        duration: 0.55,
+      }, '-=0.25');
 
     }, heroRef);
 
@@ -77,6 +77,9 @@ export default function BrandHero() {
         {/* Subtle top gradient to ensure navbar readability */}
         <div className="absolute top-0 inset-x-0 h-40 bg-gradient-to-b from-black/80 via-black/30 to-transparent pointer-events-none" />
         
+        {/* Full subtle contrast overlay for crisp text readability across all video frames */}
+        <div className="absolute inset-0 bg-black/45 pointer-events-none" />
+
         {/* Subtle bottom gradient to blend smoothly into the section below */}
         <div className="absolute bottom-0 inset-x-0 h-80 bg-gradient-to-t from-[#07080a] via-[#07080a]/80 to-transparent pointer-events-none" />
       </div>
@@ -86,15 +89,15 @@ export default function BrandHero() {
         {/* Main Brand Headline con los colores y formato originales */}
         <div ref={textRef} className="max-w-5xl space-y-4 mb-4">
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
-            Que volver a casa sea <br />
+            Productos inteligentes y servicios NFC <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-brand via-white to-orange-brand">
-              cuestión de un toque.
+              creados para conectar tu mundo.
             </span>
           </h1>
 
           {/* Nueva descripción universal */}
-          <p className="text-muted-light text-base sm:text-lg font-light max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-            Tecnología NFC y gestión inteligente para proteger a quienes amas y potenciar tu negocio local en segundos. Sin aplicaciones, sin fricción.
+          <p className="text-zinc-200 text-base sm:text-lg font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_14px_rgba(0,0,0,1)]">
+            En FindeMe diseñamos dispositivos físicos con chips NFC y plataformas digitales de respuesta inmediata: seguridad para mascotas, pulseras infantiles y fidelización para comercios.
           </p>
         </div>
 

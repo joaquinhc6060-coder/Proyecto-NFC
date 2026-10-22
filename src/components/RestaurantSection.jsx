@@ -32,8 +32,8 @@ export default function RestaurantSection() {
   };
 
   return (
-    <section 
-      id="restaurantes" 
+    <section
+      id="restaurantes"
       className="py-24 lg:py-36 bg-[#07080a] text-white relative overflow-hidden border-t border-b border-white/5"
     >
       {/* Background ambient glow */}
@@ -41,12 +41,12 @@ export default function RestaurantSection() {
       <div className="absolute bottom-10 left-10 w-96 h-96 bg-teal-brand/10 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-10">
-        
+
         {/* Top Header & SaaS Direct Access Button */}
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-16">
           <div className="max-w-3xl">
             <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
-              Experiencia en mesa y fidelización. <br />
+              Mejora tu experiencia en mesa y obtenn fidelización. <br />
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand">
                 Un toque, clientes cautivos.
               </span>
@@ -74,17 +74,17 @@ export default function RestaurantSection() {
 
         {/* 2-Column Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          
+
           {/* Column 1: Commercial Product Photograph */}
           <div className="relative rounded-[36px] overflow-hidden border border-white/10 shadow-2xl group">
-            <img 
-              src="/images/findme-restaurant-loyalty.jpg" 
-              alt="Peana NFC para mesas de restaurante y tarjeta VIP de fidelización FindeMe" 
+            <img
+              src="/images/findme-restaurant-loyalty.jpg"
+              alt="Peana NFC para mesas de restaurante y tarjeta VIP de fidelización FindeMe"
               className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
             />
-            
+
             <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent" />
-            
+
             {/* Overlay spec badges */}
             <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-mono">
               <span className="bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 text-orange-brand font-semibold">
@@ -98,28 +98,26 @@ export default function RestaurantSection() {
 
           {/* Column 2: Dual Interactive Simulator (Mesa vs Tarjeta VIP) */}
           <div className="space-y-6">
-            
+
             {/* Mode Switcher Pills */}
             <div className="flex items-center gap-2 bg-white/5 p-1.5 rounded-2xl border border-white/10 max-w-md">
               <button
                 type="button"
                 onClick={() => { setActiveTab('tarjeta'); setToastMsg(''); }}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'tarjeta'
-                    ? 'bg-teal-brand text-ink font-black shadow-md'
-                    : 'text-muted-light hover:text-white'
-                }`}
+                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'tarjeta'
+                  ? 'bg-teal-brand text-ink font-black shadow-md'
+                  : 'text-muted-light hover:text-white'
+                  }`}
               >
                 💳 Tarjeta VIP Loyalty (Wallet)
               </button>
               <button
                 type="button"
                 onClick={() => { setActiveTab('mesa'); setToastMsg(''); }}
-                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${
-                  activeTab === 'mesa'
-                    ? 'bg-orange-brand text-white shadow-md'
-                    : 'text-muted-light hover:text-white'
-                }`}
+                className={`flex-1 py-2.5 px-4 rounded-xl text-xs font-bold transition-all ${activeTab === 'mesa'
+                  ? 'bg-orange-brand text-white shadow-md'
+                  : 'text-muted-light hover:text-white'
+                  }`}
               >
                 🍽️ Peana de Mesa NFC
               </button>
@@ -127,7 +125,7 @@ export default function RestaurantSection() {
 
             {/* Simulated Display Card */}
             <div className="p-6 sm:p-8 rounded-[32px] bg-gradient-to-b from-white/[0.05] to-black/60 border border-white/10 backdrop-blur-xl shadow-2xl">
-              
+
               {/* TAB 1: PEANA DE MESA */}
               {activeTab === 'mesa' && (
                 <div className="space-y-4">
@@ -208,9 +206,8 @@ export default function RestaurantSection() {
                         {[1, 2, 3, 4, 5].map((s) => (
                           <span
                             key={s}
-                            className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${
-                              s <= stamps ? 'bg-gradient-to-br from-[#10B981] to-[#00E599] text-black font-black shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-white/10 text-white/30'
-                            }`}
+                            className={`w-4 h-4 rounded-full flex items-center justify-center text-[9px] ${s <= stamps ? 'bg-gradient-to-br from-[#10B981] to-[#00E599] text-black font-black shadow-[0_0_8px_rgba(16,185,129,0.5)]' : 'bg-white/10 text-white/30'
+                              }`}
                           >
                             ✓
                           </span>
@@ -227,7 +224,7 @@ export default function RestaurantSection() {
                       className="py-2.5 px-3 rounded-xl bg-black hover:bg-neutral-900 border border-white/20 text-white font-medium text-xs transition-all flex items-center justify-center gap-2 active:scale-95 shadow-sm"
                     >
                       <svg className="w-4 h-4 fill-white" viewBox="0 0 170 170">
-                        <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-6.84-10.4-12.22-22.37-16.14-35.91-3.92-13.54-5.88-26.17-5.88-37.89 0-14.7 3.59-26.69 10.77-35.96 7.18-9.27 16.29-14.01 27.33-14.22 4.48 0 9.8 1.25 15.96 3.75 6.16 2.5 10.15 3.78 11.96 3.84 1.55 0 5.69-1.33 12.42-3.99 6.73-2.66 12.06-3.87 16-3.63 11.85.87 21.09 5.38 27.72 13.53-10.36 6.31-15.43 14.92-15.22 25.83.21 8.59 3.48 15.82 9.8 21.69 6.32 5.87 13.82 9.29 22.5 10.26-1.96 5.87-4.35 11.69-7.18 17.47zM119.22 31.84c0-7.39 2.66-14.46 7.98-21.21 5.32-6.75 11.96-10.63 19.92-11.63.22 1.3.33 2.5.33 3.6 0 7.39-2.77 14.57-8.31 21.54-5.54 6.97-12.16 10.87-19.86 11.7-.06-1.3-.06-2.63-.06-4z"/>
+                        <path d="M150.37 130.25c-2.45 5.66-5.35 10.87-8.71 15.66-4.58 6.53-8.33 11.05-11.22 13.56-4.48 4.12-9.28 6.23-14.42 6.35-3.69 0-8.14-1.05-13.32-3.18-5.19-2.12-9.97-3.17-14.34-3.17-4.58 0-9.49 1.05-14.75 3.17-5.26 2.13-9.5 3.24-12.74 3.35-4.35.13-9.16-1.9-14.42-6.08-3.69-3.04-7.67-7.81-11.96-14.34-6.84-10.4-12.22-22.37-16.14-35.91-3.92-13.54-5.88-26.17-5.88-37.89 0-14.7 3.59-26.69 10.77-35.96 7.18-9.27 16.29-14.01 27.33-14.22 4.48 0 9.8 1.25 15.96 3.75 6.16 2.5 10.15 3.78 11.96 3.84 1.55 0 5.69-1.33 12.42-3.99 6.73-2.66 12.06-3.87 16-3.63 11.85.87 21.09 5.38 27.72 13.53-10.36 6.31-15.43 14.92-15.22 25.83.21 8.59 3.48 15.82 9.8 21.69 6.32 5.87 13.82 9.29 22.5 10.26-1.96 5.87-4.35 11.69-7.18 17.47zM119.22 31.84c0-7.39 2.66-14.46 7.98-21.21 5.32-6.75 11.96-10.63 19.92-11.63.22 1.3.33 2.5.33 3.6 0 7.39-2.77 14.57-8.31 21.54-5.54 6.97-12.16 10.87-19.86 11.7-.06-1.3-.06-2.63-.06-4z" />
                       </svg>
                       <span>Añadir a Apple Wallet</span>
                     </button>

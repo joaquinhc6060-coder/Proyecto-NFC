@@ -55,14 +55,18 @@ export default function DidacticVideoSection() {
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-10 flex flex-col items-center">
         
         {/* Section Header */}
-        <div className="text-center max-w-2xl mx-auto mb-12">
+        <div className="text-center max-w-3xl mx-auto mb-12">
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
-            Mira cómo funciona <br />
+            Con FindeMe, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand">
-              en la vida real.
+              tu mascota se sentirá más segura.
             </span>
           </h2>
+
+          <p className="text-muted-light text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed font-light">
+            Rescate inmediato en 1 toque: cualquier persona acerca su smartphone a la placa para acceder al instante a tu contacto telefónico, chat de WhatsApp con GPS y ficha médica en vivo.
+          </p>
         </div>
 
         {/* Solo el Celular REAL con el Video reproduciéndose automáticamente */}

@@ -136,22 +136,7 @@ export default function LoginPage() {
   };
 
   // =========================================================================
-  // 2. ACCESOS DEMO RÁPIDOS EN 1 CLIC
-  // =========================================================================
-  const handleQuickDemoPet = () => {
-    setLoginEmail('patricia@findeme.cl');
-    setLoginPassword('••••••••');
-    executeRoleRedirection('pet_owner');
-  };
-
-  const handleQuickDemoRestaurant = () => {
-    setLoginEmail('gerencia@bistrocostanera.cl');
-    setLoginPassword('••••••••');
-    executeRoleRedirection('restaurant_owner');
-  };
-
-  // =========================================================================
-  // 3. ACTIVACIÓN MODULAR DE CUENTA / DISPOSITIVO
+  // 2. ACTIVACIÓN MODULAR DE CUENTA / DISPOSITIVO
   // =========================================================================
   const handleRegisterDeviceSubmit = async (e) => {
     e.preventDefault();
@@ -260,16 +245,10 @@ export default function LoginPage() {
       <div className="max-w-xl w-full bg-[#121316] border border-white/[0.08] rounded-[32px] p-7 sm:p-9 shadow-2xl relative z-10 backdrop-blur-xl">
         
         {/* Encabezado General */}
-        <div className="text-center space-y-2 mb-8">
-          <span className="inline-block px-3 py-1 rounded-full bg-orange-brand/10 border border-orange-brand/20 text-orange-brand font-mono text-[11px] uppercase tracking-widest font-bold">
-            • ÁREA DE CLIENTES & SOCIOS SaaS
-          </span>
+        <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
             FindeMe <span className="text-orange-brand">ID</span>
           </h1>
-          <p className="text-xs sm:text-sm text-muted-light max-w-md mx-auto leading-relaxed font-light">
-            Accede a tu panel de control inteligente: gestiona tus dispositivos NFC (Mascotas & Kids) o administra el SaaS de Fidelización de tu Restaurante.
-          </p>
         </div>
 
         {/* Selector de Pestañas: Iniciar Sesión / Activar Cuenta */}
@@ -357,45 +336,6 @@ export default function LoginPage() {
                 {isLoading ? 'Verificando Credenciales...' : 'Iniciar Sesión'}
               </button>
             </form>
-
-            {/* SEPARADOR & ACCESOS DEMO RÁPIDOS (1 CLIC) */}
-            <div className="pt-5 border-t border-white/[0.08] space-y-3">
-              <span className="text-[10px] font-mono uppercase tracking-widest text-muted-dim block text-center">
-                O prueba el sistema al instante con 1 clic:
-              </span>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-                <button
-                  type="button"
-                  onClick={handleQuickDemoPet}
-                  className="py-3 px-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-teal-brand/40 text-xs font-mono text-left transition-all group flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">⚡</span>
-                    <div>
-                      <strong className="text-white block text-xs">Demo Mascota</strong>
-                      <span className="text-[10px] text-teal-brand font-mono">Dueño (Luna)</span>
-                    </div>
-                  </div>
-                  <span className="text-muted-dim group-hover:text-white transition-colors">→</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={handleQuickDemoRestaurant}
-                  className="py-3 px-3.5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-orange-brand/40 text-xs font-mono text-left transition-all group flex items-center justify-between"
-                >
-                  <div className="flex items-center gap-2">
-                    <span className="text-base">🍽️</span>
-                    <div>
-                      <strong className="text-white block text-xs">Demo Restaurante</strong>
-                      <span className="text-[10px] text-orange-brand font-mono">Bistró & Cocktails</span>
-                    </div>
-                  </div>
-                  <span className="text-muted-dim group-hover:text-white transition-colors">→</span>
-                </button>
-              </div>
-            </div>
           </div>
         )}
 
