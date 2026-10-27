@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 export default function ProductShowcase() {
-  // 5 Devices in the FindMe Ecosystem
+  // 5 Devices in the Vigio Ecosystem
   const devices = [
     {
       id: 0,
@@ -15,7 +15,7 @@ export default function ProductShowcase() {
         header: 'Mis Mascotas',
         status: 'Placa NTAG213 Activa',
         reads: '14 lecturas este mes',
-        plateId: 'FINDME-9824-CL'
+        plateId: 'VIGIO-9824-CL'
       }
     },
     {

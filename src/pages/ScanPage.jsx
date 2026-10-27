@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
+import VigioActivationForm from '../components/VigioActivationForm';
 
 export default function ScanPage() {
   const { code } = useParams();
   const [loading, setLoading] = useState(true);
   const [deviceData, setDeviceData] = useState(null);
   const [profileData, setProfileData] = useState(null);
+  const [isUnactivated, setIsUnactivated] = useState(false);
   const [gpsSent, setGpsSent] = useState(false);
   const [gpsSending, setGpsSending] = useState(false);
   const [errorNotice, setErrorNotice] = useState(null);
@@ -17,192 +19,228 @@ export default function ScanPage() {
   const [billRequested, setBillRequested] = useState(false);
   const [showMenuModal, setShowMenuModal] = useState(false);
 
-  useEffect(() => {
-    async function fetchScanData() {
-      setLoading(true);
-      setErrorNotice(null);
+  const fetchScanData = async () => {
+    setLoading(true);
+    setErrorNotice(null);
+    setIsUnactivated(false);
 
-      const isRestCode = code && (code.startsWith('REST-') || code.includes('BAR') || code.includes('MESA'));
-      const isKidCode = code && (code.startsWith('KID-') || code.startsWith('NIÑO-') || code.includes('KIDS'));
+    const isRestCode = code && (code.startsWith('REST-') || code.includes('BAR') || code.includes('MESA'));
+    const isKidCode = code && (code.startsWith('KID-') || code.startsWith('NIÑO-') || code.includes('KIDS'));
 
-      let placa = null;
-
-      if (isSupabaseConfigured() && supabase) {
-        try {
-          const { data, error } = await supabase
-            .from('placas_nfc')
-            .select('*')
-            .eq('codigo_publico', code)
-            .single();
-          if (!error && data) {
-            placa = data;
-          }
-        } catch (e) {
-          console.warn('Placa lookup error:', e);
-        }
-      }
-
-      const category = placa?.categoria || (isRestCode ? 'restaurante' : isKidCode ? 'kids' : 'mascota');
-      setDeviceData(placa || { codigo_publico: code, categoria: category });
-
-      // =========================================================================
-      // 1. DIVISIÓN RESTAURANTES (PEANAS NFC DE MESA)
-      // =========================================================================
-      if (category === 'restaurante') {
-        let mesa = null;
-        let rest = null;
-
-        if (supabase && isSupabaseConfigured()) {
-          try {
-            if (placa?.id) {
-              const { data: mData } = await supabase
-                .from('restaurant_mesas')
-                .select('*')
-                .eq('placa_id', placa.id)
-                .single();
-              mesa = mData;
-            }
-
-            const { data: rData } = await supabase
-              .from('restaurantes')
-              .select('*')
-              .eq('slug', 'bistro-costanera')
-              .single();
-            rest = rData;
-          } catch (e) {
-            console.warn('Restaurant fetch error:', e);
-          }
-        }
-
-        // Deducir número de mesa si no viene en DB
-        let numeroMesa = mesa?.numero_mesa;
-        if (!numeroMesa) {
-          if (code?.includes('004')) numeroMesa = 'Mesa 4';
-          else if (code?.includes('008')) numeroMesa = 'Mesa 8 (Terraza)';
-          else if (code?.includes('014')) numeroMesa = 'Mesa 14';
-          else if (code?.includes('002')) numeroMesa = 'Mesa Barra 2';
-          else numeroMesa = 'Mesa 4';
-        }
-
-        const nombreLocal = mesa?.nombre_local || rest?.nombre || 'Bistró & Cocktails Costanera';
-        const wifiSSID = mesa?.wifi_ssid || rest?.wifi_ssid || 'Bistro_Clientes_VIP';
-        const wifiPass = mesa?.wifi_password || rest?.wifi_password || 'BistroVip2026';
-        const slug = rest?.slug || 'bistro-costanera';
-
-        setProfileData({
-          type: 'restaurante',
-          codigo: code,
-          nombre_local: nombreLocal,
-          numero_mesa: numeroMesa,
-          tipo_gastronomia: rest?.tipo_gastronomia || 'Gastronomía & Coctelería de Autor',
-          wifi_ssid: wifiSSID,
-          wifi_password: wifiPass,
-          url_carta: rest?.url_carta_digital || 'https://findeme.cl/menu/bistro-costanera',
-          slug: slug,
-          foto: '/images/findme-restaurant-loyalty.jpg',
-          placa_id: placa?.id
-        });
-        setLoading(false);
-        return;
-      }
-
-      // =========================================================================
-      // 2. DIVISIÓN KIDS (PULSERAS NFC INFANTILES)
-      // =========================================================================
-      if (category === 'kids') {
-        setProfileData({
-          type: 'kids',
-          codigo: code || 'KID-4109',
-          nombre: 'Martina González',
-          edad: '5 años',
-          ciudad: 'Providencia, Santiago',
-          alerta: 'safe',
-          grupo_sanguineo: 'A Positivo (A+)',
-          alergia_severa: 'Maní / Frutos Secos',
-          mensaje_padres: 'Martina suele ponerse tímida si se pierde. Por favor llama de inmediato a sus padres o comparte tu ubicación.',
-          mama_telefono: '+56 9 9876 5432',
-          papa_telefono: '+56 9 8765 4321',
-          foto: '/images/findme-kids-wristband.jpg',
-          placa_id: placa?.id
-        });
-        setLoading(false);
-        return;
-      }
-
-      // =========================================================================
-      // 3. DIVISIÓN MASCOTAS (LUNA / RESCATE NFC)
-      // =========================================================================
-      const fallbackLuna = {
-        type: 'mascota',
-        codigo: code || 'FINDME-9824-CL',
-        nombre: 'Luna',
-        especie: 'Perro (Golden Retriever)',
-        foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
-        alerta: 'lost',
-        acerca_de: 'Muy dócil y cariñosa. Requiere alimento hipoalergénico.',
-        alergias: ['Pollo', 'Cereales procesados'],
-        medicamentos: ['Apoquel (Dermatitis estacional)'],
-        owner_nombre: 'Carlos Mendoza',
-        owner_telefono: '+56 9 8765 4321',
-        owner_whatsapp: '56987654321',
-        owner_ciudad: 'Santiago, Chile',
-      };
-
-      if (!isSupabaseConfigured() || !supabase) {
-        setProfileData(fallbackLuna);
-        setLoading(false);
-        return;
-      }
-
+    // 0. Comprobar si existe simulación local de activación
+    const localActive = localStorage.getItem(`vigio_active_${code}`);
+    if (localActive) {
       try {
-        if (placa?.id) {
-          const { data: mascota } = await supabase
-            .from('mascotas')
-            .select('*')
-            .eq('placa_id', placa.id)
-            .single();
+        const parsed = JSON.parse(localActive);
+        setProfileData({
+          type: 'mascota',
+          codigo: code,
+          nombre: parsed.nombre,
+          especie: parsed.raza_o_modelo || 'Mascota Protegida',
+          foto: parsed.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+          alerta: parsed.estado_alerta || 'lost',
+          acerca_de: parsed.alergias ? `Alergias / Cuidados: ${parsed.alergias}` : 'Mascota protegida con tecnología Vigio.',
+          alergias: parsed.alergias ? [parsed.alergias] : [],
+          medicamentos: parsed.cuidados_especiales ? [parsed.cuidados_especiales] : [],
+          owner_nombre: parsed.nombre_contacto || 'Dueño Vigio',
+          owner_telefono: parsed.telefono_contacto || '+56 9 8765 4321',
+          owner_whatsapp: parsed.whatsapp_contacto || '56987654321',
+          owner_ciudad: parsed.ciudad || 'Chile',
+          placa_id: 'local-demo'
+        });
+        setLoading(false);
+        return;
+      } catch (e) {
+        console.warn('Error reading local active:', e);
+      }
+    }
 
-          let owner = null;
-          if (placa.user_id) {
-            const { data: prof } = await supabase
-              .from('profiles')
+    // 1. Consulta a Supabase
+    if (isSupabaseConfigured() && supabase) {
+      try {
+        // A) Buscar en tabla placas_vigio (nueva arquitectura de 100 placas con token)
+        const { data: placaVigio } = await supabase
+          .from('placas_vigio')
+          .select('*')
+          .eq('token', code)
+          .maybeSingle();
+
+        if (placaVigio) {
+          // ESTADO 1: No vendido / No activado
+          if (placaVigio.estado === 'fabricada' || !placaVigio.owner_id) {
+            // Verificar si tiene perfil asociado
+            const { data: perfilVigio } = await supabase
+              .from('perfiles_vigio')
               .select('*')
-              .eq('id', placa.user_id)
-              .single();
-            owner = prof;
+              .eq('placa_id', placaVigio.id)
+              .maybeSingle();
+
+            if (!perfilVigio) {
+              setDeviceData(placaVigio);
+              setIsUnactivated(true);
+              setLoading(false);
+              return;
+            }
           }
 
-          if (mascota) {
+          // ESTADO 2: Activada -> Obtener perfil del objeto/mascota
+          const { data: perfilVigio } = await supabase
+            .from('perfiles_vigio')
+            .select('*')
+            .eq('placa_id', placaVigio.id)
+            .maybeSingle();
+
+          if (perfilVigio) {
             setProfileData({
               type: 'mascota',
-              codigo: placa.codigo_publico,
-              nombre: mascota.nombre,
-              especie: `${mascota.especie} (${mascota.raza || 'Mestizo'})`,
-              foto: mascota.foto_url || fallbackLuna.foto,
-              alerta: mascota.estado_alerta || 'safe',
-              acerca_de: mascota.acerca_de || 'Mascota registrada en FindeMe.',
-              alergias: mascota.alergias_alimentos || [],
-              medicamentos: mascota.alergias_medicamentos || [],
-              owner_nombre: owner?.nombre_completo || 'Dueño FindeMe',
-              owner_telefono: owner?.telefono || '+56 9 8765 4321',
-              owner_whatsapp: owner?.whatsapp || '56987654321',
-              owner_ciudad: owner?.ciudad || 'Chile',
-              mascota_id: mascota.id,
-              placa_id: placa.id
+              codigo: placaVigio.token,
+              nombre: perfilVigio.nombre,
+              especie: perfilVigio.raza_o_modelo || 'Mascota Registrada',
+              foto: perfilVigio.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+              alerta: perfilVigio.estado_alerta || 'lost',
+              mensaje_auxilio: perfilVigio.mensaje_auxilio || '¡Hola! Me he perdido, por favor contacta a mi dueño.',
+              acerca_de: perfilVigio.alergias || perfilVigio.cuidados_especiales || 'Mascota protegida con tecnología Vigio.',
+              alergias: perfilVigio.alergias ? [perfilVigio.alergias] : [],
+              medicamentos: perfilVigio.cuidados_especiales ? [perfilVigio.cuidados_especiales] : [],
+              owner_nombre: perfilVigio.nombre_contacto || 'Dueño Vigio',
+              owner_telefono: perfilVigio.telefono_contacto,
+              owner_whatsapp: perfilVigio.whatsapp_contacto,
+              owner_ciudad: perfilVigio.ciudad || 'Chile',
+              placa_id: placaVigio.id
             });
             setLoading(false);
             return;
           }
         }
-        setProfileData(fallbackLuna);
+
+        // B) Compatibilidad con tabla previa placas_nfc
+        const { data: placaLegacy } = await supabase
+          .from('placas_nfc')
+          .select('*')
+          .eq('codigo_publico', code)
+          .maybeSingle();
+
+        if (placaLegacy) {
+          const category = placaLegacy.categoria || 'mascota';
+          setDeviceData(placaLegacy);
+
+          if (category === 'mascota') {
+            const { data: mascota } = await supabase
+              .from('mascotas')
+              .select('*')
+              .eq('placa_id', placaLegacy.id)
+              .maybeSingle();
+
+            if (!mascota) {
+              setIsUnactivated(true);
+              setLoading(false);
+              return;
+            }
+
+            let owner = null;
+            if (placaLegacy.user_id) {
+              const { data: prof } = await supabase
+                .from('profiles')
+                .select('*')
+                .eq('id', placaLegacy.user_id)
+                .maybeSingle();
+              owner = prof;
+            }
+
+            setProfileData({
+              type: 'mascota',
+              codigo: placaLegacy.codigo_publico,
+              nombre: mascota.nombre,
+              especie: `${mascota.especie} (${mascota.raza || 'Mestizo'})`,
+              foto: mascota.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+              alerta: mascota.estado_alerta || 'safe',
+              acerca_de: mascota.acerca_de || 'Mascota registrada en Vigio.',
+              alergias: mascota.alergias_alimentos || [],
+              medicamentos: mascota.alergias_medicamentos || [],
+              owner_nombre: owner?.nombre_completo || 'Dueño Vigio',
+              owner_telefono: owner?.telefono || '+56 9 8765 4321',
+              owner_whatsapp: owner?.whatsapp || '56987654321',
+              owner_ciudad: owner?.ciudad || 'Chile',
+              mascota_id: mascota.id,
+              placa_id: placaLegacy.id
+            });
+            setLoading(false);
+            return;
+          }
+        }
       } catch (err) {
         console.warn('Scan read error:', err);
-        setProfileData(fallbackLuna);
-      } finally {
-        setLoading(false);
       }
     }
 
+    // 2. Fallbacks de demostración (si es token desconocido corto de 6-8 chars -> Estado 1 No activado para probar)
+    if (code && code.length >= 6 && code.length <= 12 && !isRestCode && !isKidCode && !code.includes('9824')) {
+      setIsUnactivated(true);
+      setLoading(false);
+      return;
+    }
+
+    // Si es demo o restaurante
+    const category = isRestCode ? 'restaurante' : isKidCode ? 'kids' : 'mascota';
+    setDeviceData({ codigo_publico: code, categoria: category });
+
+    if (category === 'restaurante') {
+      setProfileData({
+        type: 'restaurante',
+        codigo: code,
+        nombre_local: 'Bistró & Cocktails Costanera',
+        numero_mesa: 'Mesa 4',
+        tipo_gastronomia: 'Gastronomía & Coctelería de Autor',
+        wifi_ssid: 'Bistro_Clientes_VIP',
+        wifi_password: 'BistroVip2026',
+        url_carta: 'https://vigio.cl/menu/bistro-costanera',
+        slug: 'bistro-costanera',
+        foto: '/images/findme-restaurant-loyalty.jpg',
+      });
+      setLoading(false);
+      return;
+    }
+
+    if (category === 'kids') {
+      setProfileData({
+        type: 'kids',
+        codigo: code || 'KID-4109',
+        nombre: 'Martina González',
+        edad: '5 años',
+        ciudad: 'Providencia, Santiago',
+        alerta: 'safe',
+        grupo_sanguineo: 'A Positivo (A+)',
+        alergia_severa: 'Maní / Frutos Secos',
+        mensaje_padres: 'Martina suele ponerse tímida si se pierde. Por favor llama de inmediato a sus padres o comparte tu ubicación.',
+        mama_telefono: '+56 9 9876 5432',
+        papa_telefono: '+56 9 8765 4321',
+        foto: '/images/vigio-pulsera-nfc.jpg',
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Fallback Luna si es demo de Luna (VIGIO-9824-CL)
+    setProfileData({
+      type: 'mascota',
+      codigo: code || 'VIGIO-9824-CL',
+      nombre: 'Luna',
+      especie: 'Perro (Golden Retriever)',
+      foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
+      alerta: 'lost',
+      mensaje_auxilio: '¡Hola! Me he perdido, por favor contacta a mi dueño.',
+      acerca_de: 'Muy dócil y cariñosa. Requiere alimento hipoalergénico.',
+      alergias: ['Pollo', 'Cereales procesados'],
+      medicamentos: ['Apoquel (Dermatitis estacional)'],
+      owner_nombre: 'Carlos Mendoza',
+      owner_telefono: '+56 9 8765 4321',
+      owner_whatsapp: '56987654321',
+      owner_ciudad: 'Santiago, Chile',
+    });
+    setLoading(false);
+  };
+
+  useEffect(() => {
     fetchScanData();
   }, [code]);
 
@@ -275,6 +313,20 @@ export default function ScanPage() {
           Leyendo telemetría NFC del dispositivo...
         </p>
       </div>
+    );
+  }
+
+  // =========================================================================
+  // ESTADO 1: PLACA NO ACTIVADA / RECIÉN FABRICADA
+  // =========================================================================
+  if (isUnactivated) {
+    return (
+      <VigioActivationForm 
+        token={code} 
+        onActivated={() => {
+          fetchScanData();
+        }} 
+      />
     );
   }
 
@@ -540,7 +592,7 @@ export default function ScanPage() {
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-teal-brand animate-ping" />
               <span className="text-xs font-mono text-teal-brand uppercase tracking-widest font-bold">
-                Pulsera FindeMe Kids Activa
+                Pulsera Vigio Kids Activa
               </span>
             </div>
             <span className="text-xs font-mono text-white/50 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
@@ -686,12 +738,22 @@ export default function ScanPage() {
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-mono uppercase bg-white/20 backdrop-blur-md border border-white/30 text-white">
-                FindeMe Animales
+                Vigio Mascotas
               </span>
             </div>
           </div>
 
           <div className="p-6 space-y-6">
+
+            {/* Banner Destacado del Mensaje de Rescate */}
+            <div className="p-4 rounded-2xl bg-orange-brand/15 border border-orange-brand/30 text-white shadow-inner">
+              <span className="text-[10px] font-mono text-orange-brand uppercase tracking-wider block font-bold mb-1">
+                Aviso de Emergencia
+              </span>
+              <p className="text-sm font-semibold text-zinc-100 leading-snug">
+                “{profileData?.mensaje_auxilio || '¡Hola! Me he perdido, por favor contacta a mi dueño.'}”
+              </p>
+            </div>
             
             {/* Quick Actions (Call & WhatsApp) */}
             <div className="grid grid-cols-2 gap-3">
@@ -704,7 +766,7 @@ export default function ScanPage() {
               </a>
 
               <a
-                href={`https://wa.me/${profileData?.owner_whatsapp}?text=${encodeURIComponent(`¡Hola! Encontré a ${profileData?.nombre} con su placa FindeMe (${code}). ¿Cómo coordinamos para devolverlo?`)}`}
+                href={`https://wa.me/${profileData?.owner_whatsapp}?text=${encodeURIComponent(`¡Hola! Encontré a ${profileData?.nombre} con su placa Vigio (${code}). ¿Cómo coordinamos para devolverlo?`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-teal-brand hover:bg-teal-brand/90 font-bold text-sm text-ink shadow-lg transition-transform active:scale-95"

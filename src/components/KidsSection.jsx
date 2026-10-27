@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function KidsSection() {
-  const [activeTab, setActiveTab] = useState('simulador');
+  const [productView, setProductView] = useState('pulsera'); // 'pulsera' | 'lifestyle'
 
   return (
     <section 
@@ -15,7 +15,11 @@ export default function KidsSection() {
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-10">
         
         {/* Section Header */}
-        <div className="max-w-3xl mb-16">
+        <div className="max-w-3xl mb-16 space-y-3">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-teal-brand/15 border border-teal-brand/30 text-teal-brand text-xs font-mono font-bold uppercase tracking-widest">
+            <span className="w-2 h-2 rounded-full bg-teal-brand animate-pulse" />
+            <span>Vigio Kids · Seguridad Infantil NFC</span>
+          </div>
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
             Seguridad activa en la muñeca. <br />
@@ -25,30 +29,64 @@ export default function KidsSection() {
           </h2>
 
           <p className="text-muted-light text-base sm:text-xl font-light mt-4 max-w-2xl leading-relaxed">
-            Pulseras inteligentes de silicona hipoalergénica con microchip NFC pasivo. Diseñadas para playas, centros comerciales, parques de diversiones y salidas escolares.
+            Pulseras inteligentes de silicona hipoalergénica con microchip NFC pasivo. Grabadas con código QR y mensaje de rescate Vigio. Diseñadas para playas, centros comerciales, parques de diversiones y salidas escolares.
           </p>
         </div>
 
         {/* 2-Column Showcase */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           
-          {/* Column 1: High-Resolution Lifestyle Photography */}
-          <div className="relative rounded-[36px] overflow-hidden border border-white/10 shadow-2xl group">
-            <img 
-              src="/images/findme-kids-wristband.jpg" 
-              alt="Niña en el parque usando pulsera inteligente NFC FindeMe Kids" 
-              className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
-            />
+          {/* Column 1: Real Product Hardware & Lifestyle Photography */}
+          <div className="relative rounded-[36px] overflow-hidden border border-white/10 shadow-2xl group bg-[#0d0e12] flex flex-col justify-between">
             
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-            
-            {/* Overlay spec badges */}
-            <div className="absolute bottom-6 left-6 right-6 flex items-center justify-between text-xs font-mono">
-              <span className="bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 text-teal-brand">
-                ✓ Silicona Grado Médico IP68
+            {/* View Switcher Pill */}
+            <div className="p-4 flex items-center justify-between border-b border-white/10 bg-black/40 backdrop-blur-md">
+              <span className="text-xs font-mono text-zinc-400 uppercase tracking-wider">
+                {productView === 'pulsera' ? 'Hardware Oficial Vigio' : 'Fotografía en Uso'}
               </span>
-              <span className="bg-black/70 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-white/15 text-white/90">
-                100% Sumergible en Agua
+              <div className="flex bg-white/5 p-1 rounded-full border border-white/10 text-xs font-mono">
+                <button
+                  type="button"
+                  onClick={() => setProductView('pulsera')}
+                  className={`px-3 py-1 rounded-full transition-all ${
+                    productView === 'pulsera' 
+                      ? 'bg-orange-brand text-white font-bold shadow-md shadow-orange-brand/30' 
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  Pulsera Vigio Real
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setProductView('lifestyle')}
+                  className={`px-3 py-1 rounded-full transition-all ${
+                    productView === 'lifestyle' 
+                      ? 'bg-orange-brand text-white font-bold shadow-md shadow-orange-brand/30' 
+                      : 'text-zinc-400 hover:text-white'
+                  }`}
+                >
+                  En Niños
+                </button>
+              </div>
+            </div>
+
+            {/* Image Box */}
+            <div className="relative aspect-[4/3] flex items-center justify-center p-2 bg-[#090a0d] overflow-hidden">
+              <img 
+                src={productView === 'pulsera' ? '/images/vigio-pulsera-nfc.jpg' : '/images/findme-kids-wristband.jpg'} 
+                alt="Pulsera inteligente NFC Vigio Kids de silicona con código QR y NFC" 
+                className={`w-full h-full ${productView === 'pulsera' ? 'object-contain scale-95 hover:scale-105' : 'object-cover hover:scale-105'} transition-transform duration-700`}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent pointer-events-none" />
+            </div>
+            
+            {/* Spec badges */}
+            <div className="p-4 border-t border-white/10 bg-black/60 backdrop-blur-md flex items-center justify-between text-xs font-mono">
+              <span className="text-teal-brand font-semibold">
+                ✓ Silicona Médica IP68
+              </span>
+              <span className="text-orange-brand font-bold">
+                NFC + QR @vigio.cl
               </span>
             </div>
           </div>

@@ -127,7 +127,7 @@ export default function Hero() {
               href="#contacto" 
               className="inline-flex items-center justify-center font-extrabold px-8 py-4 rounded-full bg-orange-brand text-white hover:bg-orange-hover hover:scale-105 transition-all shadow-xl shadow-orange-brand/25 text-sm tracking-wide"
             >
-              Adquirir Placa FindMe
+              Adquirir Placa Vigio
             </a>
 
             <a 
@@ -169,7 +169,7 @@ export default function Hero() {
             <img 
               ref={phoneImgRef}
               src="/images/iphone-16-pro-angle.jpg" 
-              alt="iPhone 16 Pro Titanium con Ficha de Rescate FindMe" 
+              alt="iPhone 16 Pro Titanium con Ficha de Rescate Vigio" 
               className="w-full h-full object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.85)] rounded-[44px]"
             />
 

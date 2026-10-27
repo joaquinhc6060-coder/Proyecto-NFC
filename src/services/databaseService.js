@@ -15,7 +15,7 @@ const eventListeners = new Set();
 let crossTabChannel = null;
 
 if (typeof window !== 'undefined' && 'BroadcastChannel' in window) {
-  crossTabChannel = new BroadcastChannel('findeme_restaurant_realtime');
+  crossTabChannel = new BroadcastChannel('vigio_restaurant_realtime');
   crossTabChannel.onmessage = (event) => {
     eventListeners.forEach((callback) => {
       try {

@@ -5,7 +5,7 @@
 // Incluye Geofencing (100m) para notificaciones de cercanía y Push a pantalla de bloqueo.
 // =========================================================================
 
-const APPLE_PASS_TYPE_ID = import.meta.env.VITE_APPLE_PASS_TYPE_ID || 'pass.cl.findeme.loyalty';
+const APPLE_PASS_TYPE_ID = import.meta.env.VITE_APPLE_PASS_TYPE_ID || 'pass.cl.vigio.loyalty';
 const APPLE_ENDPOINT = import.meta.env.VITE_APPLE_PASS_ENDPOINT || '';
 const GOOGLE_ISSUER_ID = import.meta.env.VITE_GOOGLE_WALLET_ISSUER_ID || '';
 const GOOGLE_ENDPOINT = import.meta.env.VITE_GOOGLE_WALLET_ENDPOINT || '';
@@ -39,10 +39,10 @@ export async function generateWalletPass(customerData, restaurantConfig = {}) {
     formatVersion: 1,
     passTypeIdentifier: APPLE_PASS_TYPE_ID,
     serialNumber,
-    teamIdentifier: import.meta.env.VITE_APPLE_TEAM_ID || 'FINDEME2026',
+    teamIdentifier: import.meta.env.VITE_APPLE_TEAM_ID || 'VIGIO2026',
     organizationName: restaurantConfig.nombre || 'Bistró Costanera',
-    description: 'Tarjeta VIP Loyalty FindeMe',
-    logoText: restaurantConfig.nombre || 'FINDEME VIP',
+    description: 'Tarjeta VIP Loyalty Vigio',
+    logoText: restaurantConfig.nombre || 'VIGIO VIP',
     foregroundColor: 'rgb(255, 255, 255)',
     backgroundColor: 'rgb(10, 10, 11)',
     labelColor: 'rgb(156, 163, 175)',
@@ -92,12 +92,12 @@ export async function generateWalletPass(customerData, restaurantConfig = {}) {
         {
           key: 'contact',
           label: 'Atención al Cliente',
-          value: 'soporte@findeme.cl'
+          value: 'soporte@vigio.cl'
         }
       ]
     },
     barcode: {
-      message: `FINDEME:${customerData.id}:${customerData.qrSalt || 'SECURE'}`,
+      message: `VIGIO:${customerData.id}:${customerData.qrSalt || 'SECURE'}`,
       format: 'PKBarcodeFormatQR',
       messageEncoding: 'iso-8859-1',
       altText: 'Presenta este QR al garzón para validar'

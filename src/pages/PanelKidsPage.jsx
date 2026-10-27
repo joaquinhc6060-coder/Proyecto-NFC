@@ -47,7 +47,7 @@ export default function PanelKidsPage() {
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2.5 h-2.5 rounded-full bg-teal-brand animate-pulse" />
               <span className="font-mono text-xs font-bold uppercase tracking-widest text-teal-brand">
-                PANEL DE SEGURIDAD · FINEDEME KIDS
+                PANEL DE SEGURIDAD · VIGIO KIDS
               </span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-black text-white">

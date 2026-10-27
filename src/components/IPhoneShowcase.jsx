@@ -67,7 +67,7 @@ export default function IPhoneShowcase() {
             {/* Real photorealistic iPhone 16 Pro studio render */}
             <img 
               src="/images/iphone-16-pro-front.jpg" 
-              alt="iPhone 16 Pro Max mostrando perfil FindMe" 
+              alt="iPhone 16 Pro Max mostrando perfil Vigio" 
               className="w-full h-full object-contain rounded-[48px] drop-shadow-[0_25px_60px_rgba(0,0,0,0.95)]"
             />
 

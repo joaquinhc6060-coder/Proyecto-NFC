@@ -3,7 +3,7 @@ import KidsSection from '../components/KidsSection';
 export default function KidsPage() {
   return (
     <div className="space-y-0">
-      {/* 1. Full FindeMe Kids Division (Wristbands & Martina Profile Simulator) */}
+      {/* 1. Full Vigio Kids Division (Wristbands & Martina Profile Simulator) */}
       <KidsSection />
     </div>
   );

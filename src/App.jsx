@@ -46,22 +46,22 @@ export default function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/pagina_principal" element={<HomePage />} />
 
-            {/* 2. FindeMe Mascotas / Animales (Universal, Luna reference, no 3D inspection) */}
+            {/* 2. Vigio Mascotas / Animales (Universal, Luna reference, no 3D inspection) */}
             <Route path="/mascotas" element={<MascotasPage />} />
             <Route path="/animales" element={<MascotasPage />} />
 
-            {/* 3. FindeMe Kids (Waterproof silicone wristbands & Martina simulation) */}
+            {/* 3. Vigio Kids (Waterproof silicone wristbands & Martina simulation) */}
             <Route path="/kids" element={<KidsPage />} />
             <Route path="/ninos" element={<KidsPage />} />
 
-            {/* 4. FindeMe Restaurantes & VIP Loyalty (Table stands & VIP Loyalty Cards) */}
+            {/* 4. Vigio Restaurantes & VIP Loyalty (Table stands & VIP Loyalty Cards) */}
             <Route path="/restaurantes" element={<RestaurantesPage />} />
             <Route path="/restaurant" element={<RestaurantesPage />} />
 
             {/* 5. Contacto (Ruta dedicada estándar) */}
             <Route path="/contacto" element={<ContactoPage />} />
 
-            {/* 6. Login / Portal del Dueño (FindeMe ID - RBAC) */}
+            {/* 6. Login / Portal del Dueño (Vigio ID - RBAC) */}
             <Route path="/login" element={<LoginPage />} />
             <Route path="/minfc" element={<LoginPage />} />
 

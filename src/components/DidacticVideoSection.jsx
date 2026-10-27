@@ -58,7 +58,7 @@ export default function DidacticVideoSection() {
         <div className="text-center max-w-3xl mx-auto mb-12">
 
           <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-[-0.035em] leading-[1.05] uppercase">
-            Con FindeMe, <br />
+            Con Vigio, <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand">
               tu mascota se sentirá más segura.
             </span>

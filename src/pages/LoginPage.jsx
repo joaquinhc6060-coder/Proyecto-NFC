@@ -113,6 +113,7 @@ export default function LoginPage() {
 
   // Redirección definitiva basada en el rol del usuario (RBAC)
   const executeRoleRedirection = (role) => {
+    localStorage.setItem('vigio_user_role', role);
     localStorage.setItem('findeme_user_role', role);
     setSuccessMessage(`✓ Acceso concedido como [${role}]. Redirigiendo a tu panel...`);
 
@@ -231,7 +232,7 @@ export default function LoginPage() {
           className="inline-flex items-center gap-2 text-xs font-mono text-muted-light hover:text-white transition-colors px-3 py-1.5 rounded-full bg-white/5 border border-white/10"
         >
           <span>←</span>
-          <span>Volver a FindeMe</span>
+          <span>Volver a Vigio</span>
         </Link>
 
         {/* Badge de conexión Supabase Cloud */}
@@ -241,13 +242,16 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Tarjeta Principal de FindeMe ID */}
+      {/* Tarjeta Principal de Vigio ID */}
       <div className="max-w-xl w-full bg-[#121316] border border-white/[0.08] rounded-[32px] p-7 sm:p-9 shadow-2xl relative z-10 backdrop-blur-xl">
         
-        {/* Encabezado General */}
-        <div className="text-center mb-8">
+        {/* Encabezado General con Logo Vigio */}
+        <div className="text-center mb-8 flex flex-col items-center">
+          <div className="w-16 h-16 rounded-2xl bg-orange-brand overflow-hidden shadow-xl shadow-orange-brand/25 ring-2 ring-white/10 mb-3 flex items-center justify-center p-1">
+            <img src="/images/vigio-logo.jpg" alt="Vigio Logo" className="w-full h-full object-cover scale-110 rounded-xl" />
+          </div>
           <h1 className="text-3xl sm:text-4xl font-black text-white tracking-tight">
-            FindeMe <span className="text-orange-brand">ID</span>
+            Vigio <span className="text-orange-brand">ID</span>
           </h1>
         </div>
 
@@ -306,7 +310,7 @@ export default function LoginPage() {
                   id="email-input"
                   type="email"
                   required
-                  placeholder="ejemplo@findeme.cl"
+                  placeholder="ejemplo@vigio.cl"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
                   className="w-full px-4 py-3 rounded-2xl bg-black/50 border border-white/10 text-white text-sm focus:outline-none focus:border-orange-brand transition-colors font-mono"
@@ -474,7 +478,7 @@ export default function LoginPage() {
                   <input
                     type="text"
                     required
-                    placeholder="FINDME-9824-CL"
+                    placeholder="VIGIO-9824-CL"
                     value={deviceData.nfcCode}
                     onChange={(e) => setDeviceData({ ...deviceData, nfcCode: e.target.value.toUpperCase() })}
                     className="w-full px-3.5 py-2.5 rounded-xl bg-black/50 border border-orange-brand/40 text-orange-brand font-mono font-bold text-xs"
@@ -496,7 +500,7 @@ export default function LoginPage() {
               <form onSubmit={handleRegisterRestaurantSubmit} className="space-y-3.5">
                 
                 <div className="p-3 rounded-xl bg-orange-brand/10 border border-orange-brand/20 text-orange-light text-[11px] font-mono leading-relaxed">
-                  🔒 Registro comercial exclusivo para restaurantes con peanas NFC y suscripción FindeMe SaaS.
+                  🔒 Registro comercial exclusivo para restaurantes con peanas NFC y suscripción Vigio SaaS.
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

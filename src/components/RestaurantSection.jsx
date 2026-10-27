@@ -79,7 +79,7 @@ export default function RestaurantSection() {
           <div className="relative rounded-[36px] overflow-hidden border border-white/10 shadow-2xl group">
             <img
               src="/images/findme-restaurant-loyalty.jpg"
-              alt="Peana NFC para mesas de restaurante y tarjeta VIP de fidelización FindeMe"
+              alt="Peana NFC para mesas de restaurante y tarjeta VIP de fidelización Vigio"
               className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
             />
 
@@ -186,7 +186,7 @@ export default function RestaurantSection() {
                   <div className="p-5 rounded-2xl bg-gradient-to-r from-[#1c1f27] via-[#242833] to-[#12141a] border border-white/20 shadow-xl relative overflow-hidden">
                     <div className="flex items-center justify-between mb-4">
                       <span className="font-mono text-xs font-bold text-teal-brand uppercase tracking-widest">
-                        FINDEME VIP LOYALTY
+                        VIGIO VIP LOYALTY
                       </span>
                       <span className="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full">
                         ● Pase Nativo

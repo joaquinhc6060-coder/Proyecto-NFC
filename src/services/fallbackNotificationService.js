@@ -8,7 +8,7 @@
 const WHATSAPP_TOKEN = import.meta.env.VITE_WHATSAPP_API_TOKEN || '';
 const WHATSAPP_PHONE_ID = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER_ID || '';
 const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY || '';
-const RESEND_FROM_EMAIL = import.meta.env.VITE_RESEND_FROM_EMAIL || 'vip@findeme.cl';
+const RESEND_FROM_EMAIL = import.meta.env.VITE_RESEND_FROM_EMAIL || 'vip@vigio.cl';
 const FORCE_MOCK = import.meta.env.VITE_USE_MOCK_APIS === 'true';
 
 export const isWhatsAppConfigured = () => {
@@ -32,9 +32,9 @@ export const isResendConfigured = () => {
 export async function sendFallbackNotification({
   customer,
   channel = 'auto',
-  messageTitle = 'Tu tarjeta VIP FindeMe',
+  messageTitle = 'Tu tarjeta VIP Vigio',
   messageBody = 'Accede a tus sellos y beneficios exclusivos.',
-  passUrl = 'https://findeme.cl/restaurante/mi-tarjeta'
+  passUrl = 'https://vigio.cl/restaurante/mi-tarjeta'
 }) {
   const chosenChannel = channel === 'auto'
     ? (customer.telefono ? 'whatsapp' : 'email')

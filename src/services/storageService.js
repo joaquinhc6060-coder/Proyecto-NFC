@@ -113,7 +113,7 @@ async function createMockStorageResponse(file, storagePath, isFallback = false) 
   return {
     success: true,
     publicUrl: previewUrl,
-    simulatedCloudUrl: `https://storage.findeme.cl/${storagePath}`,
+    simulatedCloudUrl: `https://storage.vigio.cl/${storagePath}`,
     storagePath,
     mimeType: file.type || 'image/jpeg',
     sizeBytes: file.size || 142000,

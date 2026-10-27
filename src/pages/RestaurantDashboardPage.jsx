@@ -146,7 +146,7 @@ export default function RestaurantDashboardPage() {
       channel,
       messageTitle: '¡Tu Tarjeta VIP te espera!',
       messageBody: `Tienes ${customer.sellos}/5 sellos en Bistró Costanera. Sube tu boleta o muéstrala en mesa.`,
-      passUrl: 'https://findeme.cl/restaurante/mi-tarjeta'
+      passUrl: 'https://vigio.cl/restaurante/mi-tarjeta'
     });
     setFallbackToast(`✓ Notificación enviada exitosamente por ${resp.channel} a ${resp.recipient}`);
     setTimeout(() => setFallbackToast(''), 5000);
@@ -166,7 +166,7 @@ export default function RestaurantDashboardPage() {
             <div className="flex items-center gap-2 mb-1">
               <span className="w-2.5 h-2.5 rounded-full bg-orange-brand animate-pulse" />
               <span className="font-mono text-xs font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-orange-light to-orange-brand uppercase">
-                FINDEME GASTRO SAAS
+                VIGIO GASTRO SAAS
               </span>
             </div>
             <h1 className="text-lg font-black text-white tracking-tight">Portal Restaurante</h1>
@@ -252,7 +252,7 @@ export default function RestaurantDashboardPage() {
         {/* Footer Sidebar */}
         <div className="pt-6 border-t border-white/[0.08] flex items-center justify-between text-xs font-mono text-muted-dim">
           <Link to="/" className="hover:text-white transition-colors">
-            ← Volver a FindeMe
+            ← Volver a Vigio
           </Link>
           <span className="text-[10px]">v2.6 SaaS</span>
         </div>

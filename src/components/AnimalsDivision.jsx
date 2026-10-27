@@ -85,7 +85,7 @@ export default function AnimalsDivision() {
             <div className="relative w-[300px] sm:w-[350px] aspect-[9/16] drop-shadow-[0_25px_60px_rgba(0,0,0,0.9)]">
               <img 
                 src="/images/iphone-16-pro-front.jpg" 
-                alt="FindeMe Animales - Perfil de Luna en iPhone 16 Pro" 
+                alt="Vigio Mascotas - Perfil de Luna en iPhone 16 Pro" 
                 className="w-full h-full object-contain rounded-[44px]"
               />
               <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 bg-black/80 border border-orange-brand/40 backdrop-blur-xl px-4 py-1.5 rounded-full text-[11px] font-mono text-orange-brand whitespace-nowrap shadow-xl">

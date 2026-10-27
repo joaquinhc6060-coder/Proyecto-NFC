@@ -11,7 +11,7 @@ export default function BrandHero() {
     {
       id: 'animales',
       icon: '🐾',
-      name: 'FindeMe Mascotas',
+      name: 'Vigio Mascotas',
       target: '/mascotas',
       tagline: 'Ficha médica de urgencia y geolocalización GPS en tiempo real por WhatsApp. Máxima protección para perros y gatos.',
       badge: 'Rescate & GPS',
@@ -20,7 +20,7 @@ export default function BrandHero() {
     {
       id: 'ninos',
       icon: '👶',
-      name: 'FindeMe Kids',
+      name: 'Vigio Kids',
       target: '/kids',
       tagline: 'Seguridad infantil y llamadas de emergencia instantáneas a papá y mamá. Pulseras sumergibles sin batería ni apps.',
       badge: 'Seguridad Infantil',
@@ -29,7 +29,7 @@ export default function BrandHero() {
     {
       id: 'restaurantes',
       icon: '🍽️',
-      name: 'FindeMe Restaurantes',
+      name: 'Vigio Restaurantes',
       target: '/restaurantes',
       tagline: 'Fidelización con IA: pases nativos en Apple y Google Wallet, lectura de boletas y peanas NFC para mesas.',
       badge: 'SaaS & Fidelización IA',
@@ -87,7 +87,14 @@ export default function BrandHero() {
       <div className="max-w-[1240px] w-[calc(100%-48px)] mx-auto relative z-20 flex flex-col items-center text-center">
         
         {/* Main Brand Headline con los colores y formato originales */}
-        <div ref={textRef} className="max-w-5xl space-y-4 mb-4">
+        <div ref={textRef} className="max-w-5xl space-y-4 mb-4 flex flex-col items-center">
+          
+          {/* Badge Oficial Vigio */}
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-brand/20 border border-orange-brand/40 text-orange-brand text-xs font-bold uppercase tracking-widest backdrop-blur-md shadow-[0_0_20px_rgba(255,90,38,0.25)]">
+            <span className="w-2 h-2 rounded-full bg-orange-brand animate-ping" />
+            <span>Vigio · Ecosistema Inteligente NFC</span>
+          </div>
+
           <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black leading-[1.05] tracking-[-0.035em] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.95)] drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)]">
             Productos inteligentes y servicios NFC <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-teal-brand via-white to-orange-brand">
@@ -97,7 +104,7 @@ export default function BrandHero() {
 
           {/* Nueva descripción universal */}
           <p className="text-zinc-200 text-base sm:text-lg font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_14px_rgba(0,0,0,1)]">
-            En FindeMe diseñamos dispositivos físicos con chips NFC y plataformas digitales de respuesta inmediata: seguridad para mascotas, pulseras infantiles y fidelización para comercios.
+            En Vigio diseñamos dispositivos físicos con chips NFC y plataformas digitales de respuesta inmediata: seguridad para mascotas, pulseras infantiles y fidelización para comercios.
           </p>
         </div>
 

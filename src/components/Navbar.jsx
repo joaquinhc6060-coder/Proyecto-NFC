@@ -25,11 +25,16 @@ export default function Navbar() {
           {/* Brand Logo */}
           <Link 
             to="/" 
-            className="flex items-center font-extrabold text-[1.35rem] tracking-[-0.03em] text-white hover:opacity-90 transition-opacity" 
-            aria-label="FindeMe, página principal"
+            className="flex items-center gap-3 group hover:opacity-90 transition-opacity" 
+            aria-label="Vigio, página principal"
             onClick={closeMenu}
           >
-            <span className="font-black">Finde<b className="text-orange-brand">Me</b></span>
+            <div className="w-10 h-10 rounded-2xl bg-orange-brand overflow-hidden shadow-lg shadow-orange-brand/30 ring-1 ring-white/20 group-hover:scale-105 transition-transform flex items-center justify-center">
+              <img src="/images/vigio-logo.jpg" alt="Vigio Logo" className="w-full h-full object-cover scale-110" />
+            </div>
+            <span className="font-black text-2xl tracking-tight text-white flex items-center leading-none">
+              VIGI<span className="text-orange-brand">O</span>
+            </span>
           </Link>
 
           {/* Desktop Navigation full izquierda pegada al logo */}
@@ -57,8 +62,8 @@ export default function Navbar() {
           <Link 
             to="/login"
             onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}
-            aria-label="FindeMe ID / Iniciar Sesión"
-            title="FindeMe ID · Iniciar Sesión"
+            aria-label="Vigio ID / Iniciar Sesión"
+            title="Vigio ID · Iniciar Sesión"
             className="w-10 h-10 rounded-full bg-orange-brand hover:bg-orange-hover text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-orange-brand/30 ring-2 ring-orange-brand/30"
           >
             {/* User avatar silhouette matching user image */}
@@ -114,7 +119,7 @@ export default function Navbar() {
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
               </svg>
-              <span>FindeMe ID · Login</span>
+              <span>Vigio ID · Login</span>
             </Link>
           </div>
         </nav>

@@ -56,7 +56,7 @@ export default function ClientWalletCardPage() {
         fileToUpload = eventOrCustomFile;
       } else {
         // Objeto dummy para simulación cuando hace clic en "Probar Escaneo Automático"
-        fileToUpload = new Blob(['BOLETA_DEMO_FINDEME_MESA_14'], { type: 'image/jpeg' });
+        fileToUpload = new Blob(['BOLETA_DEMO_VIGIO_MESA_14'], { type: 'image/jpeg' });
         fileToUpload.name = 'boleta_mesa14.jpg';
       }
 
@@ -184,7 +184,7 @@ export default function ClientWalletCardPage() {
           </div>
         )}
 
-        {/* TARJETA VIP DIGITAL NATIVA (FINDEME VIP LOYALTY) */}
+        {/* TARJETA VIP DIGITAL NATIVA (VIGIO VIP LOYALTY) */}
         <div className="relative group perspective">
           <div className="p-6 rounded-[28px] bg-gradient-to-br from-[#1C1F26] via-[#16181F] to-[#0E0F14] border border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.8)] relative overflow-hidden backdrop-blur-xl">
             
@@ -196,7 +196,7 @@ export default function ClientWalletCardPage() {
               <div className="flex items-center gap-2">
                 <span className="w-2.5 h-2.5 rounded-full bg-orange-brand" />
                 <span className="font-mono text-xs font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white via-teal-brand to-orange-brand">
-                  FINDEME VIP LOYALTY
+                  VIGIO VIP LOYALTY
                 </span>
               </div>
               <span className="text-[10px] font-mono uppercase px-2.5 py-0.5 rounded-full bg-white/10 text-white/80 border border-white/10">

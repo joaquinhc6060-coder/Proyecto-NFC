@@ -10,7 +10,7 @@ export const RESTAURANT_DATA = {
   mesasTotales: 28,
   wifiSSID: 'Bistro_Clientes_VIP',
   wifiPass: 'BistroVip2026',
-  urlCarta: 'https://findeme.cl/menu/bistro-costanera',
+  urlCarta: 'https://vigio.cl/menu/bistro-costanera',
   geofenceRadius: 100, // metros
   geofenceMessage: '¡Estás a menos de 100m de Bistró Costanera! Muestra tu tarjeta VIP en la Wallet y recibe un cóctel de bienvenida con tu cena.',
 };

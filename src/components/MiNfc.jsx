@@ -27,7 +27,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
   // Pet data state (defaults to Luna with the user's specified data)
   const defaultPetData = {
     id: null,
-    nfcId: 'FINDME-9824-CL',
+    nfcId: 'VIGIO-9824-CL',
     chipType: 'NTAG213 High-Frequency (13.56 MHz)',
     status: 'safe', // 'safe' | 'lost'
     name: 'Luna',
@@ -88,7 +88,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
 
         setPetData({
           id: pet.id,
-          nfcId: pet.placas_nfc?.codigo_publico || 'FINDME-9824-CL',
+          nfcId: pet.placas_nfc?.codigo_publico || 'VIGIO-9824-CL',
           chipType: pet.placas_nfc?.tipo_chip || 'NTAG213 High-Frequency (13.56 MHz)',
           status: pet.estado_alerta || 'safe',
           name: pet.nombre || 'Luna',
@@ -101,7 +101,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
             foods: pet.alergias_alimentos || ['Chocolate', 'Uvas', 'Cebolla']
           },
           owner: {
-            name: profile?.nombre_completo || user.user_metadata?.nombre_completo || 'Dueño FindMe',
+            name: profile?.nombre_completo || user.user_metadata?.nombre_completo || 'Dueño Vigio',
             instagram: profile?.instagram || user.user_metadata?.instagram || '@patika.cl',
             phone: profile?.telefono || '+56 9 8765 4321',
             whatsapp: profile?.whatsapp || '+56987654321',
@@ -119,7 +119,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
   // Check Supabase session on mount
   useEffect(() => {
     if (!isSupabaseConfigured() || !supabase) {
-      const storedAuth = localStorage.getItem('findme_is_logged_in');
+      const storedAuth = localStorage.getItem('vigio_is_logged_in') || localStorage.getItem('findme_is_logged_in');
       if (storedAuth === 'true') setIsLoggedIn(true);
       return;
     }
@@ -185,6 +185,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
     } else {
       // Local fallback
       setIsLoggedIn(true);
+      localStorage.setItem('vigio_is_logged_in', 'true');
       localStorage.setItem('findme_is_logged_in', 'true');
       showToast('¡Bienvenido a tu panel Mi NFC!');
     }
@@ -194,6 +195,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
   const handleQuickDemoLogin = () => {
     setPetData(defaultPetData);
     setIsLoggedIn(true);
+    localStorage.setItem('vigio_is_logged_in', 'true');
     localStorage.setItem('findme_is_logged_in', 'true');
     showToast('Sesión iniciada con la cuenta de demostración de Luna 🐾');
   };
@@ -244,7 +246,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
 
       if (user) {
         // 2. Link or find NFC plate
-        const code = regData.nfcCode.trim() ? regData.nfcCode.trim().toUpperCase() : 'FINDME-9824-CL';
+        const code = regData.nfcCode.trim() ? regData.nfcCode.trim().toUpperCase() : 'VIGIO-9824-CL';
         let plateId = null;
 
         const { data: plate } = await supabase
@@ -294,7 +296,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
       // Local fallback
       const newPet = {
         ...defaultPetData,
-        nfcId: regData.nfcCode.trim() ? regData.nfcCode.trim().toUpperCase() : `FINDME-${Math.floor(1000 + Math.random() * 9000)}-CL`,
+        nfcId: regData.nfcCode.trim() ? regData.nfcCode.trim().toUpperCase() : `VIGIO-${Math.floor(1000 + Math.random() * 9000)}-CL`,
         name: regData.petName.trim(),
         breed: regData.breed.trim() || 'Mascota registrada',
         owner: {
@@ -306,6 +308,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
 
       setPetData(newPet);
       setIsLoggedIn(true);
+      localStorage.setItem('vigio_is_logged_in', 'true');
       localStorage.setItem('findme_is_logged_in', 'true');
       showToast(`¡Cuenta creada y placa ${newPet.nfcId} vinculada con éxito!`);
     }
@@ -318,6 +321,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
     }
     setCurrentUser(null);
     setIsLoggedIn(false);
+    localStorage.removeItem('vigio_is_logged_in');
     localStorage.removeItem('findme_is_logged_in');
     setIsEditing(false);
     showToast('Has cerrado sesión correctamente.');
@@ -643,7 +647,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
                     type="text"
                     value={regData.nfcCode}
                     onChange={(e) => setRegData({ ...regData, nfcCode: e.target.value })}
-                    placeholder="FINDME-9824-CL"
+                    placeholder="VIGIO-9824-CL"
                     className="w-full bg-[#12141a] border border-white/15 rounded-xl px-3.5 py-2.5 text-white text-sm focus:outline-none focus:border-teal-brand transition-colors"
                   />
                   <p className="text-[11px] text-muted-light mt-1">Si ya tienes una placa física, colócala aquí.</p>
@@ -1011,7 +1015,7 @@ export default function MiNfc({ initialLoggedIn = false }) {
                     {/* Floating verified badge */}
                     <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md text-white px-2.5 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 border border-white/20">
                       <span className="w-2 h-2 rounded-full bg-teal-brand" />
-                      <span>FindMe NFC</span>
+                      <span>Vigio NFC</span>
                     </div>
                   </div>
 

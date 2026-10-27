@@ -176,7 +176,7 @@ export default function DemoScanner() {
                     {/* Top Tag & Status */}
                     <div className="flex items-center justify-between mb-2.5">
                       <span className="inline-block bg-orange-brand text-white text-[10px] font-extrabold tracking-wider px-2.5 py-0.5 rounded-full uppercase">
-                        Placa FindMe Verificada
+                        Placa Vigio Verificada
                       </span>
                       <span className="text-[10px] text-emerald-600 font-bold flex items-center gap-1">
                         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" /> Activa
@@ -194,7 +194,7 @@ export default function DemoScanner() {
                         <h3 className="text-xl font-black text-ink leading-none">Luna</h3>
                         <span className="text-muted text-xs font-semibold block mt-0.5">Golden Retriever · 3 años</span>
                         <span className="text-[10px] text-teal-brand font-mono font-bold bg-teal-brand/10 px-1.5 py-0.5 rounded">
-                          NFC ID: FINDME-9824
+                          NFC ID: VIGIO-9824
                         </span>
                       </div>
                     </div>
@@ -248,7 +248,7 @@ export default function DemoScanner() {
                   <div className="text-center">
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-teal-brand/15 text-teal-brand text-[9px] font-bold uppercase tracking-wider mb-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-teal-brand animate-ping" />
-                      FindMe · Contacto de Emergencia
+                      Vigio · Contacto de Emergencia
                     </span>
                     <h3 className="text-2xl font-black text-white mt-1">Patricia Morales</h3>
                     <p className="text-xs text-muted-light mt-0.5 font-medium">+56 9 8765 4321</p>
@@ -392,7 +392,7 @@ export default function DemoScanner() {
                     <div className="flex justify-end">
                       <div className="bg-[#005c4b] text-white p-2.5 rounded-2xl rounded-tr-sm max-w-[85%] shadow-sm leading-relaxed">
                         <p>
-                          ¡Hola Patricia! Acabo de escanear la placa <strong>FindMe</strong> de <strong>Luna</strong> en Providencia. Ella está bien y segura conmigo 🐾
+                          ¡Hola Patricia! Acabo de escanear la placa <strong>Vigio</strong> de <strong>Luna</strong> en Providencia. Ella está bien y segura conmigo 🐾
                         </p>
                         <span className="text-[8px] text-white/70 block text-right mt-1">14:24 ✓✓</span>
                       </div>

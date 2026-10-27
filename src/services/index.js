@@ -1,5 +1,5 @@
 // =========================================================================
-// ÍNDICE CENTRALIZADO DE SERVICIOS - FINDEME SAAS RESTAURANTES
+// ÍNDICE CENTRALIZADO DE SERVICIOS - VIGIO SAAS RESTAURANTES
 // =========================================================================
 
 export * from './restaurantService';
