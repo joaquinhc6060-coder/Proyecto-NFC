@@ -1,20 +1,27 @@
 -- ============================================================================
--- VIGIO · ESQUEMA OFICIAL PARA FABRICACIÓN DE LAS PRIMERAS 100 PLACAS NFC / QR
+-- VIGIO · ESQUEMA OFICIAL DE SEGURIDAD (CON PIN PRIVADO DE ACTIVACIÓN)
 -- ============================================================================
--- Este script se ejecuta en el SQL Editor de tu panel de Supabase.
--- Crea las tablas optimizadas para tokens aleatorios únicos (ej: a8f2k9x4) y genera
--- los primeros 100 tokens listos para exportar a Excel y entregar a la fábrica.
+-- Cada placa física tiene:
+-- 1. TOKEN PÚBLICO (8 caracteres): Grabado en el chip NFC y código QR.
+-- 2. PIN SECRETO DE ACTIVACIÓN (6 dígitos numéricos): Impreso en la tarjeta
+--    dentro del empaque sellado que recibe el cliente al comprar.
+--
+-- Si alguien escanea la placa antes de que el cliente la compre, NO PODRÁ
+-- activarla sin el PIN secreto.
 -- ============================================================================
 
--- 1. Habilitar extensión pgcrypto para generación segura
+-- 1. Habilitar extensión pgcrypto
 CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 
--- 2. TABLA DE PLACAS FÍSICAS (Tokens grabados en QR y chip NFC)
+-- 2. TABLA DE PLACAS FÍSICAS (Tokens y PINs)
 CREATE TABLE IF NOT EXISTS public.placas_vigio (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     
     -- Token público aleatorio corto grabado en la URL: https://vigio.cl/p/[token]
     token VARCHAR(16) UNIQUE NOT NULL,
+    
+    -- PIN Secreto de activación (6 dígitos numéricos entregados en el empaque)
+    pin_activacion VARCHAR(10) NOT NULL,
     
     -- Estado: 'fabricada' (sin activar) | 'activada' (en uso diario) | 'bloqueada'
     estado VARCHAR(20) DEFAULT 'fabricada' NOT NULL,
@@ -103,17 +110,19 @@ USING (true)
 WITH CHECK (true);
 
 -- ============================================================================
--- 5. GENERADOR DE LOS PRIMEROS 100 TOKENS ALEATORIOS ÚNICOS (8 CARACTERES)
+-- 5. GENERADOR DE LOS PRIMEROS 100 TOKENS CON SUS PINS SECRETOS DE 6 DÍGITOS
 -- ============================================================================
 DO $$
 DECLARE
-    caracteres TEXT := '23456789abcdefghjkmnpqrstuvwxyz'; -- Sin caracteres visualmente ambiguos (sin 0, O, 1, l)
+    caracteres TEXT := '23456789abcdefghjkmnpqrstuvwxyz'; -- Sin caracteres ambiguos
     token_generado TEXT;
+    pin_generado TEXT;
     i INT;
     pos INT;
 BEGIN
     FOR i IN 1..100 LOOP
         LOOP
+            -- Generar Token Público (8 chars)
             token_generado := '';
             FOR j IN 1..8 LOOP
                 pos := floor(random() * length(caracteres) + 1)::int;
@@ -124,20 +133,26 @@ BEGIN
             EXIT WHEN NOT EXISTS (SELECT 1 FROM public.placas_vigio WHERE token = token_generado);
         END LOOP;
 
-        INSERT INTO public.placas_vigio (token, estado, lote, tipo_producto)
-        VALUES (token_generado, 'fabricada', 'LOTE-1-100-2026', 'mascota_circular')
+        -- Generar PIN secreto de 6 dígitos numéricos (ej: 849201)
+        pin_generado := lpad(floor(random() * 900000 + 100000)::text, 6, '0');
+
+        INSERT INTO public.placas_vigio (token, pin_activacion, estado, lote, tipo_producto)
+        VALUES (token_generado, pin_generado, 'fabricada', 'LOTE-1-100-2026', 'mascota_circular')
         ON CONFLICT (token) DO NOTHING;
     END LOOP;
 END $$;
 
 -- ============================================================================
--- 6. CONSULTA PARA EXPORTAR EL LISTADO A EXCEL / CSV PARA EL FABRICANTE
+-- 6. CONSULTA PARA EXPORTAR EL LISTADO A EXCEL / CSV PARA FABRICACIÓN Y VENTAS
 -- ============================================================================
--- Copia el resultado de esta consulta para pasarlo a tu proveedor:
+-- Esta tabla te da:
+-- 1. Lo que mandas al fabricante (url_grabado_nfc_y_qr)
+-- 2. Lo que imprimes en el cartón o sobre del producto (pin_secreto_empaque)
 SELECT 
-    ROW_NUMBER() OVER (ORDER BY fecha_fabricacion ASC) AS nro_placa,
-    token,
+    ROW_NUMBER() OVER (ORDER BY fecha_fabricacion ASC) AS nro,
+    token AS token_publico,
     'https://vigio.cl/p/' || token AS url_grabado_nfc_y_qr,
+    pin_activacion AS pin_secreto_empaque,
     estado,
     lote
 FROM public.placas_vigio
