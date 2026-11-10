@@ -104,7 +104,7 @@ export default function Benefits() {
               </div>
 
               <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-mono text-muted-dim">
-                <span>FindMe Tech Protocol</span>
+                <span>Vigio Tech Protocol</span>
                 <span className="text-teal-brand">✓</span>
               </div>
             </div>

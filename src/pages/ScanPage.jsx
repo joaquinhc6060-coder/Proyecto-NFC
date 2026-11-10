@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { supabase, isSupabaseConfigured } from '../lib/supabaseClient';
-import VigioActivationForm from '../components/VigioActivationForm';
+import { loadPublicPlate, whatsappNumber } from '../lib/scanData';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function ScanPage() {
   const { code } = useParams();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [deviceData, setDeviceData] = useState(null);
   const [profileData, setProfileData] = useState(null);
@@ -20,224 +22,13 @@ export default function ScanPage() {
   const [showMenuModal, setShowMenuModal] = useState(false);
 
   const fetchScanData = async () => {
-    setLoading(true);
-    setErrorNotice(null);
-    setIsUnactivated(false);
-
-    const isRestCode = code && (code.startsWith('REST-') || code.includes('BAR') || code.includes('MESA'));
-    const isKidCode = code && (code.startsWith('KID-') || code.startsWith('NIÑO-') || code.includes('KIDS'));
-
-    // 0. Comprobar si existe simulación local de activación
-    const localActive = localStorage.getItem(`vigio_active_${code}`);
-    if (localActive) {
-      try {
-        const parsed = JSON.parse(localActive);
-        setProfileData({
-          type: 'mascota',
-          codigo: code,
-          nombre: parsed.nombre,
-          especie: parsed.raza_o_modelo || 'Mascota Protegida',
-          foto: parsed.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
-          alerta: parsed.estado_alerta || 'lost',
-          acerca_de: parsed.alergias ? `Alergias / Cuidados: ${parsed.alergias}` : 'Mascota protegida con tecnología Vigio.',
-          alergias: parsed.alergias ? [parsed.alergias] : [],
-          medicamentos: parsed.cuidados_especiales ? [parsed.cuidados_especiales] : [],
-          owner_nombre: parsed.nombre_contacto || 'Dueño Vigio',
-          owner_telefono: parsed.telefono_contacto || '+56 9 8765 4321',
-          owner_whatsapp: parsed.whatsapp_contacto || '56987654321',
-          owner_ciudad: parsed.ciudad || 'Chile',
-          placa_id: 'local-demo'
-        });
-        setLoading(false);
-        return;
-      } catch (e) {
-        console.warn('Error reading local active:', e);
-      }
-    }
-
-    // 1. Consulta a Supabase
-    if (isSupabaseConfigured() && supabase) {
-      try {
-        // A) Buscar en tabla placas_vigio (nueva arquitectura de 100 placas con token)
-        const { data: placaVigio } = await supabase
-          .from('placas_vigio')
-          .select('*')
-          .eq('token', code)
-          .maybeSingle();
-
-        if (placaVigio) {
-          // ESTADO 1: No vendido / No activado
-          if (placaVigio.estado === 'fabricada' || !placaVigio.owner_id) {
-            // Verificar si tiene perfil asociado
-            const { data: perfilVigio } = await supabase
-              .from('perfiles_vigio')
-              .select('*')
-              .eq('placa_id', placaVigio.id)
-              .maybeSingle();
-
-            if (!perfilVigio) {
-              setDeviceData(placaVigio);
-              setIsUnactivated(true);
-              setLoading(false);
-              return;
-            }
-          }
-
-          // ESTADO 2: Activada -> Obtener perfil del objeto/mascota
-          const { data: perfilVigio } = await supabase
-            .from('perfiles_vigio')
-            .select('*')
-            .eq('placa_id', placaVigio.id)
-            .maybeSingle();
-
-          if (perfilVigio) {
-            setProfileData({
-              type: 'mascota',
-              codigo: placaVigio.token,
-              nombre: perfilVigio.nombre,
-              especie: perfilVigio.raza_o_modelo || 'Mascota Registrada',
-              foto: perfilVigio.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
-              alerta: perfilVigio.estado_alerta || 'lost',
-              mensaje_auxilio: perfilVigio.mensaje_auxilio || '¡Hola! Me he perdido, por favor contacta a mi dueño.',
-              acerca_de: perfilVigio.alergias || perfilVigio.cuidados_especiales || 'Mascota protegida con tecnología Vigio.',
-              alergias: perfilVigio.alergias ? [perfilVigio.alergias] : [],
-              medicamentos: perfilVigio.cuidados_especiales ? [perfilVigio.cuidados_especiales] : [],
-              owner_nombre: perfilVigio.nombre_contacto || 'Dueño Vigio',
-              owner_telefono: perfilVigio.telefono_contacto,
-              owner_whatsapp: perfilVigio.whatsapp_contacto,
-              owner_ciudad: perfilVigio.ciudad || 'Chile',
-              placa_id: placaVigio.id
-            });
-            setLoading(false);
-            return;
-          }
-        }
-
-        // B) Compatibilidad con tabla previa placas_nfc
-        const { data: placaLegacy } = await supabase
-          .from('placas_nfc')
-          .select('*')
-          .eq('codigo_publico', code)
-          .maybeSingle();
-
-        if (placaLegacy) {
-          const category = placaLegacy.categoria || 'mascota';
-          setDeviceData(placaLegacy);
-
-          if (category === 'mascota') {
-            const { data: mascota } = await supabase
-              .from('mascotas')
-              .select('*')
-              .eq('placa_id', placaLegacy.id)
-              .maybeSingle();
-
-            if (!mascota) {
-              setIsUnactivated(true);
-              setLoading(false);
-              return;
-            }
-
-            let owner = null;
-            if (placaLegacy.user_id) {
-              const { data: prof } = await supabase
-                .from('profiles')
-                .select('*')
-                .eq('id', placaLegacy.user_id)
-                .maybeSingle();
-              owner = prof;
-            }
-
-            setProfileData({
-              type: 'mascota',
-              codigo: placaLegacy.codigo_publico,
-              nombre: mascota.nombre,
-              especie: `${mascota.especie} (${mascota.raza || 'Mestizo'})`,
-              foto: mascota.foto_url || 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
-              alerta: mascota.estado_alerta || 'safe',
-              acerca_de: mascota.acerca_de || 'Mascota registrada en Vigio.',
-              alergias: mascota.alergias_alimentos || [],
-              medicamentos: mascota.alergias_medicamentos || [],
-              owner_nombre: owner?.nombre_completo || 'Dueño Vigio',
-              owner_telefono: owner?.telefono || '+56 9 8765 4321',
-              owner_whatsapp: owner?.whatsapp || '56987654321',
-              owner_ciudad: owner?.ciudad || 'Chile',
-              mascota_id: mascota.id,
-              placa_id: placaLegacy.id
-            });
-            setLoading(false);
-            return;
-          }
-        }
-      } catch (err) {
-        console.warn('Scan read error:', err);
-      }
-    }
-
-    // 2. Fallbacks de demostración (si es token desconocido corto de 6-8 chars -> Estado 1 No activado para probar)
-    if (code && code.length >= 6 && code.length <= 12 && !isRestCode && !isKidCode && !code.includes('9824')) {
-      setIsUnactivated(true);
-      setLoading(false);
-      return;
-    }
-
-    // Si es demo o restaurante
-    const category = isRestCode ? 'restaurante' : isKidCode ? 'kids' : 'mascota';
-    setDeviceData({ codigo_publico: code, categoria: category });
-
-    if (category === 'restaurante') {
-      setProfileData({
-        type: 'restaurante',
-        codigo: code,
-        nombre_local: 'Bistró & Cocktails Costanera',
-        numero_mesa: 'Mesa 4',
-        tipo_gastronomia: 'Gastronomía & Coctelería de Autor',
-        wifi_ssid: 'Bistro_Clientes_VIP',
-        wifi_password: 'BistroVip2026',
-        url_carta: 'https://vigio.cl/menu/bistro-costanera',
-        slug: 'bistro-costanera',
-        foto: '/images/findme-restaurant-loyalty.jpg',
-      });
-      setLoading(false);
-      return;
-    }
-
-    if (category === 'kids') {
-      setProfileData({
-        type: 'kids',
-        codigo: code || 'KID-4109',
-        nombre: 'Martina González',
-        edad: '5 años',
-        ciudad: 'Providencia, Santiago',
-        alerta: 'safe',
-        grupo_sanguineo: 'A Positivo (A+)',
-        alergia_severa: 'Maní / Frutos Secos',
-        mensaje_padres: 'Martina suele ponerse tímida si se pierde. Por favor llama de inmediato a sus padres o comparte tu ubicación.',
-        mama_telefono: '+56 9 9876 5432',
-        papa_telefono: '+56 9 8765 4321',
-        foto: '/images/vigio-pulsera-nfc.jpg',
-      });
-      setLoading(false);
-      return;
-    }
-
-    // Fallback Luna si es demo de Luna (VIGIO-9824-CL)
-    setProfileData({
-      type: 'mascota',
-      codigo: code || 'VIGIO-9824-CL',
-      nombre: 'Luna',
-      especie: 'Perro (Golden Retriever)',
-      foto: 'https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=600&q=80',
-      alerta: 'lost',
-      mensaje_auxilio: '¡Hola! Me he perdido, por favor contacta a mi dueño.',
-      acerca_de: 'Muy dócil y cariñosa. Requiere alimento hipoalergénico.',
-      alergias: ['Pollo', 'Cereales procesados'],
-      medicamentos: ['Apoquel (Dermatitis estacional)'],
-      owner_nombre: 'Carlos Mendoza',
-      owner_telefono: '+56 9 8765 4321',
-      owner_whatsapp: '56987654321',
-      owner_ciudad: 'Santiago, Chile',
-    });
-    setLoading(false);
+    setLoading(true); setErrorNotice(null); setIsUnactivated(false); setProfileData(null); setDeviceData(null); setGpsSent(false);
+    try {
+      if (!supabase || !isSupabaseConfigured()) throw new Error('El servicio de placas no está disponible.');
+      const { device, profile } = await loadPublicPlate(supabase, code);
+      setDeviceData(device); setProfileData(profile); setIsUnactivated(!profile);
+    } catch (err) { setErrorNotice(err.message); }
+    finally { setLoading(false); }
   };
 
   useEffect(() => {
@@ -267,42 +58,16 @@ export default function ScanPage() {
 
   // Handle GPS location dispatch
   const handleSendLocation = () => {
-    if (!navigator.geolocation) {
-      alert('La geolocalización no está soportada por este navegador.');
-      return;
-    }
-
-    setGpsSending(true);
-    navigator.geolocation.getCurrentPosition(
-      async (pos) => {
-        const { latitude, longitude } = pos.coords;
-        try {
-          if (supabase && isSupabaseConfigured() && profileData?.placa_id) {
-            await supabase.from('escaneos_gps').insert([
-              {
-                placa_id: profileData.placa_id,
-                mascota_id: profileData?.mascota_id || null,
-                latitud: latitude,
-                longitud: longitude,
-                dispositivo: navigator.userAgent.slice(0, 100),
-              }
-            ]);
-          }
-          setGpsSent(true);
-        } catch (err) {
-          console.warn('GPS log err:', err);
-          setGpsSent(true);
-        } finally {
-          setGpsSending(false);
-        }
-      },
-      (err) => {
-        console.warn('Geo err:', err);
-        setGpsSending(false);
-        alert('Por favor autoriza el acceso a la ubicación para avisar al dueño en qué mapa te encuentras.');
-      },
-      { enableHighAccuracy: true, timeout: 10000 }
-    );
+    if (!navigator.geolocation) { setErrorNotice('Este dispositivo no permite obtener la ubicación. Puedes llamar al contacto.'); return; }
+    const phone = whatsappNumber(profileData?.owner_whatsapp || profileData?.owner_telefono);
+    if (!phone) { setErrorNotice('No hay un número de contacto disponible.'); return; }
+    setGpsSending(true); setErrorNotice(null);
+    navigator.geolocation.getCurrentPosition(pos => {
+      const map = 'https://maps.google.com/?q=' + pos.coords.latitude + ',' + pos.coords.longitude;
+      const message = 'Hola, encontré a ' + profileData.nombre + '. Mi ubicación es: ' + map;
+      setGpsSending(false); setGpsSent(true);
+      window.location.href = 'https://wa.me/' + phone + '?text=' + encodeURIComponent(message);
+    }, () => { setGpsSending(false); setErrorNotice('No se pudo obtener la ubicación. Revisa el permiso del navegador o llama al contacto.'); }, { enableHighAccuracy: true, timeout: 10000 });
   };
 
   if (loading) {
@@ -316,18 +81,13 @@ export default function ScanPage() {
     );
   }
 
+  if (!profileData && errorNotice) return <div className="min-h-[70vh] flex items-center justify-center p-6"><div className="max-w-md text-center space-y-5"><h1 className="text-2xl font-bold">No se pudo abrir la ficha</h1><p role="alert" className="text-zinc-400">{errorNotice}</p><button onClick={fetchScanData} className="rounded-xl bg-orange-brand px-5 py-3">Volver a intentar</button><Link className="block text-sm text-zinc-400" to="/contacto">Contactar a Vigio</Link></div></div>;
+
   // =========================================================================
   // ESTADO 1: PLACA NO ACTIVADA / RECIÉN FABRICADA
   // =========================================================================
   if (isUnactivated) {
-    return (
-      <VigioActivationForm 
-        token={code} 
-        onActivated={() => {
-          fetchScanData();
-        }} 
-      />
-    );
+    return <div className="min-h-[70vh] flex items-center justify-center p-6"><div className="max-w-md text-center space-y-4"><h1 className="text-2xl font-bold">Esta placa no tiene información disponible</h1><p className="text-zinc-400">El dueño puede completar sus datos desde su panel Vigio.</p></div></div>;
   }
 
   // =========================================================================
@@ -346,9 +106,6 @@ export default function ScanPage() {
                 Peana NFC de Mesa Activa
               </span>
             </div>
-            <span className="text-xs font-mono text-white/60 bg-white/5 px-2.5 py-1 rounded-full border border-white/10 font-bold">
-              {profileData.codigo}
-            </span>
           </div>
 
           {/* Main Card Container */}
@@ -500,7 +257,7 @@ export default function ScanPage() {
               {/* Footer de administración */}
               <div className="text-center pt-2">
                 <Link 
-                  to="/login"
+                  to={user ? "/mi-cuenta?producto=" + deviceData?.id : "/login?next=" + encodeURIComponent("/mi-cuenta?producto=" + deviceData?.id)}
                   className="text-[11px] font-mono text-muted-dim hover:text-white transition-colors"
                 >
                   ¿Personal del local? Acceso al Dashboard de Restaurante →
@@ -586,6 +343,7 @@ export default function ScanPage() {
     return (
       <div className="min-h-screen bg-[#07080a] text-white py-12 px-4 sm:px-6">
         <div className="max-w-md mx-auto space-y-4">
+          {errorNotice && <p role="alert" className="rounded-xl bg-red-500/10 p-4 text-sm text-red-300">{errorNotice}</p>}
           
           {/* Top Badge */}
           <div className="flex items-center justify-between px-2">
@@ -595,9 +353,6 @@ export default function ScanPage() {
                 Pulsera Vigio Kids Activa
               </span>
             </div>
-            <span className="text-xs font-mono text-white/50 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
-              {profileData.codigo}
-            </span>
           </div>
 
           <div className="bg-black/60 rounded-[32px] border border-white/10 overflow-hidden shadow-2xl backdrop-blur-2xl">
@@ -644,13 +399,13 @@ export default function ScanPage() {
                   href={`tel:${profileData.mama_telefono?.replace(/\s+/g, '')}`}
                   className="py-3.5 px-3 rounded-xl bg-orange-brand hover:bg-orange-hover text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 shadow-md shadow-orange-brand/20"
                 >
-                  <span>📞</span> Llamar a Mamá
+                  <span>📞</span> Llamar al contacto
                 </a>
                 <a
-                  href={`tel:${profileData.papa_telefono?.replace(/\s+/g, '')}`}
+                  href={`https://wa.me/${profileData.owner_whatsapp}`}
                   className="py-3.5 px-3 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold transition-all text-center flex items-center justify-center gap-1.5 border border-white/10"
                 >
-                  <span>📞</span> Llamar a Papá
+                  <span>💬</span> WhatsApp
                 </a>
               </div>
 
@@ -658,7 +413,7 @@ export default function ScanPage() {
               <div>
                 {gpsSent ? (
                   <div className="py-3 px-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono text-center flex items-center justify-center gap-2">
-                    <span>✓</span> Ubicación GPS compartida con los padres
+                    <span>✓</span> Ubicación preparada. Envíala por WhatsApp.
                   </div>
                 ) : (
                   <button
@@ -667,7 +422,7 @@ export default function ScanPage() {
                     disabled={gpsSending}
                     className="w-full py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-white transition-all flex items-center justify-center gap-2"
                   >
-                    <span>📍</span> {gpsSending ? 'Obteniendo GPS...' : 'Enviar mi ubicación actual a los padres'}
+                    <span>📍</span> {gpsSending ? 'Obteniendo ubicación...' : 'Compartir mi ubicación por WhatsApp'}
                   </button>
                 )}
               </div>
@@ -687,6 +442,7 @@ export default function ScanPage() {
   return (
     <div className="min-h-screen bg-[#07080a] text-white py-12 px-4 sm:px-6">
       <div className="max-w-md mx-auto">
+        {errorNotice && <p role="alert" className="mb-4 rounded-xl bg-red-500/10 p-4 text-sm text-red-300">{errorNotice}</p>}
         
         {/* Top NFC Scan Badge */}
         <div className="flex items-center justify-between mb-4 px-2">
@@ -696,9 +452,6 @@ export default function ScanPage() {
               Escaneo NFC Activo
             </span>
           </div>
-          <span className="text-xs font-mono text-white/50 bg-white/5 px-2.5 py-1 rounded-full border border-white/10">
-            {code || profileData?.codigo}
-          </span>
         </div>
 
         {/* Emergency Alert Banner */}
@@ -707,7 +460,7 @@ export default function ScanPage() {
             <span className="text-2xl">🚨</span>
             <div>
               <p className="text-sm font-bold text-white uppercase tracking-wide">
-                ¡Mascota Reportada como Extraviada!
+                {profileData?.producto === 'restaurante' ? 'Perfil en alerta' : 'Se necesita ayuda para encontrar a ' + profileData?.nombre}
               </p>
               <p className="text-xs mt-1 text-red-200/90 leading-relaxed">
                 Por favor, presiona los botones abajo para llamar o enviar tu ubicación al dueño de inmediato.
@@ -738,7 +491,7 @@ export default function ScanPage() {
                 </p>
               </div>
               <span className="px-3 py-1 rounded-full text-xs font-mono uppercase bg-white/20 backdrop-blur-md border border-white/30 text-white">
-                Vigio Mascotas
+                  Vigio
               </span>
             </div>
           </div>
@@ -753,6 +506,7 @@ export default function ScanPage() {
               <p className="text-sm font-semibold text-zinc-100 leading-snug">
                 “{profileData?.mensaje_auxilio || '¡Hola! Me he perdido, por favor contacta a mi dueño.'}”
               </p>
+              {profileData?.audio_url && <audio controls src={profileData.audio_url} className="mt-3 w-full" />}
             </div>
             
             {/* Quick Actions (Call & WhatsApp) */}
@@ -766,7 +520,7 @@ export default function ScanPage() {
               </a>
 
               <a
-                href={`https://wa.me/${profileData?.owner_whatsapp}?text=${encodeURIComponent(`¡Hola! Encontré a ${profileData?.nombre} con su placa Vigio (${code}). ¿Cómo coordinamos para devolverlo?`)}`}
+                href={`https://wa.me/${profileData?.owner_whatsapp}?text=${encodeURIComponent(`¡Hola! Encontré a ${profileData?.nombre} con su placa Vigio. ¿Cómo coordinamos para devolverlo?`)}`}
                 target="_blank"
                 rel="noreferrer"
                 className="flex items-center justify-center gap-2 py-3.5 px-4 rounded-2xl bg-teal-brand hover:bg-teal-brand/90 font-bold text-sm text-ink shadow-lg transition-transform active:scale-95"
@@ -775,13 +529,14 @@ export default function ScanPage() {
                 <span>Enviar WhatsApp</span>
               </a>
             </div>
+            {profileData?.owner_alt_telefono && <div className="grid grid-cols-2 gap-3"><a href={`tel:${profileData.owner_alt_telefono.replace(/\s+/g,'')}`} className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-bold"><span>📞</span><span>Llamar contacto alternativo</span></a><a href={`https://wa.me/${profileData.owner_alt_whatsapp}?text=${encodeURIComponent(`¡Hola! Encontré a ${profileData?.nombre} con su placa Vigio.`)}`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 px-4 py-3 text-sm font-bold"><span>💬</span><span>WhatsApp alternativo</span></a></div>}
 
             {/* GPS Broadcast Button */}
             <div>
               {gpsSent ? (
                 <div className="py-3 px-4 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-mono text-center flex items-center justify-center gap-2">
                   <span>✓</span>
-                  <span>Ubicación GPS enviada con éxito al dueño</span>
+                  <span>Ubicación preparada. Envíala por WhatsApp.</span>
                 </div>
               ) : (
                 <button
@@ -791,7 +546,7 @@ export default function ScanPage() {
                   className="w-full py-3 px-4 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 text-xs font-mono text-white transition-all flex items-center justify-center gap-2"
                 >
                   <span>📍</span>
-                  <span>{gpsSending ? 'Obteniendo GPS...' : 'Enviar mi ubicación actual al dueño'}</span>
+                  <span>{gpsSending ? 'Obteniendo ubicación...' : 'Compartir mi ubicación por WhatsApp'}</span>
                 </button>
               )}
             </div>

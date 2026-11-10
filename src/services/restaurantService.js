@@ -152,7 +152,7 @@ export const MOCK_BOLETAS = [
     confianzaOCR: 98.4,
     tagsGenerados: ['Consume Coctelería', 'Amante de Pizzas', 'Ticket Alto'],
     selloOtorgado: true,
-    imagenUrl: '/images/findme-restaurant-loyalty.jpg'
+    imagenUrl: '/images/vigio-restaurant-loyalty.jpg'
   },
   {
     id: 'BOL-2026-9808',
@@ -172,7 +172,7 @@ export const MOCK_BOLETAS = [
     confianzaOCR: 99.1,
     tagsGenerados: ['Perfil Familiar / Sin Alcohol', 'Menú Infantil'],
     selloOtorgado: true,
-    imagenUrl: '/images/findme-restaurant-loyalty.jpg'
+    imagenUrl: '/images/vigio-restaurant-loyalty.jpg'
   },
   {
     id: 'BOL-2026-9799',
@@ -191,7 +191,7 @@ export const MOCK_BOLETAS = [
     confianzaOCR: 96.8,
     tagsGenerados: ['Consume Coctelería', 'After Office'],
     selloOtorgado: true,
-    imagenUrl: '/images/findme-restaurant-loyalty.jpg'
+    imagenUrl: '/images/vigio-restaurant-loyalty.jpg'
   }
 ];
 

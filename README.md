@@ -1,6 +1,6 @@
-# FindMe · Plataforma Web Inteligente para Mascotas (NFC + React + Tailwind CSS)
+# Vigio · Plataforma Web Inteligente para Mascotas (NFC + React + Tailwind CSS)
 
-FindMe es una plataforma y landing page interactiva moderna para placas inteligentes de mascotas con tecnología NFC pasiva de alta frecuencia (13.56 MHz) y código QR dinámico.
+Vigio es una plataforma y landing page interactiva moderna para placas inteligentes de mascotas con tecnología NFC pasiva de alta frecuencia (13.56 MHz) y código QR dinámico.
 
 ---
 
@@ -53,7 +53,7 @@ npm.cmd run build
 
 ## 🌟 Nuevas características y arquitectura integrada
 
-1. **Showcase 3D Interactivo (Ecosistema FindMe)**:
+1. **Showcase 3D Interactivo (Ecosistema Vigio)**:
    - Galería interactiva con 5 vistas de dispositivos en perspectiva 3D inspirada en interfaces de hardware moderno (Panel del Dueño, Ficha de Rescate NFC, Punto de Encuentro/Ubicación compartida por rescatista, Ficha Médica/Alergias y Alertas Push).
    - Selector por pestañas y click directo en cada teléfono para traerlo al frente.
 
@@ -77,7 +77,7 @@ npm.cmd run build
 ```text
 ├── index.html                   # Entry point HTML con tipografía Plus Jakarta Sans
 ├── package.json                 # Scripts y dependencias (React 18, Vite, Tailwind v3, Supabase JS)
-├── tailwind.config.js           # Tokens de diseño oficiales FindMe
+├── tailwind.config.js           # Tokens de diseño oficiales Vigio
 ├── vite.config.js               # Configuración de Vite y React
 ├── supabase/
 │   └── schema.sql               # Esquema de base de datos Supabase con RLS

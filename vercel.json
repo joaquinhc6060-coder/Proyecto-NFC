@@ -2,7 +2,46 @@
   "framework": "vite",
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
+  "redirects": [
+    {
+      "source": "/restaurantes",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/restaurant",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/dashboard-restaurante",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/demo/restaurante",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/restaurante/:path*",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
+    {
+      "source": "/api/vigio-admin",
+      "destination": "/api/vigio-admin"
+    },
+    {
+      "source": "/api/vigio-pin-activation",
+      "destination": "/api/vigio-pin-activation"
+    },
+    {
+      "source": "/api/vigio-account",
+      "destination": "/api/vigio-account"
+    },
     {
       "source": "/(.*)",
       "destination": "/index.html"

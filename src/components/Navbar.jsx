@@ -1,17 +1,22 @@
 import React, { useState } from 'react';
-import { Link, NavLink, useLocation } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from '../contexts/AuthContext';
 
 export default function Navbar() {
+  const { user, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const closeMenu = () => setIsOpen(false);
+  const closeMenu = () => { setIsOpen(false); setProfileOpen(false); };
+  const displayName = user?.user_metadata?.nombre_completo || user?.user_metadata?.full_name || user?.user_metadata?.name || user?.email?.split('@')[0] || '';
+  const logout = async () => { await signOut(); closeMenu(); navigate('/login', { replace: true }); };
 
   const navItems = [
     { name: 'Inicio', path: '/' },
     { name: 'Mascotas', path: '/mascotas' },
     { name: 'Kids', path: '/kids' },
-    { name: 'Restaurantes', path: '/restaurantes' },
     { name: 'Contacto', path: '/contacto' },
   ];
 
@@ -59,18 +64,20 @@ export default function Navbar() {
 
         {/* Full Right: Orange User Avatar Icon */}
         <div className="flex items-center gap-4">
-          <Link 
+          {user ? <div className="relative hidden sm:block"><button type="button" onClick={() => setProfileOpen(value => !value)} aria-expanded={profileOpen} className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.03] py-1.5 pl-2 pr-4 text-left transition-colors hover:bg-white/[0.08]">
+            <span className="flex h-9 w-9 items-center justify-center rounded-full bg-orange-brand text-sm font-black shadow-lg shadow-orange-brand/30">{displayName.slice(0,1).toUpperCase()}</span><span className="max-w-36 truncate text-xs font-bold text-white">Hola, {displayName}</span>
+          </button>{profileOpen&&<div className="absolute right-0 top-14 w-72 rounded-2xl border border-white/10 bg-[#15161a] p-3 shadow-2xl"><p className="px-3 pt-1 text-xs font-bold text-white">Hola, {displayName}</p><p className="truncate px-3 pb-3 pt-1 text-xs text-zinc-400">{user.email}</p><Link to="/panel" onClick={closeMenu} className="block rounded-xl px-3 py-3 text-center text-xs font-black text-white hover:bg-white/5">Mis productos</Link><Link to="/panel/cuenta" onClick={closeMenu} className="block rounded-xl bg-orange-brand px-3 py-3 text-center text-xs font-black text-white">Mi cuenta</Link><button type="button" onClick={logout} className="mt-2 w-full rounded-xl px-3 py-2 text-xs text-zinc-400 hover:bg-white/5 hover:text-white">Cerrar sesión</button></div>}</div> : <Link 
             to="/login"
             onClick={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}
-            aria-label="Vigio ID / Iniciar Sesión"
-            title="Vigio ID · Iniciar Sesión"
+            aria-label="Iniciar sesión"
+            title="Iniciar sesión"
             className="w-10 h-10 rounded-full bg-orange-brand hover:bg-orange-hover text-white flex items-center justify-center transition-all duration-300 hover:scale-110 shadow-lg shadow-orange-brand/30 ring-2 ring-orange-brand/30"
           >
             {/* User avatar silhouette matching user image */}
             <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
               <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
             </svg>
-          </Link>
+          </Link>}
 
           {/* Mobile menu toggle button */}
           <button 
@@ -109,7 +116,7 @@ export default function Navbar() {
 
           <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
             <Link 
-              to="/login" 
+              to={user ? '/mi-cuenta' : '/login'}
               onClick={() => {
                 closeMenu();
                 window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
@@ -119,8 +126,9 @@ export default function Navbar() {
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                 <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z" />
               </svg>
-              <span>Vigio ID · Login</span>
+              <span>{user ? `Hola, ${displayName} · Mi dashboard` : 'Iniciar sesión'}</span>
             </Link>
+            {user&&<button type="button" onClick={logout} className="py-2 text-left text-xs text-zinc-400">Cerrar sesión</button>}
           </div>
         </nav>
       )}

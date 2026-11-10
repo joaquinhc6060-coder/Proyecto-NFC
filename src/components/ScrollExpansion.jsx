@@ -83,7 +83,7 @@ export default function ScrollExpansion() {
         <img 
           ref={imageRef}
           src="/images/cinematic-sunset-dog.jpg" 
-          alt="Perro con placa FindMe al atardecer en libertad" 
+          alt="Perro con placa Vigio al atardecer en libertad" 
           className="absolute inset-0 w-full h-full object-cover object-center will-change-transform"
         />
 
@@ -96,7 +96,7 @@ export default function ScrollExpansion() {
           
           <div ref={textRef} className="space-y-4">
             <span className="inline-block px-4 py-1.5 rounded-full bg-teal-brand/15 border border-teal-brand/30 text-teal-brand font-mono text-xs uppercase tracking-[0.2em] backdrop-blur-md">
-              MANIFIESTO FINDME
+              MANIFIESTO VIGIO
             </span>
 
             <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-[-0.04em] leading-[1.05] uppercase">

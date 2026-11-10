@@ -1,0 +1,13 @@
+import {loadEnv} from 'vite';
+const env={...loadEnv('development',process.cwd(),''),...process.env};
+const ref=new URL(env.SUPABASE_URL||env.VITE_SUPABASE_URL).hostname.split('.')[0];
+const url=`https://api.supabase.com/v1/projects/${ref}/config/auth`;
+const headers={Authorization:`Bearer ${env.SUPABASE_ACCESS_TOKEN}`,'Content-Type':'application/json'};
+const response=await fetch(url,{headers});
+if(!response.ok)throw new Error('No se pudo leer la configuración de retorno: '+response.status);
+const config=await response.json();
+const redirects=new Set((config.uri_allow_list||'').split(',').map(s=>s.trim()).filter(Boolean));
+for(const origin of ['http://localhost:5173','http://localhost:5175','http://127.0.0.1:5175','https://vigio.cl','https://www.vigio.cl']) redirects.add(origin+'/login**');
+const update=await fetch(url,{method:'PATCH',headers,body:JSON.stringify({uri_allow_list:[...redirects].join(',')})});
+if(!update.ok)throw new Error('No se pudieron guardar las direcciones de retorno: '+update.status);
+console.log('Retornos de /login añadidos. No se cambiaron proveedores, confirmación de correo ni almacenamiento.');

@@ -34,7 +34,7 @@ function VigioMedallion({ variant, isFlipped, flipTrigger }) {
 
   // Physical Dimensions
   const outerRadius = 1.68;
-  const innerRadius = 1.58;
+  const innerRadius = 1.52;
   const thickness = 0.22;
   const segments = 64;
 
@@ -68,13 +68,13 @@ function VigioMedallion({ variant, isFlipped, flipTrigger }) {
         />
       </mesh>
 
-      {/* 3. SOLID MAIN BEVELED RIM (Anodized Dark Titanium / Silicone Casing) */}
+      {/* 3. Borde metálico plateado, como los modelos reales de catálogo. */}
       <mesh rotation={[Math.PI / 2, 0, 0]}>
         <cylinderGeometry args={[outerRadius, outerRadius, thickness, segments, 1, false]} />
         <meshStandardMaterial
-          color="#1e2025"
-          metalness={0.85}
-          roughness={0.25}
+          color="#d6d8dc"
+          metalness={0.95}
+          roughness={0.2}
           envMapIntensity={2.5}
         />
       </mesh>
@@ -83,9 +83,9 @@ function VigioMedallion({ variant, isFlipped, flipTrigger }) {
       <mesh position={[0, 0, thickness / 2 + 0.002]}>
         <ringGeometry args={[innerRadius, outerRadius, segments]} />
         <meshStandardMaterial
-          color={variant.hex}
-          metalness={0.7}
-          roughness={0.3}
+          color="#e5e7eb"
+          metalness={0.95}
+          roughness={0.18}
           envMapIntensity={2.0}
         />
       </mesh>
@@ -94,9 +94,9 @@ function VigioMedallion({ variant, isFlipped, flipTrigger }) {
       <mesh position={[0, 0, -thickness / 2 - 0.002]} rotation={[0, Math.PI, 0]}>
         <ringGeometry args={[innerRadius, outerRadius, segments]} />
         <meshStandardMaterial
-          color={variant.hex}
-          metalness={0.7}
-          roughness={0.3}
+          color="#e5e7eb"
+          metalness={0.95}
+          roughness={0.18}
           envMapIntensity={2.0}
         />
       </mesh>
@@ -118,7 +118,7 @@ function VigioMedallion({ variant, isFlipped, flipTrigger }) {
 }
 
 export default function VigioPlacasShowcase() {
-  const [selectedColor, setSelectedColor] = useState('naranja');
+  const [selectedColor, setSelectedColor] = useState('negro');
   const [isFlipped, setIsFlipped] = useState(false);
   const [flipTrigger, setFlipTrigger] = useState(0);
 
@@ -131,36 +131,15 @@ export default function VigioPlacasShowcase() {
       glow: 'rgba(255, 255, 255, 0.1)'
     },
     { 
-      id: 'fucsia', 
-      name: 'Fucsia Neón', 
-      hex: '#d91b7d', 
-      ring: 'ring-pink-500',
-      glow: 'rgba(217, 27, 125, 0.35)'
-    },
-    { 
       id: 'azul', 
       name: 'Azul Profundo', 
       hex: '#0e2a56', 
       ring: 'ring-blue-500',
       glow: 'rgba(14, 42, 86, 0.45)'
     },
-    { 
-      id: 'verde', 
-      name: 'Verde Esmeralda', 
-      hex: '#159648', 
-      ring: 'ring-emerald-500',
-      glow: 'rgba(21, 150, 72, 0.35)'
-    },
-    { 
-      id: 'naranja', 
-      name: 'Naranja Vigio', 
-      hex: '#f55716', 
-      ring: 'ring-orange-500',
-      glow: 'rgba(245, 87, 22, 0.4)'
-    },
   ];
 
-  const currentVariant = colorVariants.find((c) => c.id === selectedColor) || colorVariants[4];
+  const currentVariant = colorVariants.find((c) => c.id === selectedColor) || colorVariants[0];
 
   const handleToggleFlip = () => {
     setIsFlipped((prev) => !prev);
@@ -208,6 +187,7 @@ export default function VigioPlacasShowcase() {
               gl={{ antialias: true, alpha: true, logarithmicDepthBuffer: true }}
               camera={{ position: [0, 0, 5.2], fov: 42 }}
               className="w-full h-full"
+              fallback={<div className="flex h-full w-full flex-col items-center justify-center gap-4 bg-[#111216] p-8 text-center"><img src="/images/vigio-logo.jpg" alt="Placa Vigio" className="h-28 w-28 rounded-full object-cover ring-2 ring-orange-brand/50" /><p className="text-sm text-zinc-300">Vista de placa Vigio</p></div>}
             >
               {/* Studio Environment for Ultra-Crisp Metallic Reflections */}
               <Environment preset="city" />

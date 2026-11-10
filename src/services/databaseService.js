@@ -218,7 +218,7 @@ export async function recordReceiptTransaction({
     confianzaOCR,
     tagsGenerados: generatedTags,
     selloOtorgado: true,
-    imagenUrl: fileUrl || '/images/findme-restaurant-loyalty.jpg'
+    imagenUrl: fileUrl || '/images/vigio-restaurant-loyalty.jpg'
   };
 
   // Guardar en Supabase PostgreSQL si está conectado

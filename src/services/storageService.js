@@ -105,7 +105,7 @@ async function createMockStorageResponse(file, storagePath, isFallback = false) 
   // Simular latencia de subida (600ms)
   await new Promise((r) => setTimeout(r, 600));
 
-  let previewUrl = '/images/findme-restaurant-loyalty.jpg';
+  let previewUrl = '/images/vigio-restaurant-loyalty.jpg';
   if (typeof window !== 'undefined' && file instanceof Blob) {
     previewUrl = URL.createObjectURL(file);
   }
