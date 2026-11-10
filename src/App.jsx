@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import useSmoothScroll from './hooks/useSmoothScroll';
 import ScrollToTop from './components/ScrollToTop';
 import Navbar from './components/Navbar';
+import AnnouncementBar from './components/AnnouncementBar';
 import Footer from './components/Footer';
 
 // Pages
@@ -36,6 +37,9 @@ export default function App() {
         >
           Saltar al contenido principal
         </a>
+
+        {/* Barra de anuncios fija sobre el menú */}
+        <AnnouncementBar />
 
         {/* Floating Glass Navbar with Routing Links */}
         <Navbar />

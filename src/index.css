@@ -110,3 +110,33 @@
 .animate-growWidth {
   animation: growWidth linear forwards;
 }
+
+/* ===== Announcement bar ===== */
+/* Alto de la barra: el menú sticky y el hero lo descuentan. Vale 0 cuando la barra está cerrada. */
+:root {
+  --vigio-bar-h: 34px;
+  --vigio-nav-h: 72px;
+}
+@media (min-width: 640px) {
+  :root { --vigio-bar-h: 40px; }
+}
+:root[data-announcement="closed"] {
+  --vigio-bar-h: 0px;
+}
+
+/* Desplazamiento de izquierda a derecha: la pista contiene dos copias idénticas. */
+@keyframes vigioMarqueeLtr {
+  from { transform: translate3d(-50%, 0, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+.vigio-marquee-track {
+  animation: vigioMarqueeLtr 36s linear infinite;
+  will-change: transform;
+}
+.vigio-marquee:hover .vigio-marquee-track,
+.vigio-marquee[data-paused="true"] .vigio-marquee-track {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vigio-marquee-track { animation: none; }
+}
