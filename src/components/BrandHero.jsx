@@ -26,15 +26,6 @@ export default function BrandHero() {
       badge: 'Seguridad Infantil',
       accent: 'border-teal-brand/40 text-teal-brand bg-teal-brand/10',
     },
-    {
-      id: 'restaurantes',
-      icon: '🍽️',
-      name: 'Vigio Restaurantes',
-      target: '/restaurantes',
-      tagline: 'Fidelización con IA: pases nativos en Apple y Google Wallet, lectura de boletas y peanas NFC para mesas.',
-      badge: 'SaaS & Fidelización IA',
-      accent: 'border-amber-400/40 text-amber-300 bg-amber-400/10',
-    },
   ];
 
   useEffect(() => {
@@ -64,10 +55,10 @@ export default function BrandHero() {
       id="inicio"
       className="relative overflow-hidden bg-black text-white min-h-[92vh] flex flex-col justify-center pt-24 pb-20 border-b border-white/5"
     >
-      {/* 1. Full-Bleed Cinematic Background Video (Conectando los 3 Mundos: Mascotas, Kids y Restaurantes) */}
+      {/* Fondo visual para las líneas activas: Mascotas y Kids. */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         <video
-          src="/videos/findeme-hero.mp4"
+          src="/videos/vigio-hero.mp4"
           autoPlay
           muted
           loop
@@ -104,15 +95,15 @@ export default function BrandHero() {
 
           {/* Nueva descripción universal */}
           <p className="text-zinc-200 text-base sm:text-lg font-normal max-w-2xl mx-auto leading-relaxed drop-shadow-[0_2px_14px_rgba(0,0,0,1)]">
-            En Vigio diseñamos dispositivos físicos con chips NFC y plataformas digitales de respuesta inmediata: seguridad para mascotas, pulseras infantiles y fidelización para comercios.
+            En Vigio diseñamos dispositivos físicos con chips NFC y plataformas digitales de respuesta inmediata: seguridad para mascotas y pulseras infantiles.
           </p>
         </div>
 
-        {/* 3 Product Pillars Quick Jump Cards */}
+        {/* Líneas de producto actualmente disponibles */}
         <div 
           id="productos"
           ref={pillarsRef}
-          className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mt-8 text-left"
+          className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full max-w-3xl mt-8 text-left"
         >
           {productLines.map((prod) => (
             <Link

@@ -78,7 +78,7 @@ export default function RestaurantSection() {
           {/* Column 1: Commercial Product Photograph */}
           <div className="relative rounded-[36px] overflow-hidden border border-white/10 shadow-2xl group">
             <img
-              src="/images/findme-restaurant-loyalty.jpg"
+              src="/images/vigio-restaurant-loyalty.jpg"
               alt="Peana NFC para mesas de restaurante y tarjeta VIP de fidelización Vigio"
               className="w-full aspect-[4/3] object-cover group-hover:scale-105 transition-transform duration-700"
             />

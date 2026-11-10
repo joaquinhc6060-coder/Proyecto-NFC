@@ -19,7 +19,7 @@ export default function ContactoPage() {
         </h1>
 
         <p className="text-muted-light text-base sm:text-lg mt-4 max-w-xl mx-auto leading-relaxed">
-          Para pedidos individuales de mascotas o niños, o implementaciones a gran escala para restaurantes, hoteles y colegios.
+          Para pedidos individuales de placas para mascotas y pulseras de seguridad infantil.
         </p>
       </div>
 

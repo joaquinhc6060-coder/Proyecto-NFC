@@ -73,7 +73,7 @@ export default function KidsSection() {
             {/* Image Box */}
             <div className="relative aspect-[4/3] flex items-center justify-center p-2 bg-[#090a0d] overflow-hidden">
               <img 
-                src={productView === 'pulsera' ? '/images/vigio-pulsera-nfc.jpg' : '/images/findme-kids-wristband.jpg'} 
+                src={productView === 'pulsera' ? '/images/vigio-pulsera-nfc.jpg' : '/images/vigio-kids-wristband.jpg'} 
                 alt="Pulsera inteligente NFC Vigio Kids de silicona con código QR y NFC" 
                 className={`w-full h-full ${productView === 'pulsera' ? 'object-contain scale-95 hover:scale-105' : 'object-cover hover:scale-105'} transition-transform duration-700`}
               />

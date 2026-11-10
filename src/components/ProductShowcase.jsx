@@ -361,7 +361,7 @@ export default function ProductShowcase() {
                           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="#16d1b0" strokeWidth="2.5" strokeLinecap="round">
                             <path d="M5 9a9 9 0 0 1 0 6M9 6.5a13 13 0 0 1 0 11M13 4a17 17 0 0 1 0 16" />
                           </svg>
-                          FindMe
+                          Vigio
                         </span>
                         <span className="text-teal-brand font-semibold text-[9px] bg-teal-brand/15 px-1.5 py-0.5 rounded-full">
                           {device.badge}
@@ -452,7 +452,7 @@ export default function ProductShowcase() {
                               className="w-full h-full object-cover"
                             />
                             <span className="absolute bottom-1.5 right-2 bg-ink/80 text-white text-[8px] font-bold px-2 py-0.5 rounded-full backdrop-blur-sm">
-                              FindMe NFC
+                              Vigio NFC
                             </span>
                           </div>
 
@@ -523,7 +523,7 @@ export default function ProductShowcase() {
                             <div className="flex items-center justify-between text-[10px]">
                               <span className="font-extrabold text-teal-brand flex items-center gap-1.5">
                                 <span className="w-2 h-2 rounded-full bg-teal-brand animate-ping" />
-                                FindMe Notificación
+                                Vigio Notificación
                               </span>
                               <span className="text-muted-light text-[9px]">Ahora</span>
                             </div>

@@ -96,18 +96,6 @@ export default function ContactForm() {
 
               <button
                 type="button"
-                onClick={() => setSelectedProduct('gastro')}
-                className={`py-2 px-3 rounded-xl border text-center transition-all ${
-                  selectedProduct === 'gastro'
-                    ? 'bg-white text-ink border-white font-bold shadow'
-                    : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10'
-                }`}
-              >
-                🍽️ Gastro & VIP
-              </button>
-
-              <button
-                type="button"
                 onClick={() => setSelectedProduct('todas')}
                 className={`py-2 px-3 rounded-xl border text-center transition-all ${
                   selectedProduct === 'todas'
@@ -115,7 +103,7 @@ export default function ContactForm() {
                     : 'bg-white/5 border-white/15 text-white/80 hover:bg-white/10'
                 }`}
               >
-                ⚡ Todo el Ecosistema
+                ⚡ Ambos productos
               </button>
             </div>
           </div>

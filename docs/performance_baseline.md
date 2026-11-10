@@ -1,5 +1,5 @@
 # Reporte de Auditoría Técnica y Performance Baseline (Fase 1)
-**Proyecto:** FindMe (NFC Smart Pet Tag Platform)  
+**Proyecto:** Vigio (NFC Smart Pet Tag Platform)  
 **Fecha:** Octubre 2026  
 **Entorno:** Vite 6 + React 18 + Tailwind CSS v3 + Supabase Client
 
@@ -37,6 +37,6 @@
 1. **Tipografía moderna:** Reemplazar `system-ui` por **Plus Jakarta Sans** (geometría limpia, kerning premium tipo Apple/TryFi).
 2. **Showcase Interactivo Dinámico (Inspiración TryFi):**
    - Incorporar la galería interactiva fanned-out de dispositivos móviles en perspectiva 3D que se mueven y reaccionan al scroll/hover.
-   - Demostrar los 5 pilares de FindMe: Ficha Rápida de Rescate, Punto de Encuentro con Mapa en Vivo, Historial Médico/Alergias, Panel de Control del Dueño, y Notificaciones Instantáneas.
+   - Demostrar los 5 pilares de Vigio: Ficha Rápida de Rescate, Punto de Encuentro con Mapa en Vivo, Historial Médico/Alergias, Panel de Control del Dueño, y Notificaciones Instantáneas.
 3. **Micro-interacciones y Glassmorphism:**
    - Tarjetas translúcidas con `backdrop-blur-md`, bordes sutiles `border-white/10`, y efectos de iluminación radial para emular hardware de alta gama.

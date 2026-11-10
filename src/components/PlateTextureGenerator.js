@@ -10,6 +10,15 @@ export function createVigioPlateTexture(variant, isBack = false) {
 
   const centerX = 512;
   const centerY = 512;
+  const drawPaw = (x, y, scale = 1, opacity = 0.28) => {
+    ctx.save();
+    ctx.fillStyle = `rgba(115, 125, 145, ${opacity})`;
+    ctx.beginPath(); ctx.ellipse(x, y + 22 * scale, 30 * scale, 38 * scale, 0, 0, Math.PI * 2); ctx.fill();
+    [[-31, -18], [-10, -43], [13, -43], [34, -18]].forEach(([dx, dy]) => {
+      ctx.beginPath(); ctx.ellipse(x + dx * scale, y + dy * scale, 13 * scale, 17 * scale, 0, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.restore();
+  };
 
   // Solid background with subtle radial gradient for lighting depth
   const grad = ctx.createRadialGradient(centerX - 60, centerY - 80, 50, centerX, centerY, 512);
@@ -17,71 +26,30 @@ export function createVigioPlateTexture(variant, isBack = false) {
     grad.addColorStop(0, '#2b2c31');
     grad.addColorStop(0.7, '#18181c');
     grad.addColorStop(1, '#0e0e11');
-  } else if (variant.id === 'fucsia') {
-    grad.addColorStop(0, '#f23899');
-    grad.addColorStop(0.7, '#d91b7d');
-    grad.addColorStop(1, '#9b0e55');
   } else if (variant.id === 'azul') {
     grad.addColorStop(0, '#1c4585');
     grad.addColorStop(0.7, '#0e2a56');
     grad.addColorStop(1, '#07162e');
-  } else if (variant.id === 'verde') {
-    grad.addColorStop(0, '#22c55e');
-    grad.addColorStop(0.7, '#159648');
-    grad.addColorStop(1, '#0c5c2a');
   } else {
-    // naranja
-    grad.addColorStop(0, '#ff733b');
-    grad.addColorStop(0.7, '#f55716');
-    grad.addColorStop(1, '#bd3a05');
+    grad.addColorStop(0, '#2b2c31');
+    grad.addColorStop(0.7, '#18181c');
+    grad.addColorStop(1, '#0e0e11');
   }
 
   // Full solid background
   ctx.fillStyle = grad;
   ctx.fillRect(0, 0, 1024, 1024);
 
-  // Interior bevel rim ring
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 475, 0, Math.PI * 2);
-  ctx.lineWidth = 14;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.22)';
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY, 460, 0, Math.PI * 2);
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.35)';
-  ctx.stroke();
-
-  // Top hole indicator (collar connector)
-  ctx.beginPath();
-  ctx.arc(centerX, centerY - 380, 48, 0, Math.PI * 2);
-  ctx.fillStyle = '#0a0a0d';
-  ctx.fill();
-  ctx.lineWidth = 6;
-  ctx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
-  ctx.stroke();
-
-  ctx.beginPath();
-  ctx.arc(centerX, centerY - 380, 42, 0, Math.PI * 2);
-  ctx.lineWidth = 4;
-  ctx.strokeStyle = 'rgba(0, 0, 0, 0.8)';
-  ctx.stroke();
+  [[180, 180, 0.85], [805, 175, 0.7], [120, 550, 0.75], [865, 625, 0.62], [225, 850, 0.6], [770, 850, 0.72]].forEach(([x, y, scale]) => drawPaw(x, y, scale));
 
   if (!isBack) {
     // ------------------------------------
     // FRONT FACE: VIGIO + NFC + ACERCA TU CELULAR
     // ------------------------------------
     
-    // Logo Shield / Icon at center-top
+    // Ícono NFC central inspirado en la placa física.
     ctx.save();
-    ctx.translate(centerX, centerY - 100);
-
-    // Glowing shield background
-    ctx.beginPath();
-    ctx.arc(0, 0, 105, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.12)';
-    ctx.fill();
+    ctx.translate(centerX, centerY - 20);
 
     // NFC Wave lines (Vector arcs)
     ctx.strokeStyle = '#ffffff';
@@ -114,28 +82,29 @@ export function createVigioPlateTexture(variant, isBack = false) {
     // Text: VIGIO Brand Name
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.font = '900 96px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    ctx.font = '800 76px Georgia, serif';
     ctx.fillStyle = '#ffffff';
     ctx.letterSpacing = '7px';
     ctx.shadowColor = 'rgba(0, 0, 0, 0.45)';
     ctx.shadowBlur = 18;
     ctx.shadowOffsetY = 4;
-    ctx.fillText('VIGIO', centerX, centerY + 105);
+    ctx.fillText('VIGIO', centerX, 245);
 
-    // Instruction: ACERCA TU CELULAR (más grande y limpio, sin "contactless pet id")
-    ctx.font = '700 36px -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif';
+    // Instruction copied from the physical model.
+    ctx.font = '600 39px Georgia, serif';
     ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
     ctx.shadowBlur = 8;
     ctx.shadowOffsetY = 2;
-    ctx.letterSpacing = '3px';
-    ctx.fillText('ACERCA TU CELULAR', centerX, centerY + 205);
+    ctx.letterSpacing = '0px';
+    ctx.fillText('Si me encontraste,', centerX, 765);
+    ctx.fillText('acerca tu teléfono', centerX, 815);
 
   } else {
     // ------------------------------------
     // BACK FACE: SOLO CÓDIGO QR MÁS GRANDE (SIN ID DE TEXTO)
     // ------------------------------------
 
-    // Rounded card for QR (más grande y centrado)
+    // QR demonstrativo sin destino, como el mockup de catálogo.
     const qrSize = 440;
     const qrX = centerX - qrSize / 2;
     const qrY = centerY - qrSize / 2 + 10; // Perfectly centered
@@ -204,16 +173,16 @@ export function createVigioPlateTexture(variant, isBack = false) {
       }
     }
 
-    // Mini center logo
-    ctx.beginPath();
-    ctx.arc(centerX, qrY + qrSize / 2, 30, 0, Math.PI * 2);
-    ctx.fillStyle = '#f55716';
-    ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px sans-serif';
+    ctx.fillStyle = '#0a0a0c';
+    ctx.font = 'bold 26px sans-serif';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillText('V', centerX, qrY + qrSize / 2);
+    ctx.fillText('DEMO', centerX, qrY + qrSize - 22);
+    ctx.font = '700 54px Georgia, serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText('ESCÁNEAME', centerX, 230);
+    ctx.font = '600 36px Georgia, serif';
+    ctx.fillText('@vigio.cl', centerX, 850);
   }
 
   const texture = new THREE.CanvasTexture(canvas);

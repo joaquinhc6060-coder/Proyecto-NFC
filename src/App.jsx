@@ -9,14 +9,14 @@ import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
 import MascotasPage from './pages/MascotasPage';
 import KidsPage from './pages/KidsPage';
-import RestaurantesPage from './pages/RestaurantesPage';
 import LoginPage from './pages/LoginPage';
 import ContactoPage from './pages/ContactoPage';
 import ScanPage from './pages/ScanPage';
-import RestaurantDashboardPage from './pages/RestaurantDashboardPage';
-import ClientWalletCardPage from './pages/ClientWalletCardPage';
-import PanelMascotaPage from './pages/PanelMascotaPage';
-import PanelKidsPage from './pages/PanelKidsPage';
+import VigioAdminMasterPage from './pages/VigioAdminMasterPage';
+import { AuthProvider } from './contexts/AuthContext';
+import AccountRoute from './components/AccountRoute';
+import ActivateProductPage from './pages/ActivateProductPage';
+import AccountPage from './pages/AccountPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -24,6 +24,7 @@ export default function App() {
 
   return (
     <BrowserRouter>
+      <AuthProvider>
       {/* Scroll to top automatically on route changes */}
       <ScrollToTop />
 
@@ -54,9 +55,9 @@ export default function App() {
             <Route path="/kids" element={<KidsPage />} />
             <Route path="/ninos" element={<KidsPage />} />
 
-            {/* 4. Vigio Restaurantes & VIP Loyalty (Table stands & VIP Loyalty Cards) */}
-            <Route path="/restaurantes" element={<RestaurantesPage />} />
-            <Route path="/restaurant" element={<RestaurantesPage />} />
+            {/* Restaurantes queda temporalmente fuera de la experiencia pública. */}
+            <Route path="/restaurantes" element={<Navigate to="/" replace />} />
+            <Route path="/restaurant" element={<Navigate to="/" replace />} />
 
             {/* 5. Contacto (Ruta dedicada estándar) */}
             <Route path="/contacto" element={<ContactoPage />} />
@@ -66,20 +67,25 @@ export default function App() {
             <Route path="/minfc" element={<LoginPage />} />
 
             {/* 7. Paneles de Usuario RBAC Dedicados */}
-            <Route path="/panel-mascota" element={<PanelMascotaPage />} />
-            <Route path="/panel-kids" element={<PanelKidsPage />} />
-            <Route path="/admin" element={<RestaurantDashboardPage />} />
+            <Route path="/mi-cuenta" element={<AccountRoute />} />
+            <Route path="/panel" element={<AccountRoute />} />
+            <Route path="/panel/cuenta" element={<AccountRoute><AccountPage /></AccountRoute>} />
+            <Route path="/activar/:token" element={<AccountRoute><ActivateProductPage /></AccountRoute>} />
+            <Route path="/panel-mascota" element={<AccountRoute />} />
+            <Route path="/panel-kids" element={<AccountRoute />} />
+            <Route path="/admin" element={<AccountRoute />} />
 
-            {/* 8. Escaneo Público en Vivo de Dispositivos NFC (En la calle / restaurante) */}
+            {/* 8. Escaneo público de dispositivos NFC */}
             <Route path="/scan/:code" element={<ScanPage />} />
             <Route path="/p/:code" element={<ScanPage />} />
 
-            {/* 9. SaaS Restaurantes: Dashboard del Dueño */}
-            <Route path="/dashboard-restaurante" element={<RestaurantDashboardPage />} />
+            <Route path="/dashboard-restaurante" element={<Navigate to="/" replace />} />
+            <Route path="/demo/restaurante" element={<Navigate to="/" replace />} />
+            <Route path="/restaurante/:id/mi-tarjeta" element={<Navigate to="/" replace />} />
+            <Route path="/restaurante/mi-tarjeta" element={<Navigate to="/" replace />} />
 
-            {/* 10. SaaS Restaurantes: Vista Móvil del Comensal (Pase Wallet & Boletas IA) */}
-            <Route path="/restaurante/:id/mi-tarjeta" element={<ClientWalletCardPage />} />
-            <Route path="/restaurante/mi-tarjeta" element={<ClientWalletCardPage />} />
+            <Route path="/admin-master" element={<VigioAdminMasterPage />} />
+            <Route path="/gestion-vigio" element={<VigioAdminMasterPage />} />
 
             {/* Fallback */}
             <Route path="*" element={<Navigate to="/" replace />} />
@@ -89,6 +95,7 @@ export default function App() {
         {/* Global Footer */}
         <Footer />
       </div>
+      </AuthProvider>
     </BrowserRouter>
   );
 }
