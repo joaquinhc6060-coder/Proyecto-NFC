@@ -1,8 +1,7 @@
 import React from 'react';
 import BrandHero from '../components/BrandHero';
+import NfcProductsSection from '../components/NfcProductsSection';
 import CatalogSection from '../components/CatalogSection';
-import DidacticVideoSection from '../components/DidacticVideoSection';
-import HowItWorks from '../components/HowItWorks';
 
 export default function HomePage() {
   return (
@@ -10,14 +9,11 @@ export default function HomePage() {
       {/* 1. Master Brand Hero with 3 distinct product worlds */}
       <BrandHero />
 
-      {/* 2. Vitrina comercial referencial de productos Vigio */}
+      {/* 2. Productos NFC: NFC + QR, perfil editable (textos en src/data/homeNfcSection.json) */}
+      <NfcProductsSection />
+
+      {/* 3. Vitrina comercial referencial de productos Vigio */}
       <CatalogSection />
-
-      {/* 3. Interactive Video Showcase: Cellphone alone with automatic autoplay on viewport entry */}
-      <DidacticVideoSection />
-
-      {/* 4. Universal How it Works (3 Steps) */}
-      <HowItWorks />
     </div>
   );
 }

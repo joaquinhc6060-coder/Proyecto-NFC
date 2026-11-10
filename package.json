@@ -12,7 +12,8 @@
     "test:admin": "node --test tests/admin.test.mjs",
     "test:activation": "node --test tests/activation.test.mjs",
     "test:account": "node --test tests/account.test.mjs",
-    "test": "node --test tests/admin.test.mjs tests/activation.test.mjs tests/account.test.mjs"
+    "test:products": "node --test tests/products.test.mjs",
+    "test": "node --test tests/admin.test.mjs tests/activation.test.mjs tests/account.test.mjs tests/products.test.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

@@ -140,3 +140,29 @@
 @media (prefers-reduced-motion: reduce) {
   .vigio-marquee-track { animation: none; }
 }
+
+/* ===== Sección "Productos NFC" del inicio ===== */
+@keyframes vigioFloat {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -10px, 0); }
+}
+@keyframes vigioNfcWave {
+  0% { transform: translate(-50%, -50%) scale(0.55); opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(1.9); opacity: 0; }
+}
+.vigio-float { animation: vigioFloat 7s ease-in-out infinite; }
+.vigio-float-slow { animation: vigioFloat 9s ease-in-out infinite; animation-delay: -3s; }
+.vigio-float-fast { animation: vigioFloat 6s ease-in-out infinite; animation-delay: -1.5s; }
+.vigio-nfc-wave { transform: translate(-50%, -50%); animation: vigioNfcWave 3s ease-out infinite; }
+.vigio-reveal { opacity: 0; transform: translate3d(0, 28px, 0); transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+.vigio-reveal.is-visible { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) {
+  .vigio-float, .vigio-float-slow, .vigio-float-fast, .vigio-nfc-wave { animation: none; }
+  .vigio-nfc-wave { opacity: 0.25; }
+  .vigio-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Página de producto: espacio para la barra fija de compra en móvil. */
+@media (max-width: 1023px) {
+  body.has-mobile-buybar { padding-bottom: 76px; }
+}
