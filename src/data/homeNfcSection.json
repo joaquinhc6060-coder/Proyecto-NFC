@@ -2,31 +2,39 @@
   "eyebrow": "PRODUCTOS NFC",
   "title": "Cambia el teléfono,",
   "titleHighlight": "no el producto.",
-  "description": "Productos con chip NFC integrado que se leen con solo acercar el celular, sin abrir la cámara. Cada uno incluye también un código QR, así tienes dos formas de acceder a tu información.",
+  "description": "Productos con chip NFC integrado que se leen con solo acercar el celular, sin abrir la cámara. Cada uno incluye también un código QR: dos formas de acceder a tu información.",
   "bullets": [
-    "Dos formas de acceso: toque NFC sin cámara o código QR.",
-    "Tú decides qué se muestra: fotos, audios, varios teléfonos de contacto y más.",
-    "Actualiza todo desde la web cuando quieras, sin cambiar la placa ni la pulsera.",
-    "Sin app y sin batería.",
-    "Resistente al agua."
+    "Dos formas de acceso: toque NFC o código QR",
+    "Fotos, audios y varios teléfonos de contacto",
+    "Actualiza todo desde la web, sin cambiar la placa",
+    "Sin app y sin batería",
+    "Resistente al agua"
   ],
-  "closing": "Si cambias de número, cambias un dato en la web. Nada más.",
   "cta": { "label": "Ver productos", "target": "#catalogo" },
-  "visual": {
-    "plateImage": "/images/vigio-placa-negra-llavero.png",
-    "plateAlt": "Placa NFC Vigio negra con código QR",
-    "plateDisc": { "x": "50%", "y": "69.5%", "size": "54%" },
-    "braceletImage": "/images/vigio-pulsera-nfc-producto.webp",
-    "braceletAlt": "Pulsera NFC Vigio negra con código QR",
-    "profileCaption": "Ejemplo de perfil",
-    "profile": {
-      "name": "Luna",
-      "photo": "/images/luna-perfil.jpg",
-      "photoAlt": "Luna, golden retriever",
-      "photoPosition": "50% 28%",
-      "contacts": ["Llamar a Contacto 1", "Llamar a Contacto 2"],
-      "chips": ["Foto", "Audio", "Teléfonos"]
-    },
-    "waterCard": "Resistente al agua"
+  "waterChip": "Resistente al agua",
+  "images": {
+    "backgroundMobile": { "src": "/assets/seccion-nfc/fondo-movil.webp", "width": 1080, "height": 1440 },
+    "backgroundDesktop": { "src": "/assets/seccion-nfc/fondo-desktop.webp", "width": 1920, "height": 1080 },
+    "profileScreen": { "src": "/assets/seccion-nfc/pantalla-perfil.webp", "alt": "Perfil público de ejemplo de una mascota en Vigio" },
+    "editScreen": { "src": "/assets/seccion-nfc/pantalla-panel.webp", "alt": "Panel de edición de ejemplo en Vigio" },
+    "plate": { "src": "/images/vigio-placa-negra-llavero.png", "alt": "Placa NFC Vigio negra con código QR", "width": 1254, "height": 1254 }
+  },
+  "demoProfile": {
+    "name": "Luna",
+    "photo": "/images/luna-perfil.jpg",
+    "photoAlt": "Luna, golden retriever",
+    "contacts": ["Llamar a Mamá", "Llamar a Papá"],
+    "chips": ["Foto", "Audio", "Teléfonos"]
+  },
+  "demoPanel": {
+    "title": "Editar perfil",
+    "fields": [
+      { "label": "Nombre", "value": "Luna" },
+      { "label": "Teléfono 1 · Mamá", "value": "+56 9 •••• 4821" },
+      { "label": "Teléfono 2 · Papá", "value": "+56 9 •••• 3307" }
+    ],
+    "audioLabel": "Mensaje de voz",
+    "audioLength": "0:12",
+    "save": "Guardar cambios"
   }
 }
