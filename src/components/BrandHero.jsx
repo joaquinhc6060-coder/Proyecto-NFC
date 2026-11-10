@@ -146,18 +146,6 @@ export default function BrandHero() {
             </Link>
           </div>
         </div>
-
-        {/* Móvil / movimiento reducido: la historia como lista corta de pasos. */}
-        {staticMode && (
-          <ol className="mt-10 grid w-full max-w-xl grid-cols-2 gap-2 text-left text-xs text-zinc-200 sm:grid-cols-3">
-            {SCENES.map((text, i) => (
-              <li key={text} className="flex items-start gap-2 rounded-xl border border-white/10 bg-black/45 px-3 py-2.5 backdrop-blur-md">
-                <span className="mt-px font-mono text-[10px] font-bold text-orange-brand">{i + 1}</span>
-                <span className="leading-snug">{text}</span>
-              </li>
-            ))}
-          </ol>
-        )}
       </div>
 
       {/* Escritorio: subtítulos HTML sincronizados + barra de progreso de 6 segmentos. */}

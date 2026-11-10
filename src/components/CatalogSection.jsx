@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCardImage from './product/ProductCardImage';
 import { CATEGORIES, formatCLP, getProductsByCategory, productPath } from '../lib/products';
@@ -16,7 +16,7 @@ function ProductCard({ product }) {
   const badgeStyle = BADGE_STYLES[product.highlightStyle || product.badgeStyle] || BADGE_STYLES.orange;
 
   return (
-    <article className={`group flex flex-col overflow-hidden rounded-[28px] border bg-[#121316] shadow-2xl transition duration-300 hover:-translate-y-1 ${featured ? 'border-orange-brand/70 ring-1 ring-orange-brand/40' : 'border-white/10 hover:border-white/25'}`}>
+    <article className={`group flex h-full flex-col overflow-hidden rounded-[28px] border bg-[#121316] shadow-2xl transition duration-300 hover:-translate-y-1 ${featured ? 'border-orange-brand/70 ring-1 ring-orange-brand/40' : 'border-white/10 hover:border-white/25'}`}>
       <div className="relative flex aspect-[4/3.1] items-center justify-center overflow-hidden bg-white p-5 sm:p-7">
         {badge && <span className={`absolute left-4 top-4 z-10 rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${badgeStyle}`}>{badge}</span>}
         <span className="absolute bottom-4 right-4 z-10 rounded-full border border-black/10 bg-white/70 px-2.5 py-1 text-[10px] font-bold text-zinc-600 backdrop-blur">NFC</span>
@@ -36,6 +36,74 @@ function ProductCard({ product }) {
         </div>
       </div>
     </article>
+  );
+}
+
+// Móvil: una fila horizontal que se desliza (scroll-snap) con puntos indicadores.
+// Desde sm: la grilla de siempre. Teclado: flechas izquierda/derecha.
+function ProductRow({ label, products }) {
+  const trackRef = useRef(null);
+  const [current, setCurrent] = useState(0);
+
+  const cards = () => [...(trackRef.current?.children || [])];
+  const goTo = index => {
+    const track = trackRef.current;
+    const card = cards()[index];
+    if (!track || !card) return;
+    track.scrollTo({ left: card.offsetLeft - track.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft || 0) });
+  };
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return undefined;
+    const onScroll = () => {
+      const start = track.scrollLeft;
+      const positions = cards().map(card => Math.abs(card.offsetLeft - track.offsetLeft - parseFloat(getComputedStyle(track).paddingLeft || 0) - start));
+      setCurrent(positions.indexOf(Math.min(...positions)));
+    };
+    track.addEventListener('scroll', onScroll, { passive: true });
+    return () => track.removeEventListener('scroll', onScroll);
+  }, []);
+
+  const onKeyDown = event => {
+    if (event.key !== 'ArrowRight' && event.key !== 'ArrowLeft') return;
+    if (getComputedStyle(trackRef.current).overflowX === 'visible') return; // escritorio: grilla
+    event.preventDefault();
+    goTo(Math.max(0, Math.min(products.length - 1, current + (event.key === 'ArrowRight' ? 1 : -1))));
+  };
+
+  return (
+    <div>
+      <div
+        ref={trackRef}
+        role="region"
+        aria-roledescription="carrusel"
+        aria-label={`Productos de ${label}`}
+        tabIndex={0}
+        onKeyDown={onKeyDown}
+        className="vigio-carousel -mx-6 flex snap-x snap-mandatory gap-3.5 overflow-x-auto scroll-px-4 px-4 pb-2 outline-none focus-visible:ring-2 focus-visible:ring-orange-brand/60 sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-3"
+      >
+        {products.map(product => (
+          <div key={product.id} className="w-[86%] shrink-0 snap-start sm:w-auto">
+            <ProductCard product={product} />
+          </div>
+        ))}
+      </div>
+      {products.length > 1 && (
+        <div className="mt-4 flex justify-center gap-2 sm:hidden">
+          {products.map((product, index) => (
+            <button
+              key={product.id}
+              type="button"
+              onClick={() => goTo(index)}
+              aria-label={`Ir a ${product.name}`}
+              aria-current={index === current ? 'true' : undefined}
+              className={`h-2 rounded-full transition-all ${index === current ? 'w-6 bg-orange-brand' : 'w-2 bg-white/25'}`}
+            />
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -59,10 +127,7 @@ export default function CatalogSection() {
                   <h3 id={`catalogo-${category.id}`} className="text-2xl font-black tracking-[-0.02em]">{category.label}</h3>
                   {category.notice && <p className="w-fit rounded-xl border border-orange-brand/25 bg-orange-brand/[0.07] px-4 py-2 text-xs font-semibold text-orange-light">{category.notice}</p>}
                 </div>
-                {/* Misma grilla en las tres secciones para que todas las tarjetas midan igual. */}
-                <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                  {products.map(product => <ProductCard key={product.id} product={product} />)}
-                </div>
+                <ProductRow label={category.label} products={products} />
               </section>
             );
           })}
