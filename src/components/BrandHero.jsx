@@ -3,14 +3,14 @@ import { Link } from 'react-router-dom';
 import gsap from 'gsap';
 import useMediaQuery from '../hooks/useMediaQuery';
 
-// Medios del hero. TEMPORAL: mientras no exista el video "historia" final se usan el video y
-// una foto actuales. Cuando esté listo, reemplazar por:
-//   sources: [{ src: '/videos/vigio-historia.webm', type: 'video/webm' },
-//             { src: '/videos/vigio-historia.mp4', type: 'video/mp4' }]
-//   poster: '/videos/vigio-historia-poster.webp'
+// Medios de la historia principal. WebM se entrega primero para navegadores modernos
+// y MP4 queda como respaldo compatible.
 const HERO_MEDIA = {
-  sources: [{ src: '/videos/vigio-hero.mp4', type: 'video/mp4' }],
-  poster: '/images/cinematic-sunset-dog.jpg',
+  sources: [
+    { src: '/videos/vigio-campana/vigio-protege-lo-que-mas-quieres.webm', type: 'video/webm' },
+    { src: '/videos/vigio-campana/vigio-protege-lo-que-mas-quieres.mp4', type: 'video/mp4' },
+  ],
+  poster: '/videos/vigio-campana/vigio-protege-lo-que-mas-quieres-poster.webp',
 };
 
 // Guion del video: 6 escenas + cierre con logo (sin subtítulo).
