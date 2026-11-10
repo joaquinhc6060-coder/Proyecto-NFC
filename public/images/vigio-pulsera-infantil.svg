@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2048 640" role="img" aria-labelledby="title desc">
+  <title id="title">Pulsera infantil NFC Vigio</title>
+  <desc id="desc">Pulsera infantil negra Vigio con perforaciones, broche, logo NFC y código QR de muestra.</desc>
+  <defs>
+    <linearGradient id="band" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#3a302a"/>
+      <stop offset="1" stop-color="#302720"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-35%" width="120%" height="170%">
+      <feDropShadow dx="0" dy="14" stdDeviation="12" flood-color="#000" flood-opacity=".22"/>
+    </filter>
+  </defs>
+
+  <!-- Clean product-only vector: no supplier notes, measurements, prices or Pantone swatches. -->
+  <g filter="url(#shadow)">
+    <path d="M72 202h658c56 0 72-18 119-18h355c48 0 64 18 120 18h652c30 0 55 25 55 55v126c0 30-25 55-55 55h-652c-56 0-72 18-120 18H849c-47 0-63-18-119-18H72c-39 0-70-31-70-70V272c0-39 31-70 70-70Z" fill="url(#band)" stroke="#40362f" stroke-width="5"/>
+    <rect x="23" y="218" width="79" height="204" rx="38" fill="#fff" stroke="#40362f" stroke-width="19"/>
+    <circle cx="1976" cy="320" r="42" fill="#fff" stroke="#40362f" stroke-width="18"/>
+
+    <!-- Adjustment perforations -->
+    <g fill="#fff" stroke="#d9d9d9" stroke-width="3">
+      <circle cx="140" cy="320" r="20"/><circle cx="202" cy="320" r="20"/>
+      <circle cx="264" cy="320" r="20"/><circle cx="326" cy="320" r="20"/>
+      <circle cx="388" cy="320" r="20"/><circle cx="450" cy="320" r="20"/>
+      <circle cx="512" cy="320" r="20"/><circle cx="574" cy="320" r="20"/>
+    </g>
+
+    <!-- Brand mark -->
+    <g fill="#fff">
+      <text x="993" y="335" font-family="Georgia, 'Times New Roman', serif" font-size="73" font-weight="700" letter-spacing="-2">VIGI</text>
+      <circle cx="1183" cy="308" r="29"/>
+      <circle cx="1183" cy="308" r="15" fill="#302720"/>
+      <path d="M1174 295c-7 8-7 20 0 27M1192 295c7 8 7 20 0 27" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/>
+      <g fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round">
+        <path d="M1239 299c14 11 14 31 0 42"/><path d="M1254 288c22 18 22 47 0 65"/><path d="M1269 278c29 23 29 61 0 84"/>
+      </g>
+      <text x="1282" y="333" font-family="Arial, sans-serif" font-size="33" font-weight="700" letter-spacing="1">NFC</text>
+    </g>
+
+    <!-- Decorative sample QR: intentionally not a functional destination -->
+    <g transform="translate(1773 269)">
+      <rect width="105" height="105" rx="7" fill="#fff"/>
+      <g fill="#302720">
+        <path d="M8 8h29v29H8zM13 13h19v19H13zM68 8h29v29H68zM73 13h19v19H73zM8 68h29v29H8zM13 73h19v19H13z"/>
+        <path d="M43 8h7v7h-7zm8 9h8v7h-8zm-9 12h8v8h-8zm13 4h8v8h-8zm-10 12h8v8h-8zm12 5h8v7h-8zm14 0h8v8h-8zm-27 12h8v8h-8zm10 8h8v8h-8zm12-13h8v7h-8zm10 10h8v8h-8zm12-13h7v8h-7zm-42 34h8v8h-8zm12-6h8v8h-8zm13 6h8v8h-8zm13-7h8v8h-8zm12 8h8v8h-8z"/>
+      </g>
+    </g>
+  </g>
+</svg>

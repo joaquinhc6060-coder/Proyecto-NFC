@@ -33,3 +33,6 @@ mcp_config.json
 .vercel
 .env*
 supabase/.temp/
+
+# Fotogramas fuente locales de la campaña; el sitio utiliza solo los archivos finales optimizados.
+public/videos/vigio-campana/scene-*.png
