@@ -30,7 +30,7 @@ export default function CatalogSection() {
               <div className="space-y-3 p-5">
                 <div className="flex items-center justify-between gap-2 text-[10px] font-mono uppercase tracking-wider text-zinc-500"><span>{product.category}</span><span>{product.color}</span></div>
                 <h3 className="min-h-12 text-lg font-black leading-tight tracking-[-0.02em]">{product.name}</h3>
-                <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-4"><div><p className="text-[10px] uppercase tracking-wider text-zinc-500">Prueba colaborativa</p><p className="mt-1 text-xl font-black text-orange-brand">{product.price}<span className="ml-1 text-xs font-medium text-zinc-400">CLP</span></p></div><Link to={product.target} className="rounded-xl border border-white/15 px-3 py-2 text-xs font-bold transition hover:border-orange-brand hover:bg-orange-brand hover:text-white" aria-label={`Ver ${product.name}`}>Ver →</Link></div>
+                <div className="flex items-end justify-between gap-3 border-t border-white/10 pt-4"><div><p className="text-[10px] uppercase tracking-wider text-zinc-500">Prueba colaborativa</p><p className="mt-1 text-xl font-black text-orange-brand">{product.price}<span className="ml-1 text-xs font-medium text-zinc-400">CLP</span></p></div><Link to={product.target} className="max-w-[10rem] rounded-xl border border-white/15 px-3 py-2 text-center text-xs font-bold leading-snug transition hover:border-orange-brand hover:bg-orange-brand hover:text-white" aria-label={`Protege a tu mascota con ${product.name}`}>Protege a tu mascota aquí →</Link></div>
               </div>
             </article>
           ))}
