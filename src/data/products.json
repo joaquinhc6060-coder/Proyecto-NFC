@@ -1,0 +1,604 @@
+{
+  "categories": [
+    {
+      "id": "mascotas",
+      "label": "Mascotas"
+    },
+    {
+      "id": "pulseras",
+      "label": "Pulseras"
+    },
+    {
+      "id": "packs",
+      "label": "Packs",
+      "notice": "El código VIGIO10 no es acumulable con packs."
+    }
+  ],
+  "products": [
+    {
+      "id": "placa-nfc-negra",
+      "name": "Placa NFC Vigio · Negra",
+      "category": "mascotas",
+      "categoryLabel": "Mascotas",
+      "price": 12990,
+      "badge": "NUEVO",
+      "badgeStyle": "orange",
+      "cardImages": [
+        "/images/vigio-placa-negra-llavero.png"
+      ],
+      "colorSelectorLabel": "Color",
+      "colors": [
+        {
+          "id": "negro",
+          "name": "Negro huellas",
+          "hex": "#121212",
+          "imagesFrom": "placa-nfc-negra"
+        },
+        {
+          "id": "azul",
+          "name": "Azul marino",
+          "hex": "#1d2b5a",
+          "imagesFrom": "placa-nfc-azul"
+        }
+      ],
+      "viewer": {
+        "mode": "flip",
+        "shape": "circle",
+        "thickness": 14,
+        "edgeColor": "#c4c8cf",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "viewer"
+        },
+        {
+          "src": "/assets/campana/escena-1.webp",
+          "alt": "Golden retriever en un parque con su placa Vigio en el collar",
+          "position": "22% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-3.webp",
+          "alt": "Una persona acerca su celular a la placa Vigio del perro para escanearla",
+          "position": "45% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-4.webp",
+          "alt": "Celular con el perfil de la mascota y el botón para llamar",
+          "position": "26% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        }
+      ],
+      "description": "Placa NFC + QR para el collar de tu mascota. Quien la encuentre acerca su celular y ve los datos de contacto que tú elegiste.",
+      "features": [
+        "Sin batería ni app: funciona con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en la misma placa.",
+        "Resistente al agua (por confirmar).",
+        "Actualizas tu contacto cuando quieras desde tu panel, sin cambiar la placa.",
+        "Diseño con huellas y borde metálico."
+      ],
+      "specs": [
+        {
+          "label": "Diámetro",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Grosor",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la placa. No es un GPS en vivo.",
+      "upsellMessage": "Lleva 2 placas + 2 pulseras y ahorra con el Pack Familia",
+      "complements": [
+        "pulsera-nfc",
+        "pack-duo",
+        "pack-familia",
+        "pack-manada"
+      ]
+    },
+    {
+      "id": "placa-nfc-azul",
+      "name": "Placa NFC Vigio · Azul",
+      "category": "mascotas",
+      "categoryLabel": "Mascotas",
+      "price": 12990,
+      "badge": "NUEVO",
+      "badgeStyle": "sky",
+      "cardImages": [
+        "/images/vigio-placa-azul-llavero.png"
+      ],
+      "colorSelectorLabel": "Color",
+      "colors": [
+        {
+          "id": "azul",
+          "name": "Azul marino",
+          "hex": "#1d2b5a",
+          "imagesFrom": "placa-nfc-azul"
+        },
+        {
+          "id": "negro",
+          "name": "Negro huellas",
+          "hex": "#121212",
+          "imagesFrom": "placa-nfc-negra"
+        }
+      ],
+      "viewer": {
+        "mode": "flip",
+        "shape": "circle",
+        "thickness": 14,
+        "edgeColor": "#c4c8cf",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "viewer"
+        },
+        {
+          "src": "/assets/campana/escena-1.webp",
+          "alt": "Golden retriever en un parque con su placa Vigio en el collar",
+          "position": "22% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-3.webp",
+          "alt": "Una persona acerca su celular a la placa Vigio del perro para escanearla",
+          "position": "45% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-4.webp",
+          "alt": "Celular con el perfil de la mascota y el botón para llamar",
+          "position": "26% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        }
+      ],
+      "description": "Placa NFC + QR para el collar de tu mascota. Quien la encuentre acerca su celular y ve los datos de contacto que tú elegiste.",
+      "features": [
+        "Sin batería ni app: funciona con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en la misma placa.",
+        "Resistente al agua (por confirmar).",
+        "Actualizas tu contacto cuando quieras desde tu panel, sin cambiar la placa.",
+        "Diseño con huellas y borde metálico."
+      ],
+      "specs": [
+        {
+          "label": "Diámetro",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Grosor",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la placa. No es un GPS en vivo.",
+      "upsellMessage": "Lleva 2 placas + 2 pulseras y ahorra con el Pack Familia",
+      "complements": [
+        "pulsera-nfc",
+        "pack-duo",
+        "pack-familia",
+        "pack-manada"
+      ]
+    },
+    {
+      "id": "pulsera-nfc",
+      "name": "Pulsera NFC Vigio",
+      "category": "pulseras",
+      "categoryLabel": "Pulseras",
+      "price": 12990,
+      "badge": "NUEVO",
+      "badgeStyle": "orange",
+      "cardImages": [
+        "/images/vigio-pulsera-nfc-producto.webp"
+      ],
+      "colorSelectorLabel": "Color",
+      "colors": [
+        {
+          "id": "negro",
+          "name": "Negro",
+          "hex": "#121212",
+          "imagesFrom": "pulsera-nfc"
+        }
+      ],
+      "viewer": {
+        "mode": "flip",
+        "shape": "strap",
+        "thickness": 8,
+        "edgeColor": "#1b1b1d",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "viewer"
+        },
+        {
+          "src": "/assets/campana/escena-2.webp",
+          "alt": "Niño en la playa con su pulsera Vigio en la muñeca",
+          "position": "48% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-4.webp",
+          "alt": "Celular con el perfil de la mascota y el botón para llamar",
+          "position": "26% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-5.webp",
+          "alt": "Los papás reciben la llamada y sonríen aliviados",
+          "position": "45% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        }
+      ],
+      "description": "Pulsera NFC + QR para niños, adultos mayores y quien lo necesite. Quien la encuentre acerca su celular y ve los datos de contacto que tú elegiste.",
+      "features": [
+        "Sin batería ni app: funciona con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en la misma pulsera.",
+        "Resistente al agua (por confirmar).",
+        "Actualizas tu contacto cuando quieras desde tu panel, sin cambiar la pulsera.",
+        "Correa ajustable con hebilla."
+      ],
+      "specs": [
+        {
+          "label": "Largo de la correa",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Ancho",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la pulsera. No es un GPS en vivo.",
+      "upsellMessage": "Lleva 2 placas + 2 pulseras y ahorra con el Pack Familia",
+      "complements": [
+        "placa-nfc-negra",
+        "pack-duo",
+        "pack-familia",
+        "pack-manada"
+      ]
+    },
+    {
+      "id": "pack-duo",
+      "name": "Pack Dúo",
+      "category": "packs",
+      "categoryLabel": "Packs",
+      "price": 22990,
+      "regularPrice": 25980,
+      "units": 2,
+      "includes": [
+        "1 placa NFC Vigio",
+        "1 pulsera NFC Vigio"
+      ],
+      "freeShipping": false,
+      "cardImages": [
+        "/images/vigio-placa-negra-llavero.png",
+        "/images/vigio-pulsera-nfc-producto.webp"
+      ],
+      "colorSelectorLabel": "Color de la placa",
+      "colors": [
+        {
+          "id": "negro",
+          "name": "Negro huellas",
+          "hex": "#121212"
+        },
+        {
+          "id": "azul",
+          "name": "Azul marino",
+          "hex": "#1d2b5a"
+        }
+      ],
+      "viewer": {
+        "mode": "none",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "composite"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-1.webp",
+          "alt": "Golden retriever en un parque con su placa Vigio en el collar",
+          "position": "22% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-2.webp",
+          "alt": "Niño en la playa con su pulsera Vigio en la muñeca",
+          "position": "48% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-3.webp",
+          "alt": "Una persona acerca su celular a la placa Vigio del perro para escanearla",
+          "position": "45% 50%"
+        }
+      ],
+      "description": "Una placa para tu mascota y una pulsera para tu hijo, con precio de pack.",
+      "features": [
+        "Incluye 1 placa NFC Vigio y 1 pulsera NFC Vigio.",
+        "Sin batería ni app: funcionan con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en cada producto.",
+        "Resistentes al agua (por confirmar).",
+        "Actualizas los contactos cuando quieras desde tu panel."
+      ],
+      "specs": [
+        {
+          "label": "Placa · Diámetro",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Placa · Grosor",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Largo de la correa",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Ancho",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la placa o la pulsera. No es un GPS en vivo.",
+      "upsellMessage": "Lleva 2 placas + 2 pulseras y ahorra con el Pack Familia",
+      "complements": [
+        "placa-nfc-negra",
+        "pulsera-nfc"
+      ]
+    },
+    {
+      "id": "pack-familia",
+      "name": "Pack Familia",
+      "category": "packs",
+      "categoryLabel": "Packs",
+      "price": 43990,
+      "regularPrice": 51960,
+      "units": 4,
+      "includes": [
+        "2 placas NFC Vigio",
+        "2 pulseras NFC Vigio"
+      ],
+      "freeShipping": true,
+      "highlight": "MÁS POPULAR",
+      "highlightStyle": "orange",
+      "cardImages": [
+        "/images/vigio-placa-negra-llavero.png",
+        "/images/vigio-placa-azul-llavero.png",
+        "/images/vigio-pulsera-nfc-producto.webp",
+        "/images/vigio-pulsera-nfc-producto.webp"
+      ],
+      "colorSelectorLabel": "Color de las placas",
+      "colors": [
+        {
+          "id": "negro",
+          "name": "Negro huellas",
+          "hex": "#121212"
+        },
+        {
+          "id": "azul",
+          "name": "Azul marino",
+          "hex": "#1d2b5a"
+        }
+      ],
+      "viewer": {
+        "mode": "none",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "composite"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-1.webp",
+          "alt": "Golden retriever en un parque con su placa Vigio en el collar",
+          "position": "22% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-2.webp",
+          "alt": "Niño en la playa con su pulsera Vigio en la muñeca",
+          "position": "48% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-3.webp",
+          "alt": "Una persona acerca su celular a la placa Vigio del perro para escanearla",
+          "position": "45% 50%"
+        }
+      ],
+      "description": "Dos placas para tus mascotas y dos pulseras para tus hijos, con envío gratis.",
+      "features": [
+        "Incluye 2 placas NFC Vigio y 2 pulseras NFC Vigio.",
+        "Envío gratis.",
+        "Sin batería ni app: funcionan con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en cada producto.",
+        "Resistentes al agua (por confirmar).",
+        "Actualizas los contactos cuando quieras desde tu panel."
+      ],
+      "specs": [
+        {
+          "label": "Placa · Diámetro",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Placa · Grosor",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Largo de la correa",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Ancho",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la placa o la pulsera. No es un GPS en vivo.",
+      "upsellMessage": null,
+      "complements": [
+        "placa-nfc-negra",
+        "pulsera-nfc"
+      ]
+    },
+    {
+      "id": "pack-manada",
+      "name": "Pack Manada",
+      "category": "packs",
+      "categoryLabel": "Packs",
+      "price": 62990,
+      "regularPrice": 77940,
+      "units": 6,
+      "includes": [
+        "4 placas NFC Vigio",
+        "2 pulseras NFC Vigio"
+      ],
+      "freeShipping": true,
+      "highlight": "MEJOR PRECIO",
+      "highlightStyle": "teal",
+      "cardImages": [
+        "/images/vigio-placa-negra-llavero.png",
+        "/images/vigio-placa-azul-llavero.png",
+        "/images/vigio-placa-negra-llavero.png",
+        "/images/vigio-placa-azul-llavero.png",
+        "/images/vigio-pulsera-nfc-producto.webp",
+        "/images/vigio-pulsera-nfc-producto.webp"
+      ],
+      "colorSelectorLabel": "Color de las placas",
+      "colors": [
+        {
+          "id": "negro",
+          "name": "Negro huellas",
+          "hex": "#121212"
+        },
+        {
+          "id": "azul",
+          "name": "Azul marino",
+          "hex": "#1d2b5a"
+        }
+      ],
+      "viewer": {
+        "mode": "none",
+        "model": null
+      },
+      "gallery": [
+        {
+          "type": "composite"
+        },
+        {
+          "src": "/assets/campana/escena-6.webp",
+          "alt": "Reencuentro en la playa: el niño con su pulsera Vigio y el perro con su placa",
+          "position": "35% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-1.webp",
+          "alt": "Golden retriever en un parque con su placa Vigio en el collar",
+          "position": "22% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-2.webp",
+          "alt": "Niño en la playa con su pulsera Vigio en la muñeca",
+          "position": "48% 50%"
+        },
+        {
+          "src": "/assets/campana/escena-3.webp",
+          "alt": "Una persona acerca su celular a la placa Vigio del perro para escanearla",
+          "position": "45% 50%"
+        }
+      ],
+      "description": "Cuatro placas para toda la manada y dos pulseras para los niños, con envío gratis.",
+      "features": [
+        "Incluye 4 placas NFC Vigio y 2 pulseras NFC Vigio.",
+        "Envío gratis.",
+        "Sin batería ni app: funcionan con cualquier celular con NFC o cámara.",
+        "Tecnología NFC + código QR en cada producto.",
+        "Resistentes al agua (por confirmar).",
+        "Actualizas los contactos cuando quieras desde tu panel."
+      ],
+      "specs": [
+        {
+          "label": "Placa · Diámetro",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Placa · Grosor",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Largo de la correa",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Pulsera · Ancho",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Material",
+          "value": "Pendiente"
+        },
+        {
+          "label": "Resistencia al agua",
+          "value": "Pendiente"
+        }
+      ],
+      "notice": "Se activa cuando alguien escanea la placa o la pulsera. No es un GPS en vivo.",
+      "upsellMessage": "Lleva 2 placas + 2 pulseras y ahorra con el Pack Familia",
+      "complements": [
+        "placa-nfc-negra",
+        "pulsera-nfc"
+      ]
+    }
+  ]
+}

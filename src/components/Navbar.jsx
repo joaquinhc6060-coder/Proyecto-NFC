@@ -21,7 +21,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-[var(--vigio-bar-h,0px)] z-50bg-[#07080a]/95 backdrop-blur-xl text-white border-b border-white/10 transition-colors">
+    <header className="sticky top-[var(--vigio-bar-h,0px)] z-50 bg-[#07080a]/95 backdrop-blur-xl text-white border-b border-white/10 transition-colors">
       <div className="max-w-[1340px] w-[calc(100%-48px)] mx-auto flex items-center justify-between h-[72px]">
         
         {/* Full Left: Brand Logo + Menu Options together */}

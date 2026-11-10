@@ -18,6 +18,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import AccountRoute from './components/AccountRoute';
 import ActivateProductPage from './pages/ActivateProductPage';
 import AccountPage from './pages/AccountPage';
+import ProductPage from './pages/ProductPage';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -62,6 +63,9 @@ export default function App() {
             {/* Restaurantes queda temporalmente fuera de la experiencia pública. */}
             <Route path="/restaurantes" element={<Navigate to="/" replace />} />
             <Route path="/restaurant" element={<Navigate to="/" replace />} />
+
+            {/* Página de producto: una plantilla para todos (datos en src/data/products.json) */}
+            <Route path="/producto/:id" element={<ProductPage />} />
 
             {/* 5. Contacto (Ruta dedicada estándar) */}
             <Route path="/contacto" element={<ContactoPage />} />

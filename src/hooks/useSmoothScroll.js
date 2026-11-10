@@ -21,6 +21,9 @@ export default function useSmoothScroll() {
     // Synchronize Lenis with GSAP ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
 
+    // Disponible para botones que hacen scroll a una sección (p. ej. "Ver productos").
+    window.vigioLenis = lenis;
+
     const updateLenis = (time) => {
       lenis.raf(time * 1000);
     };
@@ -30,6 +33,7 @@ export default function useSmoothScroll() {
 
     return () => {
       gsap.ticker.remove(updateLenis);
+      if (window.vigioLenis === lenis) delete window.vigioLenis;
       lenis.destroy();
     };
   }, []);
