@@ -19,6 +19,7 @@ import AccountRoute from './components/AccountRoute';
 import ActivateProductPage from './pages/ActivateProductPage';
 import AccountPage from './pages/AccountPage';
 import ProductPage from './pages/ProductPage';
+import FloatingCart from './components/FloatingCart';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -99,6 +100,8 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>
+
+        <FloatingCart />
 
         {/* Global Footer */}
         <Footer />

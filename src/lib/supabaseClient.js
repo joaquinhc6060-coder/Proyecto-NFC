@@ -15,7 +15,9 @@ export const supabase = isSupabaseConfigured()
         persistSession: true,
         autoRefreshToken: true,
         flowType: 'pkce',
-        detectSessionInUrl: true,
+        // AuthContext canjea el código OAuth una sola vez. Evita que el
+        // cliente y la pantalla de retorno compitan por el mismo código PKCE.
+        detectSessionInUrl: false,
       }
     })
   : null;
