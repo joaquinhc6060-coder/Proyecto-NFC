@@ -132,11 +132,6 @@ export default function CatalogSection() {
             );
           })}
         </div>
-
-        <div className="mt-16 flex flex-col items-start justify-between gap-5 rounded-[28px] border border-teal-brand/20 bg-teal-brand/[0.06] p-6 sm:flex-row sm:items-center">
-          <div><p className="font-bold text-teal-brand">¿Quieres consultar disponibilidad o una compra para varios productos?</p><p className="mt-1 text-sm text-zinc-400">Esta primera vitrina es referencial. Escríbenos y te ayudamos a elegir.</p></div>
-          <Link to="/contacto" className="rounded-xl bg-orange-brand px-5 py-3 text-sm font-black text-white shadow-lg shadow-orange-brand/20 transition hover:bg-orange-hover">Consultar disponibilidad</Link>
-        </div>
       </div>
     </section>
   );

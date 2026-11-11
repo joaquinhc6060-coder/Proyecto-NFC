@@ -1,0 +1,12 @@
+{
+  "eyebrow": "CÓMO FUNCIONA",
+  "title": "Así de simple.",
+  "subtitle": "Sin app, sin batería y sin complicaciones.",
+  "steps": [
+    { "icon": "tap", "title": "Acerca el celular", "text": "Un toque con NFC, o escanea el QR." },
+    { "icon": "profile", "title": "Se abre el perfil", "text": "Ves los datos que tú elegiste." },
+    { "icon": "call", "title": "Te llaman", "text": "Quien los encontró avisa a tu familia." },
+    { "icon": "home", "title": "Vuelven a casa", "text": "Y actualizas tus datos desde la web." }
+  ],
+  "cta": { "label": "Ver productos", "target": "#catalogo" }
+}

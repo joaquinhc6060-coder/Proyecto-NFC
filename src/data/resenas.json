@@ -1,0 +1,21 @@
+{
+  "_comentario": [
+    "IMPORTANTE: las 4 reseñas de abajo son TARJETAS PLANTILLA (\"plantilla\": true), no opiniones reales.",
+    "Si publicas el sitio antes de tener reseñas reales, cambia \"mostrarSeccion\" a false para ocultar la sección completa.",
+    "Para cada reseña real: reemplaza nombre, ciudad, producto, texto, estrellas (1 a 5), foto (ruta opcional, p. ej. /assets/resenas/nombre.webp, o null para mostrar iniciales), fecha (AAAA-MM-DD o null) y verificada (true/false), y cambia \"plantilla\" a false.",
+    "El resumen de calificación y los datos estructurados (schema.org) aparecen solos cuando hay 3 o más reseñas reales con verificada = true y ya no queda ninguna plantilla.",
+    "whatsapp: número para el botón \"Cuéntanos tu experiencia\" (formato +56 9 1234 5678). Mientras tenga X, el botón abre WhatsApp sin destinatario."
+  ],
+  "mostrarSeccion": true,
+  "eyebrow": "OPINIONES",
+  "title": "Lo que dicen quienes ya lo usan.",
+  "whatsapp": "+56 9 XXXX XXXX",
+  "whatsappMensaje": "Hola, quiero dejar mi reseña de Vigio. Producto: ... Mi opinión: ...",
+  "botonResena": "Cuéntanos tu experiencia",
+  "resenas": [
+    { "nombre": "Ejemplo 1", "ciudad": "Ciudad", "producto": "Placa NFC", "texto": "Texto de la reseña (pendiente)", "estrellas": 5, "foto": null, "fecha": null, "verificada": false, "plantilla": true },
+    { "nombre": "Ejemplo 2", "ciudad": "Ciudad", "producto": "Pulsera NFC", "texto": "Texto de la reseña (pendiente)", "estrellas": 5, "foto": null, "fecha": null, "verificada": false, "plantilla": true },
+    { "nombre": "Ejemplo 3", "ciudad": "Ciudad", "producto": "Placa NFC", "texto": "Texto de la reseña (pendiente)", "estrellas": 5, "foto": null, "fecha": null, "verificada": false, "plantilla": true },
+    { "nombre": "Ejemplo 4", "ciudad": "Ciudad", "producto": "Pulsera NFC", "texto": "Texto de la reseña (pendiente)", "estrellas": 5, "foto": null, "fecha": null, "verificada": false, "plantilla": true }
+  ]
+}

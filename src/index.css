@@ -155,6 +155,24 @@
   .vigio-reveal { opacity: 1; transform: none; transition: none; }
 }
 
+/* "Cómo funciona" (≥ 768 px): la línea se llena de izquierda a derecha en 1,2 s; cada paso entra
+   con 120 ms de diferencia y su nodo/tarjeta se enciende cuando la línea lo alcanza (0,4 s por tramo). */
+.cf-line-fill { transform: scaleX(0); transition: transform 1.2s cubic-bezier(0.45, 0, 0.25, 1) 0.15s; }
+.cf-timeline.is-visible .cf-line-fill { transform: scaleX(1); }
+.cf-step { opacity: 0; transform: translate3d(0, 14px, 0); transition: opacity 0.6s ease, transform 0.6s ease; transition-delay: calc(var(--i) * 120ms); }
+.cf-timeline.is-visible .cf-step { opacity: 1; transform: none; }
+.cf-node { border-color: rgba(255, 90, 46, 0.4); transition: border-color 0.45s ease, box-shadow 0.45s ease; transition-delay: calc(0.15s + var(--i) * 0.4s); }
+.cf-card { border-color: rgba(255, 255, 255, 0.1); transition: border-color 0.45s ease, box-shadow 0.45s ease; transition-delay: calc(0.15s + var(--i) * 0.4s); }
+.cf-timeline.is-visible .cf-node { border-color: #ff5a2e; box-shadow: 0 0 0 6px #0c0d11, 0 0 22px rgba(255, 90, 46, 0.45); }
+.cf-timeline.is-visible .cf-card { border-color: rgba(255, 90, 46, 0.45); box-shadow: 0 0 28px -10px rgba(255, 90, 46, 0.45); }
+@media (prefers-reduced-motion: reduce) {
+  .cf-line-fill { transform: none; transition: none; }
+  .cf-step { opacity: 1; transform: none; transition: none; }
+  .cf-node, .cf-card { transition: none; }
+  .cf-node { border-color: #ff5a2e; }
+  .cf-card { border-color: rgba(255, 90, 46, 0.45); }
+}
+
 /* Catálogo en móvil: carrusel horizontal sin barra visible. */
 .vigio-carousel { scroll-behavior: smooth; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
 .vigio-carousel::-webkit-scrollbar { display: none; }
