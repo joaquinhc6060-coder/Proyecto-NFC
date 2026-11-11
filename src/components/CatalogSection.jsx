@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import ProductCardImage from './product/ProductCardImage';
 import { CATEGORIES, formatCLP, getProductsByCategory, productPath } from '../lib/products';
+import { useCart } from '../contexts/CartContext';
 
 const BADGE_STYLES = {
   orange: 'bg-orange-brand text-white',
@@ -11,28 +12,40 @@ const BADGE_STYLES = {
 
 // Tarjeta selectora: imagen, nombre, precio y "Ver producto".
 function ProductCard({ product }) {
+  const { addItem } = useCart();
+  const [added, setAdded] = useState(false);
   const featured = product.highlightStyle === 'orange';
   const badge = product.highlight || product.badge;
   const badgeStyle = BADGE_STYLES[product.highlightStyle || product.badgeStyle] || BADGE_STYLES.orange;
+  const addToCart = () => {
+    addItem({ productId: product.id, colorId: product.colors?.[0]?.id, quantity: 1 });
+    setAdded(true);
+    window.setTimeout(() => setAdded(false), 1800);
+  };
 
   return (
     <article className={`group flex h-full flex-col overflow-hidden rounded-[28px] border bg-[#121316] shadow-2xl transition duration-300 hover:-translate-y-1 ${featured ? 'border-orange-brand/70 ring-1 ring-orange-brand/40' : 'border-white/10 hover:border-white/25'}`}>
-      <div className="relative flex aspect-[4/3.1] items-center justify-center overflow-hidden bg-white p-5 sm:p-7">
+      <div className="relative flex aspect-[4/3.1] items-center justify-center overflow-hidden bg-[linear-gradient(90deg,rgba(74,42,22,.16)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(135deg,#b98454_0%,#d8ad7b_42%,#a87248_100%)] bg-[size:18px_100%,100%_13px,100%_100%] p-5 sm:p-7">
         {badge && <span className={`absolute left-4 top-4 z-10 rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${badgeStyle}`}>{badge}</span>}
-        <span className="absolute bottom-4 right-4 z-10 rounded-full border border-black/10 bg-white/70 px-2.5 py-1 text-[10px] font-bold text-zinc-600 backdrop-blur">NFC</span>
+        <span className="absolute bottom-4 right-4 z-10 rounded-full border border-white/30 bg-black/25 px-2.5 py-1 text-[10px] font-bold text-white backdrop-blur">NFC</span>
         <ProductCardImage product={product} className="transition duration-500 group-hover:scale-[1.03]" />
       </div>
       <div className="flex flex-1 flex-col gap-4 p-5">
         <h4 className="text-lg font-black leading-tight tracking-[-0.02em]">{product.name}</h4>
-        <div className="mt-auto flex items-end justify-between gap-3 border-t border-white/10 pt-4">
+        <div className="mt-auto flex flex-col gap-3 border-t border-white/10 pt-4">
+          <div className="flex items-end gap-3">
           <p className="flex flex-wrap items-baseline gap-x-2">
             {product.regularPrice && <span className="text-sm text-zinc-500 line-through">{formatCLP(product.regularPrice)}</span>}
             <span className="text-xl font-black text-orange-brand">{formatCLP(product.price)}</span>
             <span className="text-xs font-medium text-zinc-400">CLP</span>
           </p>
-          <Link to={productPath(product.id)} className="shrink-0 rounded-xl border border-white/15 px-4 py-2 text-xs font-bold transition hover:border-orange-brand hover:bg-orange-brand hover:text-white" aria-label={`Ver producto: ${product.name}`}>
-            Ver producto
-          </Link>
+          </div>
+          <div className="grid grid-cols-2 gap-2.5">
+            <Link to={productPath(product.id)} className="flex min-h-11 items-center justify-center rounded-xl border border-white/20 bg-white/[0.04] px-3 py-2.5 text-center text-xs font-black text-zinc-100 transition hover:border-white/45 hover:bg-white/10" aria-label={`Ver producto: ${product.name}`}>Ver detalle</Link>
+            <button type="button" onClick={addToCart} className={`min-h-11 rounded-xl px-3 py-2.5 text-xs font-black transition ${added ? 'bg-teal-brand text-[#071109]' : 'bg-orange-brand text-white shadow-lg shadow-orange-brand/20 hover:bg-orange-hover'}`}>
+              {added ? '✓ Agregado' : 'Agregar al carrito'}
+            </button>
+          </div>
         </div>
       </div>
     </article>

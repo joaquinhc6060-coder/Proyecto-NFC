@@ -5,6 +5,7 @@ import ProductImage from '../components/product/ProductImage';
 import ProductCardImage from '../components/product/ProductCardImage';
 import { Accordion, ColorSelector, QuantityControl } from '../components/product/ProductControls';
 import { facesFor, formatCLP, getProduct, savingsOf } from '../lib/products';
+import { useCart } from '../contexts/CartContext';
 
 // Galería definida en products.json ("gallery"): visor giratorio, imagen compuesta del pack
 // o fotos (src + alt + position para encuadrar al recortar).
@@ -71,6 +72,7 @@ function ComplementRow({ product, state, onChange }) {
 }
 
 function ProductDetail({ product }) {
+  const { addItem, openCart } = useCart();
   const [colorId, setColorId] = useState(product.colors?.[0]?.id);
   const [quantity, setQuantity] = useState(1);
   const gallery = product.gallery.filter(item => item.type !== 'viewer' || product.viewer?.mode !== 'none');
@@ -97,12 +99,15 @@ function ProductDetail({ product }) {
     extras: Object.entries(extras).filter(([, item]) => item.qty > 0).map(([id, item]) => ({ productId: id, ...item })),
   };
   const handleBuyNow = () => {
-    // TODO(carrito): ir al checkout con `selection`.
-    void selection;
+    addSelectionToCart();
+    openCart();
   };
   const handleAddToCart = () => {
-    // TODO(carrito): agregar `selection` al carrito.
-    void selection;
+    addSelectionToCart();
+  };
+  const addSelectionToCart = () => {
+    addItem({ productId: selection.productId, colorId: selection.color, quantity: selection.quantity });
+    selection.extras.forEach(item => addItem({ productId: item.productId, colorId: item.color, quantity: item.qty }));
   };
   // ─────────────────────────────────────────────────────────────────────────
 
