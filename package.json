@@ -13,7 +13,8 @@
     "test:activation": "node --test tests/activation.test.mjs",
     "test:account": "node --test tests/account.test.mjs",
     "test:products": "node --test tests/products.test.mjs",
-    "test": "node --test tests/admin.test.mjs tests/activation.test.mjs tests/account.test.mjs tests/products.test.mjs"
+    "test:resenas": "node --test tests/resenas.test.mjs",
+    "test": "node --test tests/admin.test.mjs tests/activation.test.mjs tests/account.test.mjs tests/products.test.mjs tests/resenas.test.mjs"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
