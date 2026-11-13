@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Áreas privadas y perfiles que no deben aparecer en resultados de búsqueda.
+Disallow: /login
+Disallow: /minfc
+Disallow: /panel
+Disallow: /panel/
+Disallow: /panel-mascota
+Disallow: /panel-kids
+Disallow: /mi-cuenta
+Disallow: /activar/
+Disallow: /admin
+Disallow: /admin-master
+Disallow: /gestion-vigio
+Disallow: /scan/
+Disallow: /p/
+
+Sitemap: https://vigio.cl/sitemap.xml
