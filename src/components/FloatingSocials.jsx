@@ -1,0 +1,24 @@
+import React, { useEffect, useRef, useState } from 'react';
+
+function ChatIcon(){return <svg className="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20 3H4a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h3.6l3.1 2.6a2 2 0 0 0 2.6 0l3.1-2.6H20a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-3.1 9.2-2.7 2.3a1 1 0 0 1-1.3 0l-1.7-1.4-1.8 1.5a1 1 0 0 1-1.3-1.5l2.5-2.1a1 1 0 0 1 1.3 0l1.7 1.4 2.1-1.8a1 1 0 1 1 1.3 1.6Z"/></svg>}
+function WhatsAppIcon(){return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.5 3.5A11.8 11.8 0 0 0 12.1 0C5.6 0 .3 5.3.3 11.8c0 2.1.5 4.1 1.6 5.9L.2 24l6.5-1.7a11.8 11.8 0 0 0 5.5 1.4h.1c6.5 0 11.8-5.3 11.8-11.8 0-3.2-1.3-6.1-3.6-8.4Zm-8.3 18.2a9.8 9.8 0 0 1-5-1.4l-.4-.2-3.9 1 1-3.8-.3-.4a9.7 9.7 0 0 1-1.5-5.1c0-5.4 4.4-9.8 9.8-9.8 2.6 0 5.1 1 6.9 2.9a9.7 9.7 0 0 1 2.9 6.9c0 5.4-4.4 9.8-9.7 9.8h.2Zm5.4-7.3c-.3-.2-1.8-.9-2.1-1s-.5-.2-.7.2-.8 1-.9 1.2-.3.3-.6.1a7.9 7.9 0 0 1-2.5-1.5 9.2 9.2 0 0 1-1.7-2.1c-.2-.3 0-.5.1-.6l.5-.5c.2-.2.2-.3.3-.5 0-.2 0-.4 0-.5l-1-2.3c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4s-1 1-1 2.4 1 2.8 1.2 3 2.1 3.2 5 4.5c.7.3 1.3.5 1.7.6.7.2 1.8-.7 2.1-1.4s.3-1.3.2-1.4l-.4-.2Z"/></svg>}
+function InstagramIcon(){return <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>}
+function FacebookIcon(){return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.8 21v-8h2.7l.4-3.1h-3.1V8c0-.9.3-1.6 1.7-1.6H17V3.6c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4V9.9H8.2V13h2.6v8h3Z"/></svg>}
+function TikTokIcon(){return <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.7 3c.2 1.5 1 2.7 2.4 3.4.7.4 1.4.5 2.1.5v3.3c-1.7 0-3.3-.5-4.7-1.4v6.4a6 6 0 1 1-5.2-6v3.3a2.7 2.7 0 1 0 1.9 2.6V3h3.5Z"/></svg>}
+
+const networks = [
+  { name: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61596475172709&locale=es_LA', icon: FacebookIcon, classes: 'bg-[#1877f2] hover:bg-[#1265d1]' },
+  { name: 'Instagram', href: 'https://www.instagram.com/vigio.cl/', icon: InstagramIcon, classes: 'bg-[#e4405f] hover:bg-[#cf3651]' },
+  { name: 'TikTok', href: 'https://www.tiktok.com/@vigio.cl', icon: TikTokIcon, classes: 'bg-[#111111] hover:bg-[#292929]' },
+  { name: 'WhatsApp', href: null, icon: WhatsAppIcon, classes: 'bg-[#25D366] opacity-60', pending: true },
+];
+
+export default function FloatingSocials(){
+  const [open,setOpen]=useState(false);
+  const ref=useRef(null);
+  useEffect(()=>{const outside=event=>{if(ref.current&&!ref.current.contains(event.target))setOpen(false);};const escape=event=>{if(event.key==='Escape')setOpen(false);};document.addEventListener('pointerdown',outside);document.addEventListener('keydown',escape);return()=>{document.removeEventListener('pointerdown',outside);document.removeEventListener('keydown',escape);};},[]);
+  return <div ref={ref} className="fixed bottom-5 left-5 z-[69] flex flex-col items-start gap-3 sm:bottom-6 sm:left-6">
+    {open&&<div className="flex flex-col gap-2.5" role="group" aria-label="Redes sociales de Vigio">{networks.map(({name,href,icon:Icon,classes,pending})=>href?<a key={name} href={href} target="_blank" rel="noopener noreferrer" onClick={()=>setOpen(false)} aria-label={`Abrir ${name} de Vigio`} title={name} className={`group relative flex h-12 w-12 items-center justify-center rounded-full text-white shadow-xl shadow-black/30 transition duration-200 hover:-translate-y-1 hover:scale-105 ${classes}`}><Icon/><span className="pointer-events-none absolute left-14 hidden whitespace-nowrap rounded-lg bg-[#15161a] px-2.5 py-1.5 text-xs font-bold text-white shadow-xl sm:group-hover:block">{name}</span></a>:<button key={name} type="button" disabled aria-label="WhatsApp de Vigio, próximamente" title="WhatsApp próximamente" className={`group relative flex h-12 w-12 cursor-not-allowed items-center justify-center rounded-full text-white shadow-xl shadow-black/30 ${classes}`}><Icon/><span className="pointer-events-none absolute left-14 hidden whitespace-nowrap rounded-lg bg-[#15161a] px-2.5 py-1.5 text-xs font-bold text-white shadow-xl sm:group-hover:block">Próximamente</span></button>)}</div>}
+    <button type="button" onClick={()=>setOpen(value=>!value)} aria-expanded={open} aria-label={open?'Cerrar redes sociales':'Abrir redes sociales'} className={`flex h-14 w-14 items-center justify-center rounded-full border text-white shadow-[0_16px_35px_rgba(0,0,0,0.42)] transition duration-300 hover:scale-105 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-orange-brand ${open?'rotate-45 border-white/25 bg-[#15161a]':'border-orange-brand/70 bg-[#111216] hover:border-orange-brand hover:bg-black'}`}><ChatIcon/></button>
+  </div>;
+}

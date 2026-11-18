@@ -43,6 +43,10 @@
       "destination": "/api/vigio-account"
     },
     {
+      "source": "/api/vigio-contact",
+      "destination": "/api/vigio-contact"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }

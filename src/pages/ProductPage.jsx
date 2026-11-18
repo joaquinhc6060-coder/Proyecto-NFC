@@ -17,6 +17,9 @@ const SHIPPING_LINES = [
   'Envío gratis en los packs Familia y Manada.',
 ];
 
+// Misma superficie cálida del catálogo: mantiene el producto legible sin el blanco plano.
+const WOOD_SURFACE = 'bg-[linear-gradient(90deg,rgba(74,42,22,.16)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(135deg,#b98454_0%,#d8ad7b_42%,#a87248_100%)] bg-[size:18px_100%,100%_13px,100%_100%]';
+
 const STEPS = [
   {
     text: 'Acerca el celular a la placa o pulsera.',
@@ -124,7 +127,7 @@ function ProductDetail({ product }) {
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Galería y visor */}
           <div className="min-w-0 space-y-4">
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] border border-white/10 bg-white">
+            <div className={`relative aspect-[4/3] overflow-hidden rounded-[28px] border border-white/10 ${WOOD_SURFACE}`}>
               {isNew && <span className="absolute left-4 top-4 z-10 rounded-lg bg-orange-brand px-2.5 py-1 text-[10px] font-black uppercase tracking-wider text-white">Nuevo</span>}
               {product.highlight && <span className={`absolute right-4 top-4 z-10 rounded-lg px-2.5 py-1 text-[10px] font-black uppercase tracking-wider ${product.highlightStyle === 'teal' ? 'bg-teal-brand text-slate-950' : 'bg-orange-brand text-white'}`}>{product.highlight}</span>}
               {mainView}
@@ -139,7 +142,7 @@ function ProductDetail({ product }) {
                     onClick={() => setView(index)}
                     aria-pressed={selected}
                     aria-label={galleryLabel(item)}
-                    className={`relative aspect-square overflow-hidden rounded-2xl border-2 bg-white transition ${selected ? 'border-orange-brand' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                    className={`relative aspect-square overflow-hidden rounded-2xl border-2 ${WOOD_SURFACE} transition ${selected ? 'border-orange-brand' : 'border-transparent opacity-70 hover:opacity-100'}`}
                   >
                     {item.type === 'viewer' && <div className="h-full w-full p-2"><ProductImage key={faces.frente} src={faces.frente} alt="" /></div>}
                     {item.type === 'composite' && <div className="h-full w-full p-1.5"><ProductCardImage product={product} /></div>}

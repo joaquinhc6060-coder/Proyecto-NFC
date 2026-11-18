@@ -111,6 +111,44 @@
   animation: growWidth linear forwards;
 }
 
+/* Bienvenida breve al entrar a Vigio ID. */
+@keyframes vigioWelcomeIn {
+  0% { opacity: 0; }
+  18% { opacity: 1; }
+  84% { opacity: 1; }
+  100% { opacity: 0; }
+}
+@keyframes vigioWelcomeContent {
+  0% { opacity: 0; transform: translateY(16px) scale(.98); }
+  22%, 78% { opacity: 1; transform: translateY(0) scale(1); }
+  100% { opacity: 0; transform: translateY(-8px) scale(.99); }
+}
+@keyframes vigioWelcomeMark {
+  0% { opacity: 0; transform: scale(.72) rotate(-10deg); }
+  32%, 78% { opacity: 1; transform: scale(1) rotate(0); }
+  100% { opacity: 0; transform: scale(.94); }
+}
+@keyframes vigioWelcomeProgress {
+  from { transform: scaleX(0); }
+  to { transform: scaleX(1); }
+}
+.vigio-welcome-screen {
+  position: fixed; inset: 0; z-index: 300; display: grid; place-items: center;
+  padding: 24px; background: #050506; animation: vigioWelcomeIn 1.45s ease both;
+}
+.vigio-welcome-content { width: min(100%, 430px); text-align: center; animation: vigioWelcomeContent 1.45s cubic-bezier(.16,1,.3,1) both; }
+.vigio-welcome-mark { display: grid; place-items: center; width: 64px; height: 64px; margin: 0 auto 22px; border-radius: 20px; background: #ff5a2e; color: #fff; font-size: 28px; font-weight: 900; box-shadow: 0 12px 34px rgba(255,90,46,.24); animation: vigioWelcomeMark 1.45s cubic-bezier(.16,1,.3,1) both; }
+.vigio-welcome-kicker { margin: 0 0 12px; color: #ff5a2e; font-size: 11px; font-weight: 800; letter-spacing: .24em; }
+.vigio-welcome-content h2 { margin: 0; color: #fff; font-size: clamp(32px, 7vw, 52px); font-weight: 900; line-height: 1.06; }
+.vigio-welcome-content h2 span { color: #ff5a2e; }
+.vigio-welcome-copy { margin: 14px 0 26px; color: #a1a1aa; font-size: 14px; }
+.vigio-welcome-progress { height: 2px; overflow: hidden; border-radius: 999px; background: rgba(255,255,255,.12); }
+.vigio-welcome-progress span { display: block; width: 100%; height: 100%; transform-origin: left; background: #ff5a2e; animation: vigioWelcomeProgress 1.12s cubic-bezier(.16,1,.3,1) .12s both; }
+@media (prefers-reduced-motion: reduce) {
+  .vigio-welcome-screen, .vigio-welcome-content, .vigio-welcome-mark { animation: none; }
+  .vigio-welcome-progress span { animation: none; transform: scaleX(1); }
+}
+
 /* ===== Announcement bar ===== */
 /* Alto de la barra: el menú sticky y el hero lo descuentan. Vale 0 cuando la barra está cerrada. */
 :root {
@@ -183,4 +221,25 @@
 /* Página de producto: espacio para la barra fija de compra en móvil. */
 @media (max-width: 1023px) {
   body.has-mobile-buybar { padding-bottom: 76px; }
+}
+
+/* Formulario de contacto: campos sobrios, consistentes con el sistema oscuro de Vigio. */
+.vigio-contact-input {
+  width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.055);
+  color: #fff;
+  padding: 0.95rem 1rem;
+  font-size: 0.95rem;
+  line-height: 1.35;
+  outline: none;
+  transition: border-color 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+.vigio-contact-input::placeholder { color: #8e9199; }
+.vigio-contact-input:hover { border-color: rgba(255, 255, 255, 0.24); }
+.vigio-contact-input:focus {
+  border-color: #ff5a2e;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 4px rgba(255, 90, 46, 0.16);
 }

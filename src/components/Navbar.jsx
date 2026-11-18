@@ -44,21 +44,7 @@ export default function Navbar() {
 
           {/* Desktop Navigation full izquierda pegada al logo */}
           <nav className="hidden lg:flex items-center gap-6 xl:gap-8 text-xs font-bold uppercase tracking-wider">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.path}
-                to={item.path}
-                className={({ isActive }) =>
-                  `transition-colors py-1 ${
-                    isActive 
-                      ? 'text-white font-extrabold border-b-2 border-orange-brand' 
-                      : 'text-muted-light hover:text-white'
-                  }`
-                }
-              >
-                {item.name}
-              </NavLink>
-            ))}
+            {navItems.map((item) => (<NavLink key={item.path} to={item.path} className={({ isActive }) =>`transition-colors py-1 ${isActive ? 'text-white font-extrabold border-b-2 border-orange-brand' : 'text-muted-light hover:text-white'}`}>{item.name}</NavLink>))}
           </nav>
         </div>
 
@@ -103,16 +89,7 @@ export default function Navbar() {
       {/* Mobile Dropdown Menu */}
       {isOpen && (
         <nav id="mobile-menu" className="lg:hidden bg-[#0c0d12] border-t border-white/10 px-6 py-6 flex flex-col gap-4 text-sm font-semibold">
-          {navItems.map((item) => (
-            <Link 
-              key={item.path}
-              to={item.path} 
-              onClick={closeMenu}
-              className={`py-1.5 ${location.pathname === item.path ? 'text-orange-brand font-bold' : 'text-white hover:text-orange-brand'}`}
-            >
-              {item.name}
-            </Link>
-          ))}
+          {navItems.map((item) => (<Link key={item.path} to={item.path} onClick={closeMenu} className={`py-1.5 ${location.pathname === item.path ? 'text-orange-brand font-bold' : 'text-white hover:text-orange-brand'}`}>{item.name}</Link>))}
 
           <div className="pt-3 border-t border-white/10 flex flex-col gap-3">
             <Link 

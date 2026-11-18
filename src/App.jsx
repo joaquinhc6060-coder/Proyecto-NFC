@@ -20,6 +20,7 @@ import ActivateProductPage from './pages/ActivateProductPage';
 import AccountPage from './pages/AccountPage';
 import ProductPage from './pages/ProductPage';
 import FloatingCart from './components/FloatingCart';
+import FloatingSocials from './components/FloatingSocials';
 
 export default function App() {
   // Initialize Lenis smooth scroll synchronized with GSAP
@@ -102,6 +103,7 @@ export default function App() {
         </main>
 
         <FloatingCart />
+        <FloatingSocials />
 
         {/* Global Footer */}
         <Footer />
