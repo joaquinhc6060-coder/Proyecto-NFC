@@ -58,7 +58,16 @@ export default async function handler(req, res) {
     const admin = createClient(url, serviceKey, { auth: { persistSession: false, autoRefreshToken: false } });
     const detail = [`Asunto: ${asunto}`, `Nombre: ${nombre}`, telefono ? `Teléfono: ${telefono}` : '', `Mensaje: ${mensaje}`].filter(Boolean).join('\n');
     const { error: databaseError } = await admin.from('contactos').insert([{ email, producto_interes: detail, origen: 'web_contacto' }]);
-    if (databaseError) throw fail(500, 'No pudimos registrar tu mensaje. Inténtalo nuevamente en unos minutos.');
+    if (databaseError) {
+      // Diagnóstico interno para Vercel: no registrar los datos ingresados por
+      // la persona ni secretos, sólo el motivo entregado por Supabase.
+      console.error('[vigio-contact] Supabase insert failed', {
+        code: databaseError.code || null,
+        message: databaseError.message || 'Sin detalle',
+        hint: databaseError.hint || null,
+      });
+      throw fail(500, 'No pudimos registrar tu mensaje. Inténtalo nuevamente en unos minutos.');
+    }
 
     const safe = { nombre: escapeHtml(nombre), email: escapeHtml(email), telefono: escapeHtml(telefono || 'No informado'), asunto: escapeHtml(asunto), mensaje: escapeHtml(mensaje).replace(/\n/g, '<br>') };
     await sendEmail(resendApiKey, {
