@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import { useCart } from '../contexts/CartContext';
-import { formatCLP, productPath } from '../lib/products';
+import { cardImageFor, displayProductName, formatCLP, productPath } from '../lib/products';
 import { QuantityControl } from './product/ProductControls';
 import ProductCardImage from './product/ProductCardImage';
 
@@ -56,23 +56,27 @@ function QuoteForm() {
   const total = subtotal - discount.amount;
   const update = event => setForm(current => ({ ...current, [event.target.name]: event.target.value }));
 
+  const quoteNumber = () => {
+    const date = new Date().toISOString().slice(0, 10).replaceAll('-', '');
+    const random = globalThis.crypto?.getRandomValues
+      ? Array.from(globalThis.crypto.getRandomValues(new Uint32Array(1)))[0].toString(36).slice(-4).toUpperCase()
+      : Math.random().toString(36).slice(2, 6).toUpperCase();
+    return `VIG-${date}-${random}`;
+  };
+
   const sendQuote = event => {
     event.preventDefault();
     if (!form.name.trim() || !form.email.trim() || !validPhone(form.phone)) { setError('Completa nombre, correo electrónico y un teléfono chileno válido.'); return; }
     const lines = [
       'Hola Vigio, quiero solicitar una cotización:',
       '',
-      ...items.map(item => `• ${item.product.name}${item.colorId ? ` · ${item.product.colors?.find(color => color.id === item.colorId)?.name || item.colorId}` : ''} × ${item.quantity} — ${formatCLP(item.product.price * item.quantity)}`),
+      ...items.map(item => `• ${displayProductName(item.product, item.colorId, { includeColor: true })} × ${item.quantity} — ${formatCLP(item.product.price * item.quantity)}`),
       '',
       `Subtotal: ${formatCLP(subtotal)}`,
       ...(discount.amount ? [`Descuento ${coupon}: -${formatCLP(discount.amount)}`] : []),
       `Total estimado: ${formatCLP(total)}`,
       '',
-      `Nombre: ${form.name.trim()}`,
-      `Correo: ${form.email.trim()}`,
-      `Teléfono: +${normalizePhone(form.phone)}`,
-      ...(form.address.trim() ? [`Dirección / comuna: ${form.address.trim()}`] : []),
-      ...(coupon ? [`Código informado: ${coupon}`] : []),
+      `#${quoteNumber()}`,
     ];
     const popup = window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(lines.join('\n'))}`, '_blank', 'noopener,noreferrer');
     if (!popup) { setError('Tu navegador bloqueó WhatsApp. Permite ventanas emergentes e inténtalo nuevamente.'); return; }
@@ -101,7 +105,7 @@ function CartPanel() {
     <aside className="relative flex h-full w-full max-w-[430px] flex-col border-l border-white/10 bg-[#111216] shadow-2xl">
       <header className="flex items-center justify-between border-b border-white/10 px-5 py-4"><div><p className="text-lg font-black">Tu carrito</p><p className="text-xs text-zinc-400">{items.length ? `${items.reduce((sum, item) => sum + item.quantity, 0)} producto(s) seleccionados` : 'Aún no agregas productos'}</p></div><button type="button" onClick={closeCart} className="flex h-11 w-11 items-center justify-center rounded-md border border-white/20 bg-black/20 text-2xl leading-none text-zinc-200 transition hover:border-orange-brand hover:bg-orange-brand hover:text-white" aria-label="Cerrar carrito">×</button></header>
       {!items.length ? <EmptyCart closeCart={closeCart} /> : <div className="flex-1 overflow-y-auto px-5 py-4">
-        <ul className="divide-y divide-white/10">{items.map(item => { const color = item.product.colors?.find(entry => entry.id === item.colorId); return <li key={`${item.productId}-${item.colorId}`} className="flex gap-3 py-4"><div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-2"><ProductCardImage product={item.product} /></div><div className="min-w-0 flex-1"><div className="flex gap-2"><div className="min-w-0 flex-1"><p className="truncate text-sm font-black">{item.product.name}</p>{color && <p className="mt-0.5 text-xs text-zinc-400">{color.name}</p>}</div><button type="button" onClick={() => removeItem(item.productId, item.colorId)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-400/25 bg-red-500/10 text-red-300 transition hover:bg-red-500 hover:text-white" aria-label={`Quitar ${item.product.name}`} title="Quitar producto"><TrashIcon /></button></div><div className="mt-3 flex items-center justify-between gap-2"><QuantityControl size="sm" value={item.quantity} onChange={quantity => setQuantity(item.productId, item.colorId, quantity)} label={`Cantidad de ${item.product.name}`} /><p className="text-sm font-black text-orange-brand">{formatCLP(item.product.price * item.quantity)}</p></div></div></li>; })}</ul>
+        <ul className="divide-y divide-white/10">{items.map(item => { const color = item.product.colors?.find(entry => entry.id === item.colorId); const itemName = displayProductName(item.product, item.colorId); return <li key={`${item.productId}-${item.colorId}`} className="flex gap-3 py-4"><div className="flex h-20 w-20 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-2"><ProductCardImage product={item.product} imageSrc={cardImageFor(item.product, item.colorId)} /></div><div className="min-w-0 flex-1"><div className="flex gap-2"><div className="min-w-0 flex-1"><p className="truncate text-sm font-black">{itemName}</p>{color && <p className="mt-0.5 text-xs text-zinc-400">{color.name}</p>}</div><button type="button" onClick={() => removeItem(item.productId, item.colorId)} className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-red-400/25 bg-red-500/10 text-red-300 transition hover:bg-red-500 hover:text-white" aria-label={`Quitar ${itemName}`} title="Quitar producto"><TrashIcon /></button></div><div className="mt-3 flex items-center justify-between gap-2"><QuantityControl size="sm" value={item.quantity} onChange={quantity => setQuantity(item.productId, item.colorId, quantity)} label={`Cantidad de ${itemName}`} /><p className="text-sm font-black text-orange-brand">{formatCLP(item.product.price * item.quantity)}</p></div></div></li>; })}</ul>
         <div className="mt-3 flex items-center justify-between"><span className="text-sm text-zinc-400">Subtotal</span><span className="text-lg font-black">{formatCLP(subtotal)} CLP</span></div>
         <button type="button" onClick={clearCart} className="mt-4 text-xs text-zinc-500 underline-offset-4 hover:text-white hover:underline">Vaciar carrito</button>
         <QuoteForm />

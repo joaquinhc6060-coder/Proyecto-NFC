@@ -4,8 +4,8 @@ const IMAGE_CLASS = 'h-full w-full object-contain drop-shadow-[0_14px_18px_rgba(
 
 // Imagen de producto sobre fondo blanco. En los packs compone las fotos de cada
 // producto incluido (placas arriba, pulseras abajo) sin generar imágenes nuevas.
-export default function ProductCardImage({ product, className = '' }) {
-  const images = product.cardImages || [];
+export default function ProductCardImage({ product, imageSrc = '', className = '' }) {
+  const images = imageSrc ? [imageSrc] : product.cardImages || [];
   const alt = product.includes ? `${product.name}: ${product.includes.join(' y ')}` : product.name;
 
   if (images.length <= 1) {
