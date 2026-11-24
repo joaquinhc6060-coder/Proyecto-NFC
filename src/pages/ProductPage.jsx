@@ -4,7 +4,7 @@ import ProductViewer360 from '../components/product/ProductViewer360';
 import ProductImage from '../components/product/ProductImage';
 import ProductCardImage from '../components/product/ProductCardImage';
 import { Accordion, ColorSelector, QuantityControl } from '../components/product/ProductControls';
-import { facesFor, formatCLP, getProduct, savingsOf } from '../lib/products';
+import { displayProductName, facesFor, formatCLP, getProduct, savingsOf } from '../lib/products';
 import { useCart } from '../contexts/CartContext';
 
 // Galería definida en products.json ("gallery"): visor giratorio, imagen compuesta del pack
@@ -85,6 +85,7 @@ function ProductDetail({ product }) {
 
   const faces = facesFor(product, colorId);
   const color = product.colors?.find(c => c.id === colorId);
+  const productName = displayProductName(product, colorId);
   const isNew = product.badge === 'NUEVO';
 
   // Deja espacio para la barra de compra fija en móvil.
@@ -116,13 +117,13 @@ function ProductDetail({ product }) {
 
   const current = gallery[view] || gallery[0];
   const mainView = current.type === 'viewer'
-    ? <ProductViewer360 name={product.name} viewer={product.viewer} frontSrc={faces.frente} backSrc={faces.reverso} />
+    ? <ProductViewer360 name={productName} viewer={product.viewer} frontSrc={faces.frente} backSrc={faces.reverso} />
     : current.type === 'composite'
       ? <div className="h-full w-full p-8 sm:p-12"><ProductCardImage product={product} /></div>
       : <ProductImage key={current.src} src={current.src} alt={current.alt} position={current.position} className="object-cover" />;
 
   return (
-    <div className="bg-[#07080a] px-6 pb-20 pt-10 text-white sm:pt-14">
+    <div className="bg-[#07080a] px-6 pb-32 pt-10 text-white sm:pt-14 lg:pb-20">
       <div className="mx-auto max-w-[1240px]">
         <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
           {/* Galería y visor */}
@@ -158,7 +159,7 @@ function ProductDetail({ product }) {
           <div className="min-w-0 space-y-7">
             <div className="space-y-4">
               <p className="font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-orange-brand">{product.categoryLabel}</p>
-              <h1 className="text-3xl font-black leading-tight tracking-[-0.03em] sm:text-5xl">{product.name}</h1>
+              <h1 className="text-3xl font-black leading-tight tracking-[-0.03em] sm:text-5xl">{productName}</h1>
               {product.includes && <p className="text-sm text-zinc-400">Incluye {product.includes.join(' + ')}</p>}
               <Price product={product} large />
               <p className="text-xs text-zinc-500">Envío calculado al finalizar la compra.</p>
@@ -221,7 +222,7 @@ function ProductDetail({ product }) {
       {/* Móvil: barra fija con precio y compra */}
       <div className="fixed inset-x-0 bottom-0 z-40 flex items-center justify-between gap-4 border-t border-white/10 bg-[#07080a]/95 px-5 py-3 backdrop-blur-xl lg:hidden">
         <div className="min-w-0">
-          <p className="truncate text-[11px] text-zinc-400">{product.name}{color && product.colors.length > 1 ? ` · ${color.name}` : ''}</p>
+          <p className="truncate text-[11px] text-zinc-400">{productName}</p>
           <p className="text-lg font-black text-orange-brand">{formatCLP(product.price)} <span className="text-xs font-medium text-zinc-400">CLP</span></p>
         </div>
         <button type="button" onClick={handleBuyNow} className="shrink-0 rounded-xl bg-orange-brand px-5 py-3 text-sm font-black text-white shadow-lg shadow-orange-brand/30">Comprar ahora</button>

@@ -79,6 +79,25 @@ test('every gallery image and viewer face exists in public/', () => {
   }
 });
 
+test('plate colour variants have their own commercial name, card image and two physical faces', () => {
+  const exists = path => existsSync(new URL(`../public${path}`, import.meta.url));
+  const expected = {
+    negro: { name: 'Placa NFC Vigio · Negra', image: '/images/vigio-placa-negra-llavero.png', front: '/images/vigio-placa-negra-llavero.png', back: '/images/vigio-placa-negra-llavero-nfc.png' },
+    azul: { name: 'Placa NFC Vigio · Azul', image: '/images/vigio-placa-azul-llavero.png', front: '/images/vigio-placa-azul-llavero.png', back: '/images/vigio-placa-azul-llavero-nfc.png' },
+  };
+  for (const id of ['placa-nfc-negra', 'placa-nfc-azul']) {
+    for (const color of byId.get(id).colors) {
+      const variant = expected[color.id];
+      assert.ok(variant, `${id}/${color.id} is not a recognised plate variant`);
+      assert.equal(color.displayName, variant.name, `${id}/${color.id} has an incoherent title`);
+      assert.equal(color.cardImage, variant.image, `${id}/${color.id} has an incoherent card image`);
+      assert.ok(exists(variant.image), `${id}/${color.id} missing card image`);
+      assert.ok(exists(variant.front) && exists(variant.back), `${id}/${color.id} missing a viewer face`);
+      assert.notEqual(variant.front, variant.back, `${id}/${color.id} cannot reuse the same face on both sides`);
+    }
+  }
+});
+
 test('bracelet specs use strap measures and never pet-plate fields', () => {
   const labels = byId.get('pulsera-nfc').specs.map(s => s.label);
   assert.deepEqual(labels, ['Largo de la correa', 'Ancho', 'Material', 'Resistencia al agua']);

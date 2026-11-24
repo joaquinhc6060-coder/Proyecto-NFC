@@ -32,13 +32,17 @@
           "id": "negro",
           "name": "Negro huellas",
           "hex": "#121212",
-          "imagesFrom": "placa-nfc-negra"
+          "imagesFrom": "placa-nfc-negra",
+          "displayName": "Placa NFC Vigio · Negra",
+          "cardImage": "/images/vigio-placa-negra-llavero.png"
         },
         {
           "id": "azul",
           "name": "Azul marino",
           "hex": "#1d2b5a",
-          "imagesFrom": "placa-nfc-azul"
+          "imagesFrom": "placa-nfc-azul",
+          "displayName": "Placa NFC Vigio · Azul",
+          "cardImage": "/images/vigio-placa-azul-llavero.png"
         }
       ],
       "viewer": {
@@ -125,13 +129,17 @@
           "id": "azul",
           "name": "Azul marino",
           "hex": "#1d2b5a",
-          "imagesFrom": "placa-nfc-azul"
+          "imagesFrom": "placa-nfc-azul",
+          "displayName": "Placa NFC Vigio · Azul",
+          "cardImage": "/images/vigio-placa-azul-llavero.png"
         },
         {
           "id": "negro",
           "name": "Negro huellas",
           "hex": "#121212",
-          "imagesFrom": "placa-nfc-negra"
+          "imagesFrom": "placa-nfc-negra",
+          "displayName": "Placa NFC Vigio · Negra",
+          "cardImage": "/images/vigio-placa-negra-llavero.png"
         }
       ],
       "viewer": {
