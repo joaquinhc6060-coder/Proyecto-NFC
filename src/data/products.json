@@ -43,8 +43,8 @@
       ],
       "viewer": {
         "mode": "flip",
-        "shape": "circle",
-        "thickness": 14,
+        "shape": "keyring",
+        "thickness": 8,
         "edgeColor": "#c4c8cf",
         "model": null
       },
@@ -136,8 +136,8 @@
       ],
       "viewer": {
         "mode": "flip",
-        "shape": "circle",
-        "thickness": 14,
+        "shape": "keyring",
+        "thickness": 8,
         "edgeColor": "#c4c8cf",
         "model": null
       },

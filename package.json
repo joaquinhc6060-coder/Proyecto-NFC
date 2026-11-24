@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:testing": "vite --mode testing",
+    "dev:testing": "node scripts/dev-testing.mjs",
     "build": "vite build",
     "preview": "vite preview",
     "admin:setup": "node scripts/setup-admin.mjs",

@@ -1,10 +1,14 @@
 import React from 'react';
-import KidsSection from '../components/KidsSection';
+import CatalogSection from '../components/CatalogSection';
+
 export default function KidsPage() {
   return (
-    <div className="space-y-0">
-      {/* 1. Full Vigio Kids Division (Wristbands & Martina Profile Simulator) */}
-      <KidsSection />
+    <div className="min-h-screen">
+      <CatalogSection 
+        categoryIds={['pulseras', 'packs']} 
+        badge="Vigio Pulseras"
+        title="Catálogo Pulseras."
+      />
     </div>
   );
 }

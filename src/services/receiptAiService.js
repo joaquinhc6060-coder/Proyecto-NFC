@@ -5,12 +5,17 @@
 // Incluye conmutador automático "Modo Mock / Desarrollo" si no hay API Key configurada.
 // =========================================================================
 
-const AI_PROVIDER = import.meta.env.VITE_AI_PROVIDER || 'gemini';
-const AI_API_KEY = import.meta.env.VITE_AI_API_KEY || '';
-const FORCE_MOCK = import.meta.env.VITE_USE_MOCK_APIS === 'true';
+// Seguridad de lanzamiento: una API key con prefijo VITE_* quedaría visible
+// para cualquiera que abra el sitio. La experiencia de restaurantes está
+// deshabilitada y este servicio se conserva sólo como simulación local.
+// Si se reactiva, la IA debe llamarse desde un endpoint /api con la llave en
+// variables privadas del servidor.
+const AI_PROVIDER = 'gemini';
+const AI_API_KEY = '';
+const FORCE_MOCK = true;
 
 export const isAiConfigured = () => {
-  return !FORCE_MOCK && Boolean(AI_API_KEY && !AI_API_KEY.includes('tu-api-key'));
+  return false;
 };
 
 const SYSTEM_PROMPT = `Eres un auditor contable y analista de hábitos gastronómicos con visión artificial.

@@ -5,18 +5,22 @@
 // se envía el enlace de activación o promociones directamente por WhatsApp o Correo.
 // =========================================================================
 
-const WHATSAPP_TOKEN = import.meta.env.VITE_WHATSAPP_API_TOKEN || '';
-const WHATSAPP_PHONE_ID = import.meta.env.VITE_WHATSAPP_PHONE_NUMBER_ID || '';
-const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY || '';
-const RESEND_FROM_EMAIL = import.meta.env.VITE_RESEND_FROM_EMAIL || 'vip@vigio.cl';
-const FORCE_MOCK = import.meta.env.VITE_USE_MOCK_APIS === 'true';
+// Seguridad: nunca se permite usar llaves de Resend, Meta/WhatsApp o IA desde
+// el navegador. Las variables VITE_* se incorporan al JavaScript público.
+// Esta sección está fuera del lanzamiento actual; cuando se reactive deberá
+// consumir endpoints /api del servidor con sus secretos sólo en Vercel.
+const FORCE_MOCK = true;
+const WHATSAPP_TOKEN = '';
+const WHATSAPP_PHONE_ID = '';
+const RESEND_API_KEY = '';
+const RESEND_FROM_EMAIL = 'contacto@vigio.cl';
 
 export const isWhatsAppConfigured = () => {
-  return !FORCE_MOCK && Boolean(WHATSAPP_TOKEN && WHATSAPP_PHONE_ID && !WHATSAPP_TOKEN.includes('tu-whatsapp'));
+  return false;
 };
 
 export const isResendConfigured = () => {
-  return !FORCE_MOCK && Boolean(RESEND_API_KEY && !RESEND_API_KEY.includes('tu-api-key'));
+  return false;
 };
 
 /**

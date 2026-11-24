@@ -58,7 +58,8 @@ export default function App() {
             <Route path="/mascotas" element={<MascotasPage />} />
             <Route path="/animales" element={<MascotasPage />} />
 
-            {/* 3. Vigio Kids (Waterproof silicone wristbands & Martina simulation) */}
+            {/* 3. Vigio Pulseras (Waterproof silicone wristbands & personas) */}
+            <Route path="/pulseras" element={<KidsPage />} />
             <Route path="/kids" element={<KidsPage />} />
             <Route path="/ninos" element={<KidsPage />} />
 
