@@ -6,7 +6,7 @@
     "El resumen de calificación y los datos estructurados (schema.org) aparecen solos cuando hay 3 o más reseñas reales con verificada = true y ya no queda ninguna plantilla.",
     "whatsapp: número para el botón \"Cuéntanos tu experiencia\" (formato +56 9 1234 5678). Mientras tenga X, el botón abre WhatsApp sin destinatario."
   ],
-  "mostrarSeccion": true,
+  "mostrarSeccion": false,
   "eyebrow": "OPINIONES",
   "title": "Lo que dicen quienes ya lo usan.",
   "whatsapp": "+56 9 XXXX XXXX",
