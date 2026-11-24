@@ -5,6 +5,7 @@ import useMediaQuery from '../../hooks/useMediaQuery';
 // Proporción del objeto según la forma configurada en products.json (viewer.shape).
 const SHAPES = {
   circle: { width: '56%', aspectRatio: '1 / 1', radius: '50%' },
+  keyring: { width: '68%', aspectRatio: '1 / 1', radius: '0', edgeFromImage: true },
   band: { width: '88%', aspectRatio: '2.4 / 1', radius: '999px' },
   box: { width: '76%', aspectRatio: '4 / 3', radius: '18px' },
   // Correa plana: el canto se dibuja con la silueta de la propia imagen (ver edgeFromImage).

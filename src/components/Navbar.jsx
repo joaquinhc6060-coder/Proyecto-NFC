@@ -16,7 +16,7 @@ export default function Navbar() {
   const navItems = [
     { name: 'Inicio', path: '/' },
     { name: 'Mascotas', path: '/mascotas' },
-    { name: 'Kids', path: '/kids' },
+    { name: 'Pulseras', path: '/pulseras' },
     { name: 'Contacto', path: '/contacto' },
   ];
 

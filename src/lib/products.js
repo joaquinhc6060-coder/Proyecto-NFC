@@ -22,6 +22,11 @@ export const productImage = (folder, key) => `/assets/products/${folder}/${key}.
 
 export function facesFor(product, colorId) {
   const color = product.colors?.find(c => c.id === colorId);
+  if (product.viewer?.shape === 'keyring' || product.category === 'mascotas') {
+    const isAzul = colorId === 'azul' || color?.imagesFrom === 'placa-nfc-azul' || product.id === 'placa-nfc-azul';
+    const imgSrc = isAzul ? '/images/vigio-placa-azul-llavero.png' : '/images/vigio-placa-negra-llavero.png';
+    return { frente: imgSrc, reverso: imgSrc };
+  }
   const folder = color?.imagesFrom || product.id;
   return { frente: productImage(folder, 'frente'), reverso: productImage(folder, 'reverso') };
 }

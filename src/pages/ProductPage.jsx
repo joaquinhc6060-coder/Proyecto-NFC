@@ -18,7 +18,7 @@ const SHIPPING_LINES = [
 ];
 
 // Misma superficie cálida del catálogo: mantiene el producto legible sin el blanco plano.
-const WOOD_SURFACE = 'bg-[linear-gradient(90deg,rgba(74,42,22,.16)_1px,transparent_1px),linear-gradient(0deg,rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(135deg,#b98454_0%,#d8ad7b_42%,#a87248_100%)] bg-[size:18px_100%,100%_13px,100%_100%]';
+const WOOD_SURFACE = 'bg-[linear-gradient(135deg,#b98454_0%,#d8ad7b_42%,#a87248_100%)]';
 
 const STEPS = [
   {
@@ -199,16 +199,6 @@ function ProductDetail({ product }) {
           <Accordion title="Características">
             <p className="mb-3">{product.description}</p>
             <ul className="list-disc space-y-1.5 pl-5">{product.features.map(feature => <li key={feature}>{feature}</li>)}</ul>
-          </Accordion>
-          <Accordion title="Especificaciones (medidas)">
-            <dl className="grid gap-x-8 gap-y-2 sm:grid-cols-2">
-              {product.specs.map(spec => (
-                <div key={spec.label} className="flex justify-between gap-4 border-b border-white/5 py-2">
-                  <dt className="text-zinc-400">{spec.label}</dt>
-                  <dd className={spec.value === 'Pendiente' ? 'italic text-zinc-500' : 'font-semibold'}>{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
           </Accordion>
           <Accordion title="Envíos y tarifas">
             <ul className="space-y-2">{SHIPPING_LINES.map(line => <li key={line}>{line}</li>)}</ul>
